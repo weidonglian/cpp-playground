@@ -72,6 +72,8 @@ int main(int argc_, char **argv_) {
     }
 
     std::cout << "Exit main function" << std::endl;
+
+    // Change above code with std::shared_ptr to see if the resource is leak.
     return 0;
 }
 
