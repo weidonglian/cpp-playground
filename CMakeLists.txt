@@ -25,4 +25,4 @@ function(cpp_add_executable APP_NAME APP_SRC_LIST)
 endfunction(cpp_add_executable)
 
 cpp_add_executable(helloworld helloworld.cpp)
-cpp_add_executable(throw_exception_deconstructor throw_exception_deconstructor.cpp)
+cpp_add_executable(ctor_dtor_throws ctor_dtor_throws.cpp)
