@@ -24,6 +24,5 @@ function(cpp_add_executable APP_NAME APP_SRC_LIST)
     add_executable(${APP_NAME} ${APP_SRC_LIST})
 endfunction(cpp_add_executable)
 
-cpp_add_executable(helloworld helloworld.cpp)
 cpp_add_executable(ctor_dtor_throws ctor_dtor_throws.cpp)
 cpp_add_executable(func_over_load_ride_hide func_over_load_ride_hide.cpp)
