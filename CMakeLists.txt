@@ -26,3 +26,5 @@ endfunction(cpp_add_executable)
 
 cpp_add_executable(ctor_dtor_throws ctor_dtor_throws.cpp)
 cpp_add_executable(func_over_load_ride_hide func_over_load_ride_hide.cpp)
+cpp_add_executable(objects_alignment objects_alignment.cpp)
+cpp_add_executable(type_erasure type_erasure.cpp)
