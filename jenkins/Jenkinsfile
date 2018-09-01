@@ -1,0 +1,28 @@
+pipeline {
+    agent {
+        docker {
+            image 'rikorose/gcc-cmake:gcc-7'
+            args '-p 3000:3000'
+        }
+    }
+    environment {
+        CI = 'true'
+    }
+    stages {        
+        stage('Build') {
+            steps {
+                sh 'cmake . && make'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'echo "Test to be added."'
+            }
+        }
+        stage('Deliver') {
+            steps {
+                sh 'echo "Deploy to be added."'
+            }
+        }        
+    }
+}
