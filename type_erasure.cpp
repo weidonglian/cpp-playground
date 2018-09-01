@@ -18,7 +18,7 @@ private:
   int id_;
 };
 
-class B {
+class B { 
 public:
   explicit B(int id) : id_(id) {
     cout << "Ctor:B with " << id << endl;
