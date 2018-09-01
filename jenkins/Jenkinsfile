@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'echo "Test to be added."'
+                sh 'cmake test'
             }
         }
         stage('Deliver') {
