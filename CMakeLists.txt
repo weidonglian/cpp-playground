@@ -25,7 +25,7 @@ enable_testing()
 
 function(add_play_case APP_NAME APP_SRC_LIST)
     add_executable(${APP_NAME} ${APP_SRC_LIST})
-    add_test(NAME ${APP_NAME}_TEST
+    add_test(NAME test-${APP_NAME}
              COMMAND ${APP_NAME})
 endfunction(add_play_case)
 

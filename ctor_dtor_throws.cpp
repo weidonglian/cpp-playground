@@ -35,7 +35,7 @@ public:
   ~B() {
     std::cout << "Deconstruct Object B " << c_id_ << std::endl;
     if (c_id_ == 3) {
-      throw std::runtime_error("Failed to deconstruct object B");
+      //throw std::runtime_error("Failed to deconstruct object B");
     }
   }
 
