@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'rikorose/gcc-cmake:gcc-7'
-            args '-p 3000:3000'
+            image 'madduci/docker-cpp-env:latest'
+            args '-v $(pwd):/project'
         }
     }
     environment {
@@ -11,12 +11,12 @@ pipeline {
     stages {        
         stage('Build') {
             steps {
-                sh 'cmake . && make'
+                sh 'mkdir -p build && cd build && cmake .. && make'
             }
         }
         stage('Test') {
             steps {
-                sh 'cmake --build . --target test'
+                sh 'cd build && cmake --build . --target test'
             }
         }
         stage('Deliver') {
