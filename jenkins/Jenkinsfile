@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'madduci/docker-cpp-env:latest'
-            args '-v ${PWD}:/project -w /project'
         }
     }
     environment {
