@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh 'echo "Deploy to be added."'
+                sh 'echo "Deploying."'
             }
         }        
     }
