@@ -17,6 +17,7 @@ int main() {
 
     const auto ss = steady_clock::now();    
     const auto tt = steady_clock::now();
-    const seconds d_tt_ss_seconds = duration_cast<seconds>(tt-ss);
+    const seconds d_tt_ss_seconds = duration_cast<seconds>(tt-ss); // duration_cast is madatory
+    const duration<double> double_seconds = tt-ss; // No need to duration_cast
     return 0;
 }
