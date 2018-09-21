@@ -12,6 +12,9 @@ int main() {
     const microseconds d_ts_microsec = d_ts; // no need to duration_cast anymore
 
     std::cout << "d_st=" << d_st.count() << std::endl; // Negative
+    std::cout << "d_st_double=" << duration_cast<duration<double>>(d_st).count() << std::endl; // Negative duration should be converted to double
+    std::cout << "d_st_compared_with_zero=" << (d_st < 0s) << std::endl; // Negative duration should be converted to double
+    std::cout << "d_st_compared_with_zero=" << (d_st > 0s) << std::endl; // Negative duration should be converted to double
     std::cout << "d_ts=" << d_ts.count() << std::endl;
     std::cout << "d_ts_sec=" << d_ts_sec.count() << std::endl;
 
