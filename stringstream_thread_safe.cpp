@@ -3,6 +3,7 @@
 #include <thread>
 #include <future>
 #include <chrono>
+#include <vector>
 
 constexpr int kRunTimes = 102400;
 
