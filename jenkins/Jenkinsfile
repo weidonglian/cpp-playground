@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'cd build && cmake --build . --target test --verbose'
+                sh 'cd build && cmake --build . --target test -- --verbose'
             }
         }
         stage('Deliver') {
