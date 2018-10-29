@@ -5,7 +5,7 @@
 #include <chrono>
 #include <vector>
 
-constexpr int kRunTimes = 102400;
+constexpr int kRunTimes = 1024;
 
 struct syb_ffl {
   syb_ffl() : file(nullptr), func(nullptr), line(0), tag(nullptr) {}
