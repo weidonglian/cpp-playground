@@ -25,9 +25,15 @@ enable_testing()
 
 function(add_play_case APP_NAME APP_SRC_LIST)
     add_executable(${APP_NAME} ${APP_SRC_LIST})
-    add_test(NAME test-${APP_NAME}
-             COMMAND ${APP_NAME})
+    add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_play_case)
+
+function(add_asio_play_case APP_NAME APP_SRC_LIST)
+    add_executable(${APP_NAME} ${APP_SRC_LIST})
+    target_include_directories(${APP_NAME} PUBLIC include)
+    target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE)
+    add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
+endfunction(add_asio_play_case)
 
 add_play_case(ctor_dtor_throws ctor_dtor_throws.cpp)
 add_play_case(func_over_load_ride_hide func_over_load_ride_hide.cpp)
@@ -41,3 +47,4 @@ add_play_case(unsigned_int_wrap unsigned_int_wrap.cpp)
 add_play_case(lock_guard lock_guard.cpp)
 add_play_case(steady_system_clock steady_system_clock.cpp)
 add_play_case(stringstream_thread_safe stringstream_thread_safe.cpp)
+add_asio_play_case(asio_tcp_clients asio_tcp_clients.cpp)
