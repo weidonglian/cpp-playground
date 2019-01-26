@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'madduci/docker-cpp-env:latest'
-        }
-    }
+    agent { dockerfile true }
     environment {
         CI = 'true'
     }
