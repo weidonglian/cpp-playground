@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
   A b(std::move(a));
 
-  Foo f;
+  //Foo f;
   // Foo g(std::move(f)); // compilation fails here
 
   return 0;
