@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
       std::cout << "Usage: http_client <server> <path>\n";
       std::cout << "Example:\n";
       std::cout << "  http_client www.boost.org /LICENSE_1_0.txt\n";
-      return 1;
+      return 0;
     }
 
     asio::ip::tcp::iostream s;
