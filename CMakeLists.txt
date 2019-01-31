@@ -47,4 +47,6 @@ add_play_case(unsigned_int_wrap unsigned_int_wrap.cpp)
 add_play_case(lock_guard lock_guard.cpp)
 add_play_case(steady_system_clock steady_system_clock.cpp)
 add_play_case(stringstream_thread_safe stringstream_thread_safe.cpp)
+
 add_asio_play_case(asio_tcp_clients asio_tcp_clients.cpp)
+add_asio_play_case(asio_http_client asio_http_client.cpp)
