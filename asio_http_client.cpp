@@ -81,6 +81,8 @@ int main(int argc, char* argv[])
 
     // Write the remaining data to output.
     std::cout << s.rdbuf();
+
+    std::cout << "This is the end!" << std::endl;
   }
   catch (std::exception& e)
   {
