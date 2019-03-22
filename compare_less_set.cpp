@@ -49,10 +49,10 @@ int main() {
 
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-  std::uniform_int_distribution<> dis(10, 100);
+  std::uniform_int_distribution<> dis(-10010, 10000);
 
   for (auto& t : timers) {
-    t.expired_time_ += dis(gen);
+    t.expired_time_ = dis(gen);
     timer_set.insert(&t);
     std::cout << "Insert2: timer_set size is " << timer_set.size() << std::endl;
   }
