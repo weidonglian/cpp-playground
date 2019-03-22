@@ -63,4 +63,4 @@ set(SRC_GTEST_CASES_LIST
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})
 target_include_directories(cpptest PRIVATE ${GTEST_INC})
-add_test(NAME test-cpptest COMMAND cpp-test)
+add_test(NAME test-cpptest COMMAND cpptest)
