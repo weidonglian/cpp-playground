@@ -15,6 +15,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # PIC option
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
+# PThread
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # MSVS compiler settings
 if (MSVC)
     add_definitions(/W3 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251)
@@ -24,15 +28,17 @@ endif ()
 enable_testing()
 
 function(add_play APP_NAME APP_SRC_LIST)
-    add_executable(${APP_NAME} ${APP_SRC_LIST})
-    add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
+  add_executable(${APP_NAME} ${APP_SRC_LIST})
+  target_link_libraries(${APP_NAME} Threads::Threads)
+  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_play)
 
 function(add_asio_play APP_NAME APP_SRC_LIST)
-    add_executable(${APP_NAME} ${APP_SRC_LIST})
-    target_include_directories(${APP_NAME} PUBLIC third_party/asio)
-    target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE)
-    add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
+  add_executable(${APP_NAME} ${APP_SRC_LIST})
+  target_link_libraries(${APP_NAME} Threads::Threads)
+  target_include_directories(${APP_NAME} PUBLIC third_party/asio)
+  target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE)
+  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_asio_play)
 
 # Normal play
@@ -62,5 +68,6 @@ set(SRC_GTEST_CASES_LIST
 
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})
+target_link_libraries(cpptest Threads::Threads)
 target_include_directories(cpptest PRIVATE ${GTEST_INC})
 add_test(NAME test-cpptest COMMAND cpptest)
