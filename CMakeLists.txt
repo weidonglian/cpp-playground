@@ -23,20 +23,10 @@ endif ()
 # Enable test
 enable_testing()
 
-# Use gtest
-include(${PROJECT_SOURCE_DIR}/third_party/gtest/gtest.cmake)
-set(SRC_GTEST_CASES_LIST
-    ${GTEST_SRC}
-    ${GTEST_HDR})
-
 function(add_play APP_NAME APP_SRC_LIST)
     add_executable(${APP_NAME} ${APP_SRC_LIST})
     add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_play)
-
-function(add_gtest_play TEST_SRC)
-    list(APPEND SRC_GTEST_CASES_LIST ${TEST_SRC})
-endfunction(add_gtest_play)
 
 function(add_asio_play APP_NAME APP_SRC_LIST)
     add_executable(${APP_NAME} ${APP_SRC_LIST})
@@ -45,6 +35,7 @@ function(add_asio_play APP_NAME APP_SRC_LIST)
     add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_asio_play)
 
+# Normal play
 add_play(ctor_dtor_throws ctor_dtor_throws.cpp)
 add_play(func_over_load_ride_hide func_over_load_ride_hide.cpp)
 add_play(objects_alignment objects_alignment.cpp)
@@ -57,11 +48,19 @@ add_play(unsigned_int_wrap unsigned_int_wrap.cpp)
 add_play(lock_guard lock_guard.cpp)
 add_play(steady_system_clock steady_system_clock.cpp)
 add_play(stringstream_thread_safe stringstream_thread_safe.cpp)
-add_play(compare_less_set compare_less_set.cpp)
 
+# Asio play
 add_asio_play(asio_tcp_clients asio_tcp_clients.cpp)
 add_asio_play(asio_http_client asio_http_client.cpp)
 
+# Use gtest, gtest style play
+include(${PROJECT_SOURCE_DIR}/third_party/gtest/gtest.cmake)
+set(SRC_GTEST_CASES_LIST
+    container_set_test.cpp
+    ${GTEST_SRC}
+    ${GTEST_HDR})
+
 # Finalize to create a cpp-gtest
-add_play(cpp-test ${SRC_GTEST_CASES_LIST})
-add_test(NAME cpp-test COMMAND cpp-test)
+add_executable(cpptest ${SRC_GTEST_CASES_LIST})
+target_include_directories(cpptest PRIVATE ${GTEST_INC})
+add_test(NAME test-cpptest COMMAND cpp-test)

@@ -2,7 +2,9 @@
 #include <set>
 #include <array>
 #include <random>
+#include "cpptest.hpp"
 
+ADD_TEST_SUITE(ContainerSet);
 
 struct DeadlineTimer {
   int id_;
@@ -26,7 +28,9 @@ struct DeadlineTimerComparator {
 
 using DeadlineTimerSet = std::set<DeadlineTimer*, DeadlineTimerComparator>;
 
-int main() {
+
+
+TEST(ContainerSet, mutable_key) {
   std::array<DeadlineTimer, 5> timers = {
       DeadlineTimer{0, 1.0},
       DeadlineTimer{1, 2.0},
@@ -34,17 +38,18 @@ int main() {
       DeadlineTimer{4, 4.0},
       DeadlineTimer{5, 5.0}
   };
-
+  
   DeadlineTimerSet timer_set;
 
   for (auto& t : timers) {
     timer_set.insert(&t);
-    std::cout << "A: timer_set size is " << timer_set.size() << std::endl;
   }
+  const auto nb_timers = timers.size();
+  EXPECT_EQ(nb_timers, timer_set.size());
 
   for (auto& t : timers) {
     timer_set.insert(&t);
-    std::cout << "Insert1: timer_set size is " << timer_set.size() << std::endl;
+    EXPECT_EQ(nb_timers, timer_set.size());
   }
 
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -54,25 +59,28 @@ int main() {
   for (auto& t : timers) {
     t.expired_time_ = dis(gen);
     timer_set.insert(&t);
-    std::cout << "Insert2: timer_set size is " << timer_set.size() << std::endl;
+    EXPECT_EQ(nb_timers, timer_set.size());
   }
 
+  int i = 1;
   for (auto& t : timers) {
     t.expired_time_ += dis(gen);
     timer_set.erase(&t);
-    std::cout << "Erase1: timer_set size is " << timer_set.size() << std::endl;
+    EXPECT_EQ(nb_timers-i++, timer_set.size());
   }
 
+  EXPECT_EQ(0, timer_set.size());
+
+  int j = 1;
   for (auto& t : timers) {
     t.expired_time_ += dis(gen);
     timer_set.insert(&t);
-    std::cout << "Insert3: timer_set size is " << timer_set.size() << std::endl;
+    EXPECT_EQ(j++, timer_set.size());
   }
 
   for (auto& t : timers) {
     timer_set.erase(&t);
-    std::cout << "Erase2: timer_set size is " << timer_set.size() << std::endl;
   }
 
-  return 0;
+  EXPECT_EQ(0, timer_set.size());
 }
