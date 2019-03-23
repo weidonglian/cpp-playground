@@ -12,11 +12,6 @@ struct DeadlineTimer {
   DeadlineTimer(int id, double expired_time) :
     id_(id),
     expired_time_(expired_time) {
-    std::cout << "Ctor: " << id_ << std::endl;
-  }
-
-  ~DeadlineTimer() {
-    std::cout << "Dtor: " << id_ << std::endl;
   }
 };
 
@@ -38,7 +33,7 @@ TEST(ContainerSet, mutable_key) {
       DeadlineTimer{4, 4.0},
       DeadlineTimer{5, 5.0}
   };
-  
+
   DeadlineTimerSet timer_set;
 
   for (auto& t : timers) {
