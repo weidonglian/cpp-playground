@@ -54,7 +54,6 @@ add_play(unsigned_int_wrap unsigned_int_wrap.cpp)
 add_play(lock_guard lock_guard.cpp)
 add_play(steady_system_clock steady_system_clock.cpp)
 add_play(stringstream_thread_safe stringstream_thread_safe.cpp)
-add_play(reverse_letters reverse_letters.cpp)
 
 # Asio play
 add_asio_play(asio_tcp_clients asio_tcp_clients.cpp)
@@ -63,7 +62,8 @@ add_asio_play(asio_http_client asio_http_client.cpp)
 # Use gtest, gtest style play
 include(${PROJECT_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST
-    container_set_test.cpp
+    reverse_letters.cpp
+    container_set.cpp
     ${GTEST_SRC}
     ${GTEST_HDR})
 

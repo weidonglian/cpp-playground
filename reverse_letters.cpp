@@ -3,7 +3,10 @@
 #include <cctype>
 #include <optional>
 
-#define EXPECT_TRUE(e) if (!(e)) std::cout << "The expression:'" << (#e) << "' is evaluated to be false!" << std::endl;
+#include "cpptest.hpp"
+
+//#define EXPECT_TRUE(e) if (!(e)) std::cout << "Failure:'" << (#e) << "' == false!" << std::endl;
+
 
 std::string reverse_letters(const std::string& content) {
     std::string result;
@@ -28,15 +31,17 @@ std::string reverse_letters(const std::string& content) {
                 }
             }
             if (!is_alpha)
-                result.push_back(content[i]);                
+                result.push_back(content[i]);
         }
     }
-    std::cout << result << std::endl;
     return result;
 }
 
-int main(int argc, char** argv) {
+ADD_TEST_SUITE(ReverseLetters);
+
+TEST(ReverseLetters, common) {
+    EXPECT_TRUE(reverse_letters("; ABC ; ") == "; CBA ; ");
+    EXPECT_TRUE(reverse_letters("; ABC") == "; CBA");
     EXPECT_TRUE(reverse_letters("ABC") == "CBA");
     EXPECT_TRUE(reverse_letters("ABC xyz; li, xiaogai; zhang") == "CBA zyx; il, iagoaix; gnahz");
-    return 0;
 }
