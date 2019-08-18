@@ -64,6 +64,7 @@ include(${PROJECT_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST
     reverse_letters.cpp
     container_set.cpp
+    find_missing_numbers.cpp
     ${GTEST_SRC}
     ${GTEST_HDR})
 
