@@ -3,7 +3,7 @@ pipeline {
     environment {
         CI = 'true'
     }
-    stages {        
+    stages {
         stage('Build') {
             steps {
                 sh 'mkdir -p build && cd build && cmake .. && make'
@@ -18,6 +18,6 @@ pipeline {
             steps {
                 sh 'echo "Deploying."'
             }
-        }        
+        }
     }
 }

@@ -27,49 +27,6 @@ endif ()
 # Enable test
 enable_testing()
 
-function(add_play APP_NAME APP_SRC_LIST)
-  add_executable(${APP_NAME} ${APP_SRC_LIST})
-  target_link_libraries(${APP_NAME} Threads::Threads)
-  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
-endfunction(add_play)
-
-function(add_asio_play APP_NAME APP_SRC_LIST)
-  add_executable(${APP_NAME} ${APP_SRC_LIST})
-  target_link_libraries(${APP_NAME} Threads::Threads)
-  target_include_directories(${APP_NAME} PUBLIC third_party/asio)
-  target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE)
-  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
-endfunction(add_asio_play)
-
-# Normal play
-add_play(ctor_dtor_throws ctor_dtor_throws.cpp)
-add_play(func_over_load_ride_hide func_over_load_ride_hide.cpp)
-add_play(objects_alignment objects_alignment.cpp)
-add_play(type_erasure type_erasure.cpp)
-add_play(floating_point_number floating_point_number.cpp)
-add_play(rule_three_five_zero rule_three_five_zero.cpp)
-add_play(construct_move_destroy construct_move_destroy.cpp)
-add_play(time_duration_clock time_duration_clock.cpp)
-add_play(unsigned_int_wrap unsigned_int_wrap.cpp)
-add_play(lock_guard lock_guard.cpp)
-add_play(steady_system_clock steady_system_clock.cpp)
-add_play(stringstream_thread_safe stringstream_thread_safe.cpp)
-
-# Asio play
-add_asio_play(asio_tcp_clients asio_tcp_clients.cpp)
-add_asio_play(asio_http_client asio_http_client.cpp)
-
-# Use gtest, gtest style play
-include(${PROJECT_SOURCE_DIR}/third_party/gtest/gtest.cmake)
-set(SRC_GTEST_CASES_LIST
-    reverse_letters.cpp
-    container_set.cpp
-    find_missing_numbers.cpp
-    ${GTEST_SRC}
-    ${GTEST_HDR})
-
-# Finalize to create a cpp-gtest
-add_executable(cpptest ${SRC_GTEST_CASES_LIST})
-target_link_libraries(cpptest Threads::Threads)
-target_include_directories(cpptest PRIVATE ${GTEST_INC})
-add_test(NAME test-cpptest COMMAND cpptest)
+add_subdirectory(src/asio_samples)
+add_subdirectory(src/cpp_samples)
+add_subdirectory(src/data_structures_algorithms)

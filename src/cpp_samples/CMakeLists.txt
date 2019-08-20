@@ -1,0 +1,23 @@
+project(cpp-samples)
+
+
+function(add_play APP_NAME APP_SRC_LIST)
+  add_executable(${APP_NAME} ${APP_SRC_LIST})
+  target_link_libraries(${APP_NAME} Threads::Threads)
+  target_include_directories(${APP_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
+endfunction(add_play)
+
+# Normal play
+add_play(ctor_dtor_throws ctor_dtor_throws.cpp)
+add_play(func_over_load_ride_hide func_over_load_ride_hide.cpp)
+add_play(objects_alignment objects_alignment.cpp)
+add_play(type_erasure type_erasure.cpp)
+add_play(floating_point_number floating_point_number.cpp)
+add_play(rule_three_five_zero rule_three_five_zero.cpp)
+add_play(construct_move_destroy construct_move_destroy.cpp)
+add_play(time_duration_clock time_duration_clock.cpp)
+add_play(unsigned_int_wrap unsigned_int_wrap.cpp)
+add_play(lock_guard lock_guard.cpp)
+add_play(steady_system_clock steady_system_clock.cpp)
+add_play(stringstream_thread_safe stringstream_thread_safe.cpp)
