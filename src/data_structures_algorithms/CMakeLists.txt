@@ -2,12 +2,11 @@ project(data-structures-algorithms)
 
 # Use gtest, gtest style play
 include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
-set(SRC_GTEST_CASES_LIST
-    reverse_letters.cpp
-    container_set.cpp
-    find_missing_numbers.cpp
-    ${GTEST_SRC}
-    ${GTEST_HDR})
+set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
+    reverse_words_sentence.cpp
+    container_set_key.cpp
+    array_hour_glass_sum.cpp
+    find_missing_numbers.cpp)
 
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})
