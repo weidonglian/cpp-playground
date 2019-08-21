@@ -5,6 +5,7 @@ include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     reverse_words_sentence.cpp
     container_set_key.cpp
+    array_rotate.cpp
     array_hour_glass_sum.cpp
     find_missing_numbers.cpp)
 

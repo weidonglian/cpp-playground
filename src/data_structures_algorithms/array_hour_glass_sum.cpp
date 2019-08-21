@@ -40,7 +40,7 @@ int hour_glass_sum(vector<vector<int>> arr) {
     return 0;
 }
 
-TEST(CommonSuite, array_hour_glass_sum) {
+TEST(ArraySuite, array_hour_glass_sum) {
     EXPECT_EQ(19, hour_glass_sum({{1, 1, 1, 0, 0, 0},
                                   {0, 1, 0, 0, 0, 0},
                                   {1, 1, 1, 0, 0, 0},
