@@ -8,7 +8,7 @@
 using namespace std;
 
 optional<int> array_minimum_bribes(vector<int> q) {
-    const auto v_max = q.size();
+    const auto v_max = (int)q.size();
     int cnt = 0;
     for (int v = v_max; v > 0; --v) {
         for (int i = 0; i < 3; ++i) {

@@ -3,6 +3,7 @@ project(data-structures-algorithms)
 # Use gtest, gtest style play
 include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
+    array_minimum_swaps.cpp
     array_rotate.cpp
     array_hour_glass_sum.cpp
     array_minimum_bribes.cpp
