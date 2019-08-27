@@ -18,7 +18,47 @@ void print_numbers(const std::vector<int>& numbers) {
     }
 }
 
-std::vector<int> find_missing_numbers(const std::vector<int>& sorted_numbers, int x, int y) {
+std::vector<int> find_missing_numbers(const std::vector<int>& arr, int x, int y) {
+    if (x >= y) return {};
+
+    const int total = static_cast<int>(arr.size());
+    int b = -1, e = -1;
+    for (int i = 0; i < total; ++i) {
+        if (b == -1) {
+            if (arr[i] == x) {
+                b = i;
+            }
+        } else if (e == -1) {
+            if (arr[i] == y) {
+                e = i;
+            }
+        } else {
+            break;
+        }
+    }
+
+    if (b == -1 || e == -1) {
+        return {};
+    }
+
+    auto move_next = [&](int idx) {
+        while (++idx < total && arr[idx] == arr[idx-1]);
+        return idx;
+    };
+
+    std::vector<int> results;
+    b = move_next(b);
+    for (int v = x+1; v < y && b < total; ++v) {
+        if (v == arr[b]) {
+            b = move_next(b);
+        } else {
+            results.push_back(v);
+        }
+    }
+    return results;
+}
+
+std::vector<int> find_missing_numbers_2(const std::vector<int>& sorted_numbers, int x, int y) {
     if (x == y) {
         return {};
     }
