@@ -18,28 +18,32 @@ void print_numbers(const std::vector<int>& numbers) {
     }
 }
 
+// include left and right
+// case 1: arr = [1, 2, 3, 8, 9], l = r = 2, l = 0, r = 3, l = 0 r = 4
+// case 2: arr = [1, 3, 8, 9], l = r = 2, l = 1, r = 4
+int binary_search(const std::vector<int>& arr, int l, int r, int val) {
+    while (l <= r) {
+        int mid = (r+l)/2;
+        if (arr[mid] == val) {
+            // mid is what we want, but we should move back to skip duplication
+            while (mid - 1 >= l && arr[mid-1] == val) --mid;
+            return mid;
+        } else if (arr[mid] > val) {
+            return binary_search(arr, l, mid-1, val);
+        } else {
+            return binary_search(arr, mid + 1, r, val);
+        }
+    }
+    return -1;
+}
 std::vector<int> find_missing_numbers(const std::vector<int>& arr, int x, int y) {
     if (x >= y) return {};
 
     const int total = static_cast<int>(arr.size());
-    int b = -1, e = -1;
-    for (int i = 0; i < total; ++i) {
-        if (b == -1) {
-            if (arr[i] == x) {
-                b = i;
-            }
-        } else if (e == -1) {
-            if (arr[i] == y) {
-                e = i;
-            }
-        } else {
-            break;
-        }
-    }
-
-    if (b == -1 || e == -1) {
-        return {};
-    }
+    int b = binary_search(arr, 0, total, x);
+    if (b == -1) return {};
+    int e = binary_search(arr, b, total, y);
+    if (e == -1) return {};
 
     auto move_next = [&](int idx) {
         while (++idx < total && arr[idx] == arr[idx-1]);
@@ -95,6 +99,10 @@ std::vector<int> find_missing_numbers_2(const std::vector<int>& sorted_numbers, 
 ADD_TEST_SUITE(FindMissingNumbers);
 
 TEST(FindMissingNumbers, common) {
+    EXPECT_TRUE(binary_search({1, 3, 7, 9, 17, 23}, 1, 4, 9) == 3);
+    EXPECT_TRUE(binary_search({1, 3, 3, 7, 9, 9, 17, 23}, 0, 6, 3) == 1);
+    EXPECT_TRUE(binary_search({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 7, 9) == 5);
+
     EXPECT_TRUE(find_missing_numbers({1, 3, 7, 9, 17, 23}, 3, 9) == std::vector<int>({4, 5, 6, 8}));
     EXPECT_TRUE(find_missing_numbers({1, 3, 3, 7, 9, 9, 17, 23}, 3, 9) == std::vector<int>({4, 5, 6, 8}));
     EXPECT_TRUE(find_missing_numbers({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 20) == std::vector<int>({2, 4, 5, 6, 8, 10, 11, 12, 13, 14, 15, 16, 18, 19}));
