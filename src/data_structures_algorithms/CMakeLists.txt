@@ -4,6 +4,7 @@ project(data-structures-algorithms)
 include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     array_sum_pair.cpp
+    array_find_sum_pair.cpp
     array_minimum_swaps.cpp
     array_manipulation.cpp
     array_rotate.cpp
