@@ -10,9 +10,10 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     array_rotate.cpp
     array_hour_glass_sum.cpp
     array_minimum_bribes.cpp
-    reverse_words_sentence.cpp
+    array_find_missing_numbers.cpp
+    string_reverse_letters.cpp
     container_set_key.cpp
-    find_missing_numbers.cpp)
+    )
 
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})

@@ -96,9 +96,7 @@ std::vector<int> find_missing_numbers_2(const std::vector<int>& sorted_numbers, 
     return numbers;
 }
 
-ADD_TEST_SUITE(FindMissingNumbers);
-
-TEST(FindMissingNumbers, common) {
+TEST(ArraySuite, find_missing_numbers) {
     EXPECT_TRUE(binary_search({1, 3, 7, 9, 17, 23}, 1, 4, 9) == 3);
     EXPECT_TRUE(binary_search({1, 3, 3, 7, 9, 9, 17, 23}, 0, 6, 3) == 1);
     EXPECT_TRUE(binary_search({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 7, 9) == 5);

@@ -19,7 +19,7 @@ std::string reverse_letters(const std::string& content) {
             if (is_alpha) {
                 if (!b) { b = i; }
                 e = i;
-            } 
+            }
             if (!is_alpha || (is_alpha && i == content.size() -1)) {
                 if (b) {
                     // now push the content reversely and then reset the b,e
@@ -37,9 +37,7 @@ std::string reverse_letters(const std::string& content) {
     return result;
 }
 
-ADD_TEST_SUITE(ReverseLetters);
-
-TEST(ReverseLetters, common) {
+TEST(StringSuite, reverse_letters) {
     EXPECT_TRUE(reverse_letters("; ABC ; ") == "; CBA ; ");
     EXPECT_TRUE(reverse_letters("; ABC") == "; CBA");
     EXPECT_TRUE(reverse_letters("ABC") == "CBA");
