@@ -18,12 +18,13 @@ void print_numbers(const std::vector<int>& numbers) {
     }
 }
 
+// search the first element
 // include left and right
 // case 1: arr = [1, 2, 3, 8, 9], l = r = 2, l = 0, r = 3, l = 0 r = 4
 // case 2: arr = [1, 3, 8, 9], l = r = 2, l = 1, r = 4
 int binary_search(const std::vector<int>& arr, int l, int r, int val) {
-    while (l <= r) {
-        int mid = (r+l)/2;
+    if (l <= r) {
+        int mid = l+(r-l)/2;
         if (arr[mid] == val) {
             // mid is what we want, but we should move back to skip duplication
             while (mid - 1 >= l && arr[mid-1] == val) --mid;
@@ -36,6 +37,23 @@ int binary_search(const std::vector<int>& arr, int l, int r, int val) {
     }
     return -1;
 }
+
+// search the first element
+int binary_search_iterative(const std::vector<int>& arr, int l, int r, int val) {
+    while (l <= r) {
+        int mid = l + (r-l)/2;
+        if (arr[mid] == val) {
+            while (mid-1 >= l && arr[mid-1]==val)mid--;
+            return mid;
+        } else if (arr[mid] > val) {
+            r = mid-1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return -1;
+}
+
 std::vector<int> find_missing_numbers(const std::vector<int>& arr, int x, int y) {
     if (x >= y) return {};
 
@@ -97,6 +115,10 @@ std::vector<int> find_missing_numbers_2(const std::vector<int>& sorted_numbers, 
 }
 
 TEST(ArraySuite, find_missing_numbers) {
+    EXPECT_TRUE(binary_search_iterative({1, 3, 7, 9, 17, 23}, 1, 4, 9) == 3);
+    EXPECT_TRUE(binary_search_iterative({1, 3, 3, 7, 9, 9, 17, 23}, 0, 6, 3) == 1);
+    EXPECT_TRUE(binary_search_iterative({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 7, 9) == 5);
+
     EXPECT_TRUE(binary_search({1, 3, 7, 9, 17, 23}, 1, 4, 9) == 3);
     EXPECT_TRUE(binary_search({1, 3, 3, 7, 9, 9, 17, 23}, 0, 6, 3) == 1);
     EXPECT_TRUE(binary_search({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 7, 9) == 5);
