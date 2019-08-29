@@ -12,6 +12,7 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     array_minimum_bribes.cpp
     array_find_missing_numbers.cpp
     string_reverse_letters.cpp
+    string_char_frequency.cpp
     container_set_key.cpp
     )
 
