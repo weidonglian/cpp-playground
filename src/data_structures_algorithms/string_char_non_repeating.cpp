@@ -11,8 +11,6 @@ struct count_info {
 };
 
 char find_non_repeating(const std::string& str) {
-    char ret = '\0';
-    int pos = str.size() + 1;
     unordered_map<char, count_info> counts;
     for (int i = 0; i < str.size(); i++) {
         auto c = str[i];
@@ -24,6 +22,8 @@ char find_non_repeating(const std::string& str) {
         }
     }
 
+    char ret = '\0';
+    int pos = str.size() + 1;
     for (const auto& item : counts) {
         const auto& info = item.second;
         if (info.cnt == 1 && info.pos < pos) {

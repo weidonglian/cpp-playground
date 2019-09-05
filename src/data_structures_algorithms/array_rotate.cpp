@@ -2,6 +2,7 @@
 #include <vector>
 #include <limits>
 #include <unordered_map>
+#include <array>
 #include "cpptest.hpp"
 
 using namespace std;
@@ -75,6 +76,27 @@ TEST(ArraySuite, is_rotated) {
     EXPECT_TRUE(is_match_rotated({2, 2, 3, 2, 5, 6, 7, 1}, {2, 5, 6, 7, 1, 2, 2, 3}));
 }
 
+void print(const vector<vector<int>>& arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        if (i == 0)
+            cout << "arr={\n";
+        for (int j = 0; j < arr[i].size(); j++) {
+            if (j == 0) {
+                cout << "[";
+            }
+            cout << arr[i][j];
+            if (j == arr[i].size()-1)
+                cout << "]";
+            else
+                cout << ",";
+        }
+        if (i == arr.size()-1)
+            cout << "\n};\n";
+        else
+            cout <<",\n";
+    }
+}
+
 vector<vector<int>> rotate(const vector<vector<int>>& arr) {
     if (arr.empty()) return {};
     const int n = arr.size();
@@ -90,16 +112,32 @@ vector<vector<int>> rotate(const vector<vector<int>>& arr) {
 }
 
 void rotate_inplace(vector<vector<int>>& arr) {
+    cout << "before\n";
+    print(arr);
     if (arr.empty() || arr[0].size() != arr.size())
         return;
     const int n = (int)arr.size();
+    auto rotate_advance = [n](int i, int j) {
+        return make_pair(j, n-i-1);
+    };
+
     // sub-block 1/4 part of the matrix.
+    array<int, 4> tmps{};
     for (int i = 0; i < n/2; i++) {
         for (int j = 0; j < (n+1)/2; j++) {
-
+            // i, j, rotate between four positions
+            for (int itimes = 0, ia = i, ib = j; itimes < 4; itimes++) {
+                tmps[itimes] = arr[ia][ib];
+                tie(ia, ib) = rotate_advance(ia, ib);
+            }
+            for (int itimes = 0, ia = i, ib = j; itimes < 4; itimes++) {
+                tie(ia, ib) = rotate_advance(ia, ib);
+                arr[ia][ib] = tmps[itimes];
+            }
         }
     }
-
+    cout << "after:\n";
+    print(arr);
 }
 
 TEST(ArraySuite, 2d_array_rotate) {
