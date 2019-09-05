@@ -49,12 +49,16 @@ bool is_frequency_match(std::string str) {
 /// the same as above condition, check if it can become valid when removing one char
 bool is_frequency_match_ext(std::string str) {
     // add more logic  to determine 322 223 332 patterns to be valid or not.
-    int last_cnt = -1;
-    return is_frequency_match_impl(std::move(str), [&last_cnt](int nb, char c) {
-        if (last_cnt == -1) {
-            last_cnt = nb;
+    map<int, int> cnt_freq;
+    return is_frequency_match_impl(std::move(str), [&cnt_freq](int nb, char c) {
+        cnt_freq[nb]++;
+        if (cnt_freq.size() >= 3)
+            return false;
+        else if (cnt_freq.size() <= 1) {
+            return true;
+        } else { // cnt_freq.sizie() == 2
+            return cnt_freq.rbegin()->second == 1;
         }
-        return last_cnt == nb;
     });
 }
 

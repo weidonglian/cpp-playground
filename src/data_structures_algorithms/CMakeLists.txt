@@ -3,6 +3,8 @@ project(data-structures-algorithms)
 # Use gtest, gtest style play
 include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
 set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
+    array_find_common_elements.cpp
+    array_mine_sweeper.cpp
     array_sum_pair.cpp
     array_find_sum_pair.cpp
     array_minimum_swaps.cpp
@@ -13,6 +15,8 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     array_find_missing_numbers.cpp
     string_reverse_letters.cpp
     string_char_frequency.cpp
+    string_char_non_repeating.cpp
+    string_char_is_one_away.cpp
     container_set_key.cpp
     )
 
