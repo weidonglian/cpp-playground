@@ -8,7 +8,7 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     array_sum_pair.cpp
     array_find_sum_pair.cpp
     array_minimum_swaps.cpp
-    array_find_stock_profit.cpp
+    array_find_max_diff.cpp
     array_manipulation.cpp
     array_rotate.cpp
     array_hour_glass_sum.cpp
