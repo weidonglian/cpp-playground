@@ -4,8 +4,28 @@
 
 using namespace std;
 using match_fn = std::function<bool(int, char)>;
+enum class match_impl_policy {
+    default,
+    sorting,
+    hashing
+};
 
-bool is_frequency_match_impl(std::string str, match_fn fn) {
+bool is_frequency_match_impl_hashing(const std::string& str, match_fn fn) {
+    if (str.empty())return true;
+
+    unordered_map<char, int> counts;
+    for (auto c : str)
+        counts[c]++;
+
+    for (const auto& e : counts) {
+        if (!fn(e.second, e.first)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool is_frequency_match_impl_sorting(std::string str, match_fn fn) {
     if (str.empty())return true;
 
     sort(str.begin(), str.end());
@@ -37,20 +57,27 @@ bool is_frequency_match_impl(std::string str, match_fn fn) {
 
 /// aabbcc is valid, aabbccc is not valid
 /// str may not be sorted.
-bool is_frequency_match(std::string str) {
+bool is_frequency_match(std::string str, match_impl_policy policy = match_impl_policy::default) {
     int last_cnt = -1;
-    return is_frequency_match_impl(std::move(str), [&last_cnt](int nb, char c) {
+    auto fn = [&last_cnt](int nb, char c) {
         if (last_cnt == -1)
             last_cnt = nb;
         return last_cnt == nb;
-    });
+    };
+
+    if (policy == match_impl_policy::sorting)
+    {
+        return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
+    } else { // by default and hashing
+        return is_frequency_match_impl_hashing(str, std::move(fn));
+    }
 }
 
 /// the same as above condition, check if it can become valid when removing one char
-bool is_frequency_match_ext(std::string str) {
+bool is_frequency_match_ext(std::string str, match_impl_policy policy = match_impl_policy::default) {
     // add more logic  to determine 322 223 332 patterns to be valid or not.
     map<int, int> cnt_freq;
-    return is_frequency_match_impl(std::move(str), [&cnt_freq](int nb, char c) {
+    auto fn = [&cnt_freq](int nb, char c) {
         cnt_freq[nb]++;
         if (cnt_freq.size() >= 3)
             return false;
@@ -59,7 +86,14 @@ bool is_frequency_match_ext(std::string str) {
         } else { // cnt_freq.sizie() == 2
             return cnt_freq.rbegin()->second == 1;
         }
-    });
+    };
+
+    if (policy == match_impl_policy::sorting)
+    {
+        return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
+    } else { // by default and hashing
+        return is_frequency_match_impl_hashing(str, std::move(fn));
+    }
 }
 
 TEST(StringSuite, char_frequency) {
@@ -72,4 +106,14 @@ TEST(StringSuite, char_frequency) {
     EXPECT_TRUE(is_frequency_match_ext("aabbccc"));
     EXPECT_FALSE(is_frequency_match_ext("aaabbbcc"));
     EXPECT_TRUE(is_frequency_match_ext("aaabbcc"));
+
+    EXPECT_TRUE(is_frequency_match("aabbcc", match_impl_policy::sorting));
+    EXPECT_FALSE(is_frequency_match("aabbccc", match_impl_policy::sorting));
+    EXPECT_FALSE(is_frequency_match("aaabbbcc", match_impl_policy::sorting));
+    EXPECT_FALSE(is_frequency_match("aaabbcc", match_impl_policy::sorting));
+
+    EXPECT_TRUE(is_frequency_match_ext("aabbcc", match_impl_policy::sorting));
+    EXPECT_TRUE(is_frequency_match_ext("aabbccc", match_impl_policy::sorting));
+    EXPECT_FALSE(is_frequency_match_ext("aaabbbcc", match_impl_policy::sorting));
+    EXPECT_TRUE(is_frequency_match_ext("aaabbcc", match_impl_policy::sorting));
 }
