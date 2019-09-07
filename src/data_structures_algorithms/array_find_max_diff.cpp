@@ -56,14 +56,35 @@ int find_max_diff_relative_dist(const vector<int>& arr) {
     return max_diff;
 }
 
+/// keep track of the adjacent dist and then find max sum of dist. space optimal.
+int find_max_diff_relative_dist_optimal(const vector<int>& arr) {
+    if (arr.size() < 2) return 0;
+    int diff = 0;
+    int cur_sum = 0;
+    int max_sum = 0;
+    for(int i = 1; i < arr.size(); i++) {
+        diff = arr[i] - arr[i-1];
+        if (cur_sum > 0) {
+            cur_sum += diff;
+        } else {
+            cur_sum = diff;
+        }
+        if (cur_sum > max_sum) {
+            max_sum = cur_sum;
+        }
+    }
+    return max_sum;
+}
+
 TEST(ArraySuite, find_max_diff) {
     using calculator = function<int(const vector<int>&)>;
     int idx = 0;
-    for (const auto& fn : { find_max_diff_brutal_force, find_max_diff_optimal, find_max_diff_relative_dist }) {
+    for (const auto& fn : { find_max_diff_brutal_force, find_max_diff_optimal, find_max_diff_relative_dist, find_max_diff_relative_dist_optimal }) {
         EXPECT_EQ(fn({1, 3, 4, 8, 2, 4, 7}), 7) << "with idx " << idx;
         EXPECT_EQ(fn({1, 2, 3, 4, 5, 6, 8}), 7) << "with idx " << idx;
         EXPECT_EQ(fn({3, 2, 1}), 0) << "with idx " << idx;
         EXPECT_EQ(fn({4, 2, 8, 2, 7, 1, 7}), 6) << "with idx " << idx;
+        EXPECT_EQ(fn({80, 2, 6, 3, 100}), 98) << " with idx " << idx;
         idx++;
     }
 }
