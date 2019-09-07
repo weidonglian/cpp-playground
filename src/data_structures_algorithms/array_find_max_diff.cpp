@@ -45,15 +45,21 @@ int find_max_diff_relative_dist(const vector<int>& arr) {
         diffs[i] = arr[i+1] - arr[i];
     }
     int max_diff = 0;
-    for(auto diff : diffs) {
-        // todo
+    for(int i = 1; i < diffs.size(); i++) {
+        if (diffs[i-1] > 0) {
+            diffs[i] += diffs[i-1];
+        }
+        if (diffs[i] > max_diff) {
+            max_diff = diffs[i];
+        }
     }
+    return max_diff;
 }
 
 TEST(ArraySuite, find_max_diff) {
     using calculator = function<int(const vector<int>&)>;
     int idx = 0;
-    for (const auto& fn : { find_max_diff_brutal_force, find_max_diff_optimal }) {
+    for (const auto& fn : { find_max_diff_brutal_force, find_max_diff_optimal, find_max_diff_relative_dist }) {
         EXPECT_EQ(fn({1, 3, 4, 8, 2, 4, 7}), 7) << "with idx " << idx;
         EXPECT_EQ(fn({1, 2, 3, 4, 5, 6, 8}), 7) << "with idx " << idx;
         EXPECT_EQ(fn({3, 2, 1}), 0) << "with idx " << idx;
