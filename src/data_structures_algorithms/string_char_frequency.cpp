@@ -5,9 +5,9 @@
 using namespace std;
 using match_fn = std::function<bool(int, char)>;
 enum class match_impl_policy {
-    default,
-    sorting,
-    hashing
+    k_default,
+    k_sorting,
+    k_hashing
 };
 
 bool is_frequency_match_impl_hashing(const std::string& str, match_fn fn) {
@@ -57,7 +57,7 @@ bool is_frequency_match_impl_sorting(std::string str, match_fn fn) {
 
 /// aabbcc is valid, aabbccc is not valid
 /// str may not be sorted.
-bool is_frequency_match(std::string str, match_impl_policy policy = match_impl_policy::default) {
+bool is_frequency_match(std::string str, match_impl_policy policy = match_impl_policy::k_default) {
     int last_cnt = -1;
     auto fn = [&last_cnt](int nb, char c) {
         if (last_cnt == -1)
@@ -65,7 +65,7 @@ bool is_frequency_match(std::string str, match_impl_policy policy = match_impl_p
         return last_cnt == nb;
     };
 
-    if (policy == match_impl_policy::sorting)
+    if (policy == match_impl_policy::k_sorting)
     {
         return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
     } else { // by default and hashing
@@ -74,7 +74,7 @@ bool is_frequency_match(std::string str, match_impl_policy policy = match_impl_p
 }
 
 /// the same as above condition, check if it can become valid when removing one char
-bool is_frequency_match_ext(std::string str, match_impl_policy policy = match_impl_policy::default) {
+bool is_frequency_match_ext(std::string str, match_impl_policy policy = match_impl_policy::k_default) {
     // add more logic  to determine 322 223 332 patterns to be valid or not.
     map<int, int> cnt_freq;
     auto fn = [&cnt_freq](int nb, char c) {
@@ -88,7 +88,7 @@ bool is_frequency_match_ext(std::string str, match_impl_policy policy = match_im
         }
     };
 
-    if (policy == match_impl_policy::sorting)
+    if (policy == match_impl_policy::k_sorting)
     {
         return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
     } else { // by default and hashing
@@ -107,13 +107,13 @@ TEST(StringSuite, char_frequency) {
     EXPECT_FALSE(is_frequency_match_ext("aaabbbcc"));
     EXPECT_TRUE(is_frequency_match_ext("aaabbcc"));
 
-    EXPECT_TRUE(is_frequency_match("aabbcc", match_impl_policy::sorting));
-    EXPECT_FALSE(is_frequency_match("aabbccc", match_impl_policy::sorting));
-    EXPECT_FALSE(is_frequency_match("aaabbbcc", match_impl_policy::sorting));
-    EXPECT_FALSE(is_frequency_match("aaabbcc", match_impl_policy::sorting));
+    EXPECT_TRUE(is_frequency_match("aabbcc", match_impl_policy::k_sorting));
+    EXPECT_FALSE(is_frequency_match("aabbccc", match_impl_policy::k_sorting));
+    EXPECT_FALSE(is_frequency_match("aaabbbcc", match_impl_policy::k_sorting));
+    EXPECT_FALSE(is_frequency_match("aaabbcc", match_impl_policy::k_sorting));
 
-    EXPECT_TRUE(is_frequency_match_ext("aabbcc", match_impl_policy::sorting));
-    EXPECT_TRUE(is_frequency_match_ext("aabbccc", match_impl_policy::sorting));
-    EXPECT_FALSE(is_frequency_match_ext("aaabbbcc", match_impl_policy::sorting));
-    EXPECT_TRUE(is_frequency_match_ext("aaabbcc", match_impl_policy::sorting));
+    EXPECT_TRUE(is_frequency_match_ext("aabbcc", match_impl_policy::k_sorting));
+    EXPECT_TRUE(is_frequency_match_ext("aabbccc", match_impl_policy::k_sorting));
+    EXPECT_FALSE(is_frequency_match_ext("aaabbbcc", match_impl_policy::k_sorting));
+    EXPECT_TRUE(is_frequency_match_ext("aaabbcc", match_impl_policy::k_sorting));
 }
