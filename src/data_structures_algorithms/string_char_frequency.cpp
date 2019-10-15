@@ -1,5 +1,6 @@
 #include <string>
 #include <functional>
+#include <unordered_map>
 #include "cpptest.hpp"
 
 using namespace std;
