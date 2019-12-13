@@ -29,8 +29,8 @@ if (MSVC)
     add_definitions(/W3 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251)
 else (MSVC)
 # FileSystem
-    cmake_policy(SET CMP0057 NEW)
-    find_package(Filesystem REQUIRED)
+#    cmake_policy(SET CMP0057 NEW)
+#    find_package(Filesystem REQUIRED)
 endif ()
 
 # Enable test
