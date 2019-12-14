@@ -19,6 +19,7 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     string_char_non_repeating.cpp
     string_char_is_one_away.cpp
     string_find_repeat_times.cpp
+    tree_find_nearest_neighbour.cpp
     container_set_key.cpp
     )
 

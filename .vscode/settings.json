@@ -1,4 +1,16 @@
 {
+    "clangd.arguments": [
+        "-clang-tidy",
+        "-background-index",
+        "-compile-commands-dir=build"
+    ],
+    "clangd.path": "/usr/bin/clangd-10",
+    "catch2TestExplorer.debugConfigTemplate": {
+        "type": "gdb",
+        "target": "${exec}",
+        "arguments": "${argsStr}",
+        "cwd": "${cwd}"
+    },
     "files.associations": {
         "system_error": "cpp",
         "algorithm": "cpp",
