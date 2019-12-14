@@ -17,7 +17,6 @@ using namespace std;
 namespace nns {
 
 constexpr int k_dims = 2;
-
 using point = array<int, k_dims>;
 
 // Mahatan distance
@@ -69,7 +68,7 @@ kd_node *kd_insert(kd_node *root, point pt, int depth = 0) {
 }
 
 template <class InputIterator>
-kd_node *kd_build(InputIterator first, InputIterator last) {
+kd_node* kd_build(InputIterator first, InputIterator last) {
   kd_node *root = nullptr;
   while (first != last) {
     root = kd_insert(root, *first);
@@ -152,7 +151,7 @@ const kd_node *kd_find_nearest(const kd_node *root, point pt_query,
 
 optional<point> nns_kd_tree_search(const vector<point> &points,
                                    point pt_query) {
-  const kd_node *root = kd_build(begin(points), end(points));
+  kd_node* root = kd_build(begin(points), end(points));
 
   int min_dist = numeric_limits<int>::max();
   const kd_node *best_node = nullptr;
@@ -171,11 +170,13 @@ optional<point> nns_kd_tree_search(const vector<point> &points,
     best_node = nearest;
   }
 
-  if (best_node) {
-    return make_optional(best_node->pt);
-  }
+  optional<point> ret = nullopt;
+  if (best_node)
+    ret = make_optional(best_node->pt);
 
-  return nullopt;
+  kd_delete(root);
+
+  return ret;
 }
 
 optional<point> nns_linear_search(const vector<point> &points, point pt_query) {
