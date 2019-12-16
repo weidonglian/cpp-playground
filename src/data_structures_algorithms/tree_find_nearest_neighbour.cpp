@@ -8,6 +8,7 @@
 #include <optional>
 #include <random>
 #include <vector>
+#include <array>
 #include "gtest/gtest.h"
 #include "cpptest.hpp"
 #include "simple_svg_1.0.0.hpp"
