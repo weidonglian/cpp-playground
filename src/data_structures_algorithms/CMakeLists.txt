@@ -20,8 +20,9 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     string_char_is_one_away.cpp
     string_find_repeat_times.cpp
     tree_find_nearest_neighbour.cpp
+    tree_ordered_map.cpp
     container_set_key.cpp
-    )
+)
 
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})

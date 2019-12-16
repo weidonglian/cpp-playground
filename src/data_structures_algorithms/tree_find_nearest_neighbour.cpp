@@ -214,24 +214,13 @@ namespace details {
 using namespace nns;
 
 vector<point> generate_random_cloud_points(size_t sz) {
-  // Seed with a real random value, if available
-  std::random_device r;
-  // Choose a random mean between 1 and 6
-  std::default_random_engine e1(r());
-  std::uniform_int_distribution<int> uniform_dist(-1000, 1000);
-
-  int mean = uniform_dist(e1);
-  int var = uniform_dist(e1);
-  // Generate a normal distribution around that mean
-  std::seed_seq seed2{r(), r(), r(), r(), r(), r(), r(), r()};
-  std::mt19937 e2(seed2);
-  std::normal_distribution<> normal_dist(mean, var);
-
+  vector<int> xx = generate_random_number(sz);
+  vector<int> yy = generate_random_number(sz);
   vector<point> points;
   points.reserve(sz);
   int cnt = 0;
   while (cnt++ < sz) {
-    points.push_back({int(normal_dist(e2)), int(normal_dist(e2))});
+    points.push_back({xx[cnt], yy[cnt]});
   }
   return points;
 }
