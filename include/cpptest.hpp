@@ -28,7 +28,7 @@ inline std::vector<int> generate_random_number(int sz) {
   // Generate a normal distribution around that mean
   std::seed_seq seed2{r(), r(), r(), r(), r(), r(), r(), r()};
   std::mt19937 e2(seed2);
-  std::normal_distribution<> normal_dist(mean, var);
+  std::normal_distribution<> normal_dist(mean, std::abs(var));
 
   std::vector<int> points;
   points.reserve(sz);
