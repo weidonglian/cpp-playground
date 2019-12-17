@@ -37,8 +37,8 @@ public:
         return false;
     }
 
-    const value_type* find(const key_type& key) const {
-        const tree_node* node = bst_find(head, key, pred);
+    value_type* find(const key_type& key) {
+        tree_node* node = bst_find(head, key, pred);
         if (node) {
             return &node->val;
         }
@@ -93,15 +93,22 @@ private:
     }
 
     static tree_node* bst_remove(tree_node* root, const key_type& key, const key_compare& pred) {
-        if (root == nullptr) {
+        if (!root) {
             return root;
         }
 
+        if (pred(key, root->key)) {
+            root->left = bst_remove(root->left, key, pred);
+        } else if (pred(root->key, key)) {
+            root->right = bst_remove(root->right, key, pred);
+        } else { // Remove the root node.
+
+        }
         // a bit more complex and figure out later
-        return nullptr;
+        return root;
     }
 
-    static const tree_node* bst_find(const tree_node* root, const key_type& key, const key_compare& pred) {
+    static tree_node* bst_find(tree_node* root, const key_type& key, const key_compare& pred) {
         if (root == nullptr) {
             return root;
         }
@@ -128,13 +135,15 @@ TEST(TreeSuite, ordered_map_int_int) {
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
     const vector<int> val = generate_random_number(k_size);
+    std::map<int, int> expected_mp;
     for (int i = 0; i < k_size; i++) {
         EXPECT_TRUE(mp.insert(key[i], val[i]));
+        expected_mp[key[i]] = val[i];
     }
 
     for (int i = 0; i < k_size; i++) {
         auto r = mp.find(key[i]);
         EXPECT_TRUE(r != nullptr);
-        EXPECT_EQ(*r, val[i]);
+        EXPECT_EQ(*r, expected_mp[key[i]]);
     }
 }

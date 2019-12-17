@@ -10,8 +10,8 @@ pair<int, int> find_sum_pair(vector<int> arr1, vector<int> arr2, int sum) {
     sort(arr1.begin(), arr1.end());
     sort(arr2.begin(), arr2.end());
     // search from the right, top corner of the block seemingly more efficient
-    const int len1 = arr1.size();
-    const int len2 = arr2.size();
+    const int len1 = static_cast<int>(arr1.size());
+    const int len2 = static_cast<int>(arr2.size());
     int i = len1 - 1;
     int j = 0;
     while (i >= 0 && j < len2) {

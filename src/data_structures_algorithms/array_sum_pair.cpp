@@ -9,7 +9,7 @@ using namespace std;
 bool has_sum_pair_sorted(const vector<int>& arr, int sum) {
     // scan from two pointers
     int l = 0;
-    int r = arr.size() - 1;
+    int r = static_cast<int>(arr.size() - 1);
     while (l < r) {
         const int s = arr[l] + arr[r];
         if (s == sum) {

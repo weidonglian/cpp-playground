@@ -60,7 +60,7 @@ bool is_match_rotated(const vector<int>& arr1, const vector<int>& arr2) {
         auto it = find(next(arr2.begin(), j_start), arr2.end(), arr1[i_start]);
         if (it == arr2.end())
             return false;
-        j_start = distance(arr2.begin(), it);
+        j_start = (int)distance(arr2.begin(), it);
         if (is_match(i_start, j_start))
             return true;
         j_start++;
@@ -99,7 +99,7 @@ void print(const vector<vector<int>>& arr) {
 
 vector<vector<int>> rotate(const vector<vector<int>>& arr) {
     if (arr.empty()) return {};
-    const int n = arr.size();
+    const int n = (int)arr.size();
     if (arr[0].size() != n)
         return {};
     vector<vector<int>> mat(n, vector<int>(n));

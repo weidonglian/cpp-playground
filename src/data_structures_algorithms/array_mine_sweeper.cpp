@@ -76,8 +76,8 @@ void mine_sweeper_click_to_expand(vector<vector<int>>& field, int click_x, int c
         field[x][y] = -2;
     };
 
-    const int n = field.size();
-    const int m = field[0].size();
+    const int n = (int)field.size();
+    const int m = (int)field[0].size();
     if (!is_valid(click_x, n) || !is_valid(click_y, m) || field[click_x][click_y])
         return;
     vector<vector<int>> result(n, vector<int>(m, 0));
