@@ -16,7 +16,7 @@ struct test_input_output {
     std::string output;
 };
 
-inline std::vector<int> generate_random_number(int sz) {
+inline std::vector<int> generate_random_number(size_t sz) {
   // Seed with a real random value, if available
   std::random_device r;
   // Choose a random mean between 1 and 6

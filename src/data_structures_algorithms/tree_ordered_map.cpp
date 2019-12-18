@@ -18,44 +18,36 @@ public:
     using key_compare = Compare;
     using size_type = size_t;
 
-    ordered_map() : pred(), head(nullptr), cnt(0) {
+    ordered_map() : pred(), head(nullptr) {
     }
 
     ~ordered_map() {
         bst_delete(head);
     }
 
-    bool insert(key_type key, value_type val) {
+    void insert(key_type key, value_type val) {
         head = bst_insert(head, move(key), move(val), pred);
-        ++cnt;
-        return head;
     }
 
-    bool erase(const key_type& key) {
+    void erase(const key_type& key) {
         head = bst_remove(head, key, pred);
-        --cnt;
-        return false;
     }
 
-    const value_type* find(const key_type& key) const {
-        const tree_node* node = bst_find(head, key, pred);
+    value_type* find(const key_type& key) {
+        tree_node* node = bst_find(head, key, pred);
         if (node) {
             return &node->val;
         }
         return nullptr;
     }
 
-    size_type size() const {
-        return cnt;
-    }
-
 private:
-    template <class K, class V>
+    template <class KT, class VT>
     struct bst_node {
         bst_node* left;
         bst_node* right;
-        K key;
-        V val;
+        KT key;
+        VT val;
     };
 
     using tree_node = bst_node<key_type, value_type>;
@@ -89,19 +81,55 @@ private:
         } else { // equal
             root->val = move(val);
         }
+
+        return root;
+    }
+
+    static tree_node* bst_find_max(tree_node* root, const key_compare& pred) {
+        if (root && root->right) {
+            return bst_find_max(root->right, pred);
+        }
         return root;
     }
 
     static tree_node* bst_remove(tree_node* root, const key_type& key, const key_compare& pred) {
-        if (root == nullptr) {
+        if (!root) {
             return root;
         }
 
-        // a bit more complex and figure out later
-        return nullptr;
+        if (pred(key, root->key)) {
+            root->left = bst_remove(root->left, key, pred);
+            return root;
+        } else if (pred(root->key, key)) {
+            root->right = bst_remove(root->right, key, pred);
+            return root;
+        } else { // Remove the root node.
+
+            if (!root->left) {
+                tree_node* right = nullptr;
+                swap(right, root->right);
+                bst_delete(root);
+                return right;
+            } else if (!root->right) {
+                tree_node* left = nullptr;
+                swap(left, root->left);
+                bst_delete(root);
+                return left;
+            } else { // both left and right existant
+                // we need to select a candidate from the two branches.
+                // we could select the max in the left branch or
+                // the min in the right branch to replace current node
+                tree_node* max_left = bst_find_max(root->left, pred);
+                assert(max_left); // must exist, since root->left exists
+                root->val = move(max_left->val);
+                root->key = max_left->key;
+                root->left = bst_remove(root->left, max_left->key, pred);
+                return root;
+            }
+        }
     }
 
-    static const tree_node* bst_find(const tree_node* root, const key_type& key, const key_compare& pred) {
+    static tree_node* bst_find(tree_node* root, const key_type& key, const key_compare& pred) {
         if (root == nullptr) {
             return root;
         }
@@ -118,7 +146,6 @@ private:
 private:
     key_compare pred;
     tree_node* head;
-    size_type cnt;
 };
 
 }
@@ -128,13 +155,21 @@ TEST(TreeSuite, ordered_map_int_int) {
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
     const vector<int> val = generate_random_number(k_size);
+    std::map<int, int> expected_mp;
     for (int i = 0; i < k_size; i++) {
-        EXPECT_TRUE(mp.insert(key[i], val[i]));
+        mp.insert(key[i], val[i]);
+        expected_mp[key[i]] = val[i];
     }
 
     for (int i = 0; i < k_size; i++) {
         auto r = mp.find(key[i]);
         EXPECT_TRUE(r != nullptr);
-        EXPECT_EQ(*r, val[i]);
+        EXPECT_EQ(*r, expected_mp[key[i]]);
+    }
+
+    for (int i = 0; i < k_size; i++) {
+        mp.erase(key[i]);
+        auto r = mp.find(key[i]);
+        EXPECT_TRUE(r == nullptr);
     }
 }

@@ -23,7 +23,7 @@ char find_non_repeating(const std::string& str) {
     }
 
     char ret = '\0';
-    int pos = str.size() + 1;
+    int pos = (int)str.size() + 1;
     for (const auto& item : counts) {
         const auto& info = item.second;
         if (info.cnt == 1 && info.pos < pos) {
