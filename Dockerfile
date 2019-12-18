@@ -2,8 +2,6 @@ FROM alpine:latest
 
 LABEL maintainer="Weidong Lian <weidong.lian@gmail.com>"
 
-VOLUME "/project"
-
 WORKDIR "/project"
 
 RUN apk update && \
@@ -20,5 +18,3 @@ RUN apk update && \
         py-pip && \
         pip install conan && \
     rm -rf /var/cache/apk/*
-
-ENTRYPOINT [ "bash", "-c" ]
