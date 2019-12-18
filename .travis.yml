@@ -5,4 +5,6 @@ services:
 
 script:
   - docker build -t weidong/cpp-playground .
-  - docker run -v $(pwd):/project weidong/cpp-playground /bin/sh -c "cd /project && mkdir -p build && cd build && cmake .. && make && ctest --verbose"
+  - docker run -v $(pwd):/app weidong/cpp-playground /bin/sh -c "cd /app && ./scripts/run_build_and_test.sh"
+ 
+
