@@ -1,0 +1,9 @@
+language: minimal
+
+services:
+  - docker
+
+script:
+  - docker build -t weidong/cpp-playground .
+  - docker run weidong/cpp-playground /bin/sh -c 'mkdir -p build && cd build && cmake .. && make && cd build && ctest --verbose'
+
