@@ -9,6 +9,7 @@ AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: true
 #UNKNOWN KEY AllowShortLambdasOnASingleLine: Never
 UseTab: Never
 ...
