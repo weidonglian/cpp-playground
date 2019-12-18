@@ -14,7 +14,7 @@ int main() {
     int64_t last_sys = 0;
     int64_t last_sty = 0;
 
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         auto sys_ticks = SystemClockTicks();
         auto sty_ticks = SteadyClockTicks();
         if (i > 0) {
@@ -26,13 +26,13 @@ int main() {
             if (sty_ticks < last_sty) { // This will never hit.
                 std::cout << "Warning: sty_ticks " << sty_ticks << " < last_sty " << last_sty << std::endl;
                 break;
-            }            
+            }
         }
         std::cout << "hhSystemClockTicks " << i << " = " << sys_ticks << std::endl;
         std::cout << "SteadyClockTicks " << i << " = " << sty_ticks << std::endl;
-        // Do not do this, since windows' sleep for is implemented using system_clock, 
+        // Do not do this, since windows' sleep for is implemented using system_clock,
         // If you change the system back to one day, it will sleep for 1 day.
-        // std::this_thread::sleep_for(std::chrono::seconds(1)); 
+        // std::this_thread::sleep_for(std::chrono::seconds(1));
         last_sys = sys_ticks;
         last_sty = sty_ticks;
     }
