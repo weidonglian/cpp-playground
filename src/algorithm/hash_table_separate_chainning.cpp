@@ -36,7 +36,7 @@ class hash_table {
     hash_table()
         : bucket_size_(k_def_bucket_size),
           buckets_(make_unique<hash_node *[]>(bucket_size_)), hasher_(),
-          equaler_() {
+          equal_pred_() {
     }
 
     ~hash_table() {
@@ -54,15 +54,37 @@ class hash_table {
     void insert(key_type key, value_type val) {
         // first get
         int idx = bucket_index(key);
-        //while ()
+        hash_node* entry = buckets_[idx];
+        if (!entry) { // empty slot
+            buckets_[idx] = hash_node_new(move(key), move(val));
+            return;
+        }
+
+        while (entry) {
+            if (equal_pred_(entry->key, key)) {
+                entry->val = move(val);
+                return;
+            }
+            if (!entry->next) {
+                entry->next = hash_node_new(move(key), move(val));
+                return;
+            }
+            entry = entry->next;
+        }
     }
 
     void erase(const key_type& key) {
-
+        int idx = bucket_index(key);
+        buckets_[idx] = erase(this->buckets_[idx], key);
     }
 
     value_type* find(const key_type& key) {
-        return nullptr;
+        int idx = bucket_index(key);
+        hash_node* entry = buckets_[idx];
+        while (entry && !equal_pred_(entry->key, key)) {
+            entry = entry->next;
+        }
+        return entry && equal_pred_(entry->key, key) ? &entry->val : nullptr;
     }
 
   private:
@@ -72,6 +94,36 @@ class hash_table {
         hash_node* next;
     };
 
+    hash_node* hash_node_new(key_type key, value_type val) {
+        return new hash_node {
+            move(key),
+            move(val),
+            nullptr
+        };
+    }
+
+    void hash_node_delete(hash_node* entry) {
+        while (entry) {
+            hash_node* current = entry;
+            entry = entry->next;
+            delete current;
+        }
+    }
+
+    hash_node* erase(hash_node* root, const key_type& key) {
+        if (!root) {
+            return root;
+        }
+        if (equal_pred_(root->key, key)) {
+            hash_node* next = root->next;
+            root->next = nullptr;
+            hash_node_delete(root);
+            return next;
+        }
+        root->next = erase(root->next, key);
+        return root;
+    }
+
     int bucket_index(const key_type& key) const {
         return hasher_(key) % bucket_size_;
     }
@@ -80,7 +132,7 @@ class hash_table {
     int bucket_size_;
     unique_ptr<hash_node*[]> buckets_;
     key_hash hasher_;
-    key_equal equaler_;
+    key_equal equal_pred_;
 };
 
 } // namespace
