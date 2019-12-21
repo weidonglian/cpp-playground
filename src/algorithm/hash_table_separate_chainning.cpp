@@ -1,3 +1,5 @@
+#include <cstddef>
+#include <memory>
 #include <utility>
 #include <vector>
 #include <string>
@@ -25,20 +27,34 @@ template <typename K, typename V, class Hash = hash<K>,
           class Pred = equal_to<K>>
 class hash_table {
   public:
+    static constexpr int k_def_bucket_size = 100;
     using key_type = K;
     using value_type = V;
     using key_equal = Pred;
     using key_hash = Hash;
 
-    hash_table() {
+    hash_table()
+        : bucket_size_(k_def_bucket_size),
+          buckets_(make_unique<hash_node *[]>(bucket_size_)), hasher_(),
+          equaler_() {
     }
 
     ~hash_table() {
-
+        for (int i = 0; i < bucket_size_; ++i) {
+            hash_node *entry = buckets_[i];
+            while (entry) {
+                hash_node *next = entry->next;
+                delete entry;
+                entry = next;
+            }
+            buckets_[i] = nullptr;
+        }
     }
 
     void insert(key_type key, value_type val) {
-
+        // first get
+        int idx = bucket_index(key);
+        //while ()
     }
 
     void erase(const key_type& key) {
@@ -50,6 +66,21 @@ class hash_table {
     }
 
   private:
+    struct hash_node {
+        key_type key;
+        value_type val;
+        hash_node* next;
+    };
+
+    int bucket_index(const key_type& key) const {
+        return hasher_(key) % bucket_size_;
+    }
+
+  private:
+    int bucket_size_;
+    unique_ptr<hash_node*[]> buckets_;
+    key_hash hasher_;
+    key_equal equaler_;
 };
 
 } // namespace
