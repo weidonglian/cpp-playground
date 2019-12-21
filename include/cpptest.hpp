@@ -10,6 +10,7 @@ ADD_TEST_SUITE(ArraySuite);
 ADD_TEST_SUITE(StringSuite);
 ADD_TEST_SUITE(ContainerSuite);
 ADD_TEST_SUITE(TreeSuite);
+ADD_TEST_SUITE(HashTableSuite);
 
 struct test_input_output {
     std::string input;

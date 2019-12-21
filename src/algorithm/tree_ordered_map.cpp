@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
-#include <functional>
 #include <array>
+#include <functional>
+#include <iostream>
 #include <random>
+#include <string>
 
 #include "cpptest.hpp"
 
@@ -12,7 +12,7 @@ namespace {
 
 template <class K, class V, class Compare = std::less<K>>
 class ordered_map {
-public:
+  public:
     using key_type = K;
     using value_type = V;
     using key_compare = Compare;
@@ -29,39 +29,34 @@ public:
         head = bst_insert(head, move(key), move(val), pred);
     }
 
-    void erase(const key_type& key) {
+    void erase(const key_type &key) {
         head = bst_remove(head, key, pred);
     }
 
-    value_type* find(const key_type& key) {
-        tree_node* node = bst_find(head, key, pred);
+    value_type *find(const key_type &key) {
+        tree_node *node = bst_find(head, key, pred);
         if (node) {
             return &node->val;
         }
         return nullptr;
     }
 
-private:
+  private:
     template <class KT, class VT>
     struct bst_node {
-        bst_node* left;
-        bst_node* right;
+        bst_node *left;
+        bst_node *right;
         KT key;
         VT val;
     };
 
     using tree_node = bst_node<key_type, value_type>;
 
-    static tree_node* bst_new(key_type key, value_type val) {
-        return new tree_node {
-            nullptr,
-            nullptr,
-            std::move(key),
-            std::move(val)
-        };
+    static tree_node *bst_new(key_type key, value_type val) {
+        return new tree_node{nullptr, nullptr, std::move(key), std::move(val)};
     }
 
-    static void bst_delete(tree_node* root) {
+    static void bst_delete(tree_node *root) {
         if (root == nullptr)
             return;
         bst_delete(root->left);
@@ -69,7 +64,8 @@ private:
         delete root;
     }
 
-    static tree_node* bst_insert(tree_node* root, key_type key, value_type val, const key_compare& pred) {
+    static tree_node *bst_insert(tree_node *root, key_type key, value_type val,
+                                 const key_compare &pred) {
         if (root == nullptr) {
             return bst_new(std::move(key), std::move(val));
         }
@@ -85,14 +81,15 @@ private:
         return root;
     }
 
-    static tree_node* bst_find_max(tree_node* root, const key_compare& pred) {
+    static tree_node *bst_find_max(tree_node *root, const key_compare &pred) {
         if (root && root->right) {
             return bst_find_max(root->right, pred);
         }
         return root;
     }
 
-    static tree_node* bst_remove(tree_node* root, const key_type& key, const key_compare& pred) {
+    static tree_node *bst_remove(tree_node *root, const key_type &key,
+                                 const key_compare &pred) {
         if (!root) {
             return root;
         }
@@ -106,12 +103,12 @@ private:
         } else { // Remove the root node.
 
             if (!root->left) {
-                tree_node* right = nullptr;
+                tree_node *right = nullptr;
                 swap(right, root->right);
                 bst_delete(root);
                 return right;
             } else if (!root->right) {
-                tree_node* left = nullptr;
+                tree_node *left = nullptr;
                 swap(left, root->left);
                 bst_delete(root);
                 return left;
@@ -119,7 +116,7 @@ private:
                 // we need to select a candidate from the two branches.
                 // we could select the max in the left branch or
                 // the min in the right branch to replace current node
-                tree_node* max_left = bst_find_max(root->left, pred);
+                tree_node *max_left = bst_find_max(root->left, pred);
                 assert(max_left); // must exist, since root->left exists
                 root->val = move(max_left->val);
                 root->key = max_left->key;
@@ -129,7 +126,8 @@ private:
         }
     }
 
-    static tree_node* bst_find(tree_node* root, const key_type& key, const key_compare& pred) {
+    static tree_node *bst_find(tree_node *root, const key_type &key,
+                               const key_compare &pred) {
         if (root == nullptr) {
             return root;
         }
@@ -143,12 +141,11 @@ private:
         }
     }
 
-private:
+  private:
     key_compare pred;
-    tree_node* head;
+    tree_node *head;
 };
-
-}
+} // namespace
 
 TEST(TreeSuite, ordered_map_int_int) {
     ordered_map<int, int> mp;
@@ -163,7 +160,7 @@ TEST(TreeSuite, ordered_map_int_int) {
 
     for (int i = 0; i < k_size; i++) {
         auto r = mp.find(key[i]);
-        EXPECT_TRUE(r != nullptr);
+        ASSERT_TRUE(r != nullptr);
         EXPECT_EQ(*r, expected_mp[key[i]]);
     }
 
