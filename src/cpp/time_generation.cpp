@@ -71,7 +71,7 @@ system_clock::time_point utc_str_to_time(const std::string& t_str) {
 
 int main() {
     std::wcout << "User-preferred locale setting is " << std::locale("").name().c_str() << '\n';
-    const auto now = system_clock::now();
+    const auto now = system_clock::from_time_t(1578988616);
     const int k_count = 1479;
     const auto durations_updated_at = generate_random_number(k_count, -5000, 5000);
     const auto durations_played_at = generate_random_number(k_count, -4000, 4000);
