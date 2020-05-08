@@ -22,6 +22,7 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     tree_find_nearest_neighbour.cpp
     tree_ordered_map.cpp
     hash_table_separate_chainning.cpp
+    hash_table_open_addressing.cpp
     container_set_key.cpp
 )
 
