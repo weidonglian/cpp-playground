@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     #- name: build docker
     #  run: docker build -t weidonglianlian/cpp-playground .
-    -name: pull docker
-      run: docker pull weidonglian/cpp-playground
+    - name: pull docker
+      run: docker pull weidonglian/cpp-playground:v1
     - name: run build and test with docker
       run: docker run -v $(pwd):/app weidonglian/cpp-playground:v1 /bin/sh -c "cd /app && ./scripts/run_build_and_test.sh"
