@@ -1,4 +1,4 @@
-# cpp-playground ![status](https://travis-ci.com/weidonglian/cpp-playground.svg?branch=master)
+# cpp-playground ![cpp-playground](https://github.com/weidonglian/cpp-playground/workflows/cpp-playground/badge.svg)
 Cpp samples for testing and learning C++ 14
 
 # Useful command
