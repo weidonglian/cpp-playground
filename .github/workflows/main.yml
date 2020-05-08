@@ -1,0 +1,19 @@
+name: cpp-playground
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: build docker
+      run: docker build -t weidong/cpp-playground .
+    - name: run build and test with docker
+      run: docker run -v $(pwd):/app weidong/cpp-playground /bin/sh -c "cd /app && ./scripts/run_build_and_test.sh"
