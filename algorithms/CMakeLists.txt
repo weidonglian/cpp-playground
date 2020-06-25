@@ -21,10 +21,12 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     tree_ordered_map.cpp
     hash_table_separate_chainning.cpp
     container_set_key.cpp
+    cpptest.hpp
+    simple_svg_1.0.0.hpp
 )
 
 # Finalize to create a cpp-gtest
 add_executable(cpptest ${SRC_GTEST_CASES_LIST})
 target_link_libraries(cpptest Threads::Threads)
-target_include_directories(cpptest PRIVATE ${GTEST_INC} ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(cpptest PRIVATE ${GTEST_INC})
 add_test(NAME test-cpptest COMMAND cpptest)
