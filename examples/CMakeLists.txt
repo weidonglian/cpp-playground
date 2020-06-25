@@ -1,11 +1,17 @@
-project(cpp-samples)
-
 function(add_play APP_NAME APP_SRC_LIST)
   add_executable(${APP_NAME} ${APP_SRC_LIST})
   target_link_libraries(${APP_NAME} Threads::Threads)
   target_include_directories(${APP_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
   add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_play)
+
+function(add_play_asio APP_NAME APP_SRC_LIST)
+  add_executable(${APP_NAME} ${APP_SRC_LIST})
+  target_link_libraries(${APP_NAME} Threads::Threads)
+  target_include_directories(${APP_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/third_party/asio)
+  target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE -DASIO_HAS_STD_THREAD)
+  add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
+endfunction(add_play_asio)
 
 # Normal play
 add_play(ctor_dtor_throws ctor_dtor_throws.cpp)
@@ -22,3 +28,7 @@ add_play(steady_system_clock steady_system_clock.cpp)
 add_play(stringstream_thread_safe stringstream_thread_safe.cpp)
 add_play(time_generation time_generation.cpp)
 add_play(file_system file_system.cpp)
+
+# Asio play
+add_play_asio(asio_tcp_clients asio_tcp_clients.cpp)
+add_play_asio(asio_http_client asio_http_client.cpp)

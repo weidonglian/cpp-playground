@@ -32,6 +32,5 @@ endif ()
 # Enable test
 enable_testing()
 
-add_subdirectory(src/asio)
-add_subdirectory(src/cpp)
-add_subdirectory(src/algorithm)
+add_subdirectory(examples)
+add_subdirectory(algorithms)
