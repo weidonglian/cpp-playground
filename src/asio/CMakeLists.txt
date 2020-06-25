@@ -4,7 +4,7 @@ function(add_play_asio APP_NAME APP_SRC_LIST)
   add_executable(${APP_NAME} ${APP_SRC_LIST})
   target_link_libraries(${APP_NAME} Threads::Threads)
   target_include_directories(${APP_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/third_party/asio)
-  target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE)
+  target_compile_definitions(${APP_NAME} PUBLIC -DASIO_STANDALONE -DASIO_HAS_STD_THREAD)
   add_test(NAME test-${APP_NAME} COMMAND ${APP_NAME})
 endfunction(add_play_asio)
 
