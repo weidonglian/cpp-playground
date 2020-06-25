@@ -7,15 +7,16 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    #- name: build docker
-    #  run: docker build -t weidonglianlian/cpp-playground .
-    - name: pull docker
-      run: docker pull weidonglian/cpp-playground:v1
-    - name: run build and test with docker
-      run: docker run -v $(pwd):/app weidonglian/cpp-playground:v1 /bin/sh -c "cd /app && ./scripts/run_build_and_test.sh"
+      with:
+        submodules: true
+    - name: Configure
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && make -j4
+    - name: Test
+      run: cd build && ctest
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
