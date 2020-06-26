@@ -1,5 +1,5 @@
 #include "cpptest.hpp"
-#include "simple_svg_1.0.0.hpp"
+#include "simple_svg.hpp"
 #include <array>
 #include <cmath>
 #include <cstddef>

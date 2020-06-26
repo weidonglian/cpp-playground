@@ -19,10 +19,9 @@ add_executable(algorithms
     tree_ordered_map.cpp
     hash_table_separate_chainning.cpp
     container_set_key.cpp
-    testmain.cpp
+    catch2_main.cpp
     cpptest.hpp
-    simple_svg_1.0.0.hpp
 )
 
-target_link_libraries(algorithms Threads::Threads catch2)
+target_link_libraries(algorithms Threads::Threads catch2 simple_svg)
 add_test(NAME test-algorithms COMMAND algorithms)
