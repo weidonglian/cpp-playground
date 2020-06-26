@@ -21,6 +21,7 @@ add_executable(algorithms
     set/set_key.cpp
     algorithms.cpp
     algorithms.hpp
+    random.hpp
 )
 
 target_link_libraries(algorithms Threads::Threads catch2 simple_svg)
