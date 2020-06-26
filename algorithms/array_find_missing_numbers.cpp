@@ -1,4 +1,4 @@
-#include "cpptest.hpp"
+#include "test.hpp"
 #include <algorithm>
 #include <initializer_list>
 #include <iostream>

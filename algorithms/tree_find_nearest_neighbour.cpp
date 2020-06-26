@@ -1,5 +1,5 @@
-#include "cpptest.hpp"
 #include "simple_svg.hpp"
+#include "test.hpp"
 #include <array>
 #include <cmath>
 #include <cstddef>

@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 
-#include "cpptest.hpp"
+#include "test.hpp"
 
 using namespace std;
 

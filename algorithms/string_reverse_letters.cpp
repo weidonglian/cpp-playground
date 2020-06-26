@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-#include "cpptest.hpp"
+#include "test.hpp"
 
 //#define CHECK(e) if (!(e)) std::cout << "Failure:'" << (#e) << "' ==
 // false!" << std::endl;

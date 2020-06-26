@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "cpptest.hpp"
+#include "test.hpp"
 
 using namespace std;
 

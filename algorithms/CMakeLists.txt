@@ -19,8 +19,8 @@ add_executable(algorithms
     tree_ordered_map.cpp
     hash_table_separate_chainning.cpp
     container_set_key.cpp
-    catch2_main.cpp
-    cpptest.hpp
+    main.cpp
+    test.hpp
 )
 
 target_link_libraries(algorithms Threads::Threads catch2 simple_svg)

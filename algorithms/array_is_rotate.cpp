@@ -1,4 +1,4 @@
-#include "cpptest.hpp"
+#include "test.hpp"
 #include <algorithm>
 #include <iostream>
 #include <vector>
