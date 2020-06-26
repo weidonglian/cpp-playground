@@ -1,14 +1,15 @@
+#include "cpptest.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
-#include "cpptest.hpp"
 
 using namespace std;
 
 // Find the maximum element
 template <class IT>
 IT find_max_element(IT first, IT second) {
-    if (first == second) return second;
+    if (first == second)
+        return second;
     IT largest = first;
     while (++first != second) {
         if (*first > *largest) {
@@ -28,7 +29,7 @@ int hour_glass_sum(vector<vector<int>> arr) {
             for (int a = 0; a < 3; ++a)
                 for (int b = 0; b < 3; ++b) {
                     if (!(a == 1 && (b == 0 || b == 2)))
-                        sum += arr[i+a][j+b];
+                        sum += arr[i + a][j + b];
                 }
             sums.push_back(sum);
         }
@@ -40,17 +41,17 @@ int hour_glass_sum(vector<vector<int>> arr) {
     return 0;
 }
 
-TEST(ArraySuite, array_hour_glass_sum) {
-    EXPECT_EQ(19, hour_glass_sum({{1, 1, 1, 0, 0, 0},
-                                  {0, 1, 0, 0, 0, 0},
-                                  {1, 1, 1, 0, 0, 0},
-                                  {0, 0, 2, 4, 4, 0},
-                                  {0, 0, 0, 2, 0, 0},
-                                  {0, 0, 1, 2, 4, 0}}));
-    EXPECT_EQ(13, hour_glass_sum({{{1, 1, 1, 0, 0, 0},
-                                   {0, 1, 0, 0, 0, 0},
-                                   {1, 1, 1, 0, 0, 0},
-                                   {0, 9, 2, -4, -4, 0},
-                                   {0, 0, 0, -2, 0, 0},
-                                   {0, 0, -1, -2, -4, 0}}}));
+TEST_CASE('array_hour_glass_sum', '[array]') {
+    CHECK(19 == hour_glass_sum({{1, 1, 1, 0, 0, 0},
+                                {0, 1, 0, 0, 0, 0},
+                                {1, 1, 1, 0, 0, 0},
+                                {0, 0, 2, 4, 4, 0},
+                                {0, 0, 0, 2, 0, 0},
+                                {0, 0, 1, 2, 4, 0}}));
+    CHECK(13 == hour_glass_sum({{{1, 1, 1, 0, 0, 0},
+                                 {0, 1, 0, 0, 0, 0},
+                                 {1, 1, 1, 0, 0, 0},
+                                 {0, 9, 2, -4, -4, 0},
+                                 {0, 0, 0, -2, 0, 0},
+                                 {0, 0, -1, -2, -4, 0}}}));
 }

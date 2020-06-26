@@ -1,7 +1,7 @@
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include "cpptest.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -28,8 +28,7 @@ bool is_one_away(std::string s1, std::string s2) {
                     j++;
                 if (++cnt_diff > 1)
                     return false;
-            }
-            else {
+            } else {
                 i++;
                 j++;
             }
@@ -38,15 +37,15 @@ bool is_one_away(std::string s1, std::string s2) {
     return true;
 }
 
-TEST(StringSuite, is_one_away) {
-    EXPECT_TRUE(is_one_away("abcde", "abcd"));  // should return true
-    EXPECT_TRUE(is_one_away("abde", "abcde"));  // should return true
-    EXPECT_TRUE(is_one_away("a", "a"));         // should return true
-    EXPECT_TRUE(is_one_away("abcdef", "abqdef")); // should return true
-    EXPECT_TRUE(is_one_away("abcdef", "abccef")); // should return true
-    EXPECT_TRUE(is_one_away("abcdef", "abcde"));  // should return true
-    EXPECT_FALSE(is_one_away("aaa", "abc"));       // should return false
-    EXPECT_FALSE(is_one_away("abcde", "abc"));     // should return false
-    EXPECT_FALSE(is_one_away("abc", "abcde"));     // should return false
-    EXPECT_FALSE(is_one_away("abc", "bcc"));       // should return false
+TEST_CASE(StringSuite, is_one_away) {
+    CHECK(is_one_away("abcde", "abcd"));      // should return true
+    CHECK(is_one_away("abde", "abcde"));      // should return true
+    CHECK(is_one_away("a", "a"));             // should return true
+    CHECK(is_one_away("abcdef", "abqdef"));   // should return true
+    CHECK(is_one_away("abcdef", "abccef"));   // should return true
+    CHECK(is_one_away("abcdef", "abcde"));    // should return true
+    CHECK_FALSE(is_one_away("aaa", "abc"));   // should return false
+    CHECK_FALSE(is_one_away("abcde", "abc")); // should return false
+    CHECK_FALSE(is_one_away("abc", "abcde")); // should return false
+    CHECK_FALSE(is_one_away("abc", "bcc"));   // should return false
 }

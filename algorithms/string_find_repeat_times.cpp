@@ -1,8 +1,8 @@
-#include <vector>
-#include <string>
-#include <iostream>
-#include <unordered_map>
 #include "cpptest.hpp"
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -16,7 +16,7 @@ int find_repeat_times(string sa, string sb) {
         cnts_sa[c]++;
     }
     int min_repeat_times = 1;
-    for (const auto& e : cnts_sb) {
+    for (const auto &e : cnts_sb) {
         auto it = cnts_sa.find(e.first);
         if (it == cnts_sa.end()) {
             return -1;
@@ -35,14 +35,14 @@ int find_repeat_times(string sa, string sb) {
     return min_repeat_times;
 }
 
-TEST(StringSuite, find_repeat_times) {
-    EXPECT_EQ(find_repeat_times("abcd", "cdabcdab"), 3);
-    EXPECT_EQ(find_repeat_times("aafbbbcd", "cdeabcdab"), -1);
-    EXPECT_EQ(find_repeat_times("aabbbcdddeeef", "abcdeff"), 2);
-    EXPECT_EQ(find_repeat_times("abf", "abf"), 2);
-    EXPECT_EQ(find_repeat_times("abff", "abf"), 1);
-    EXPECT_EQ(find_repeat_times("abfff", "abff"), 1);
-    EXPECT_EQ(find_repeat_times("abf", "abff"), 2);
-    EXPECT_EQ(find_repeat_times("abff", "abfff"), 2);
-    EXPECT_EQ(find_repeat_times("aabbbcdddeeeff", "abcdefff"), 2);
+TEST_CASE(StringSuite, find_repeat_times) {
+    CHECK(find_repeat_times("abcd", "cdabcdab"), 3);
+    CHECK(find_repeat_times("aafbbbcd", "cdeabcdab"), -1);
+    CHECK(find_repeat_times("aabbbcdddeeef", "abcdeff"), 2);
+    CHECK(find_repeat_times("abf", "abf"), 2);
+    CHECK(find_repeat_times("abff", "abf"), 1);
+    CHECK(find_repeat_times("abfff", "abff"), 1);
+    CHECK(find_repeat_times("abf", "abff"), 2);
+    CHECK(find_repeat_times("abff", "abfff"), 2);
+    CHECK(find_repeat_times("aabbbcdddeeeff", "abcdefff"), 2);
 }

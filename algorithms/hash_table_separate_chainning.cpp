@@ -1,11 +1,11 @@
 #include <cstddef>
+#include <functional>
+#include <iostream>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
-#include <string>
-#include <iostream>
-#include <functional>
-#include <unordered_map>
 
 #include "cpptest.hpp"
 
@@ -19,8 +19,9 @@ size_t hash_value(T &&t) {
 }
 
 template <typename T>
-void hash_combine(size_t &seed, T&& v) {
-    seed ^= hash_value(std::forward<T>(v)) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+void hash_combine(size_t &seed, T &&v) {
+    seed ^=
+        hash_value(std::forward<T>(v)) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 template <typename K, typename V, class Hash = hash<K>,
@@ -54,7 +55,7 @@ class hash_table {
     void insert(key_type key, value_type val) {
         // first get
         int idx = bucket_index(key);
-        hash_node* entry = buckets_[idx];
+        hash_node *entry = buckets_[idx];
         if (!entry) { // empty slot
             buckets_[idx] = hash_node_new(move(key), move(val));
             return;
@@ -73,14 +74,14 @@ class hash_table {
         }
     }
 
-    void erase(const key_type& key) {
+    void erase(const key_type &key) {
         int idx = bucket_index(key);
         buckets_[idx] = erase(this->buckets_[idx], key);
     }
 
-    value_type* find(const key_type& key) {
+    value_type *find(const key_type &key) {
         int idx = bucket_index(key);
-        hash_node* entry = buckets_[idx];
+        hash_node *entry = buckets_[idx];
         while (entry && !equal_pred_(entry->key, key)) {
             entry = entry->next;
         }
@@ -91,31 +92,27 @@ class hash_table {
     struct hash_node {
         key_type key;
         value_type val;
-        hash_node* next;
+        hash_node *next;
     };
 
-    hash_node* hash_node_new(key_type key, value_type val) {
-        return new hash_node {
-            move(key),
-            move(val),
-            nullptr
-        };
+    hash_node *hash_node_new(key_type key, value_type val) {
+        return new hash_node{move(key), move(val), nullptr};
     }
 
-    void hash_node_delete(hash_node* entry) {
+    void hash_node_delete(hash_node *entry) {
         while (entry) {
-            hash_node* current = entry;
+            hash_node *current = entry;
             entry = entry->next;
             delete current;
         }
     }
 
-    hash_node* erase(hash_node* root, const key_type& key) {
+    hash_node *erase(hash_node *root, const key_type &key) {
         if (!root) {
             return root;
         }
         if (equal_pred_(root->key, key)) {
-            hash_node* next = root->next;
+            hash_node *next = root->next;
             root->next = nullptr;
             hash_node_delete(root);
             return next;
@@ -124,20 +121,20 @@ class hash_table {
         return root;
     }
 
-    int bucket_index(const key_type& key) const {
+    int bucket_index(const key_type &key) const {
         return hasher_(key) % bucket_size_;
     }
 
   private:
     int bucket_size_;
-    unique_ptr<hash_node*[]> buckets_;
+    unique_ptr<hash_node *[]> buckets_;
     key_hash hasher_;
     key_equal equal_pred_;
 };
 
 } // namespace
 
-TEST(HashTableSuite, separate_chainning_common) {
+TEST_CASE('separate_chainning_common', '[hashtable]') {
     hash_table<int, int> ht;
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
@@ -150,13 +147,13 @@ TEST(HashTableSuite, separate_chainning_common) {
 
     for (int i = 0; i < k_size; i++) {
         auto r = ht.find(key[i]);
-        ASSERT_TRUE(r != nullptr);
-        EXPECT_EQ(*r, expected_ht[key[i]]);
+        REQUIRE(r != nullptr);
+        CHECK(*r, expected_ht[key[i]]);
     }
 
     for (int i = 0; i < k_size; i++) {
         ht.erase(key[i]);
         auto r = ht.find(key[i]);
-        EXPECT_TRUE(r == nullptr);
+        CHECK(r == nullptr);
     }
 }

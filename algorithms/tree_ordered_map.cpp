@@ -147,7 +147,7 @@ class ordered_map {
 };
 } // namespace
 
-TEST(TreeSuite, ordered_map_int_int) {
+TEST_CASE(TreeSuite, ordered_map_int_int) {
     ordered_map<int, int> mp;
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
@@ -160,13 +160,13 @@ TEST(TreeSuite, ordered_map_int_int) {
 
     for (int i = 0; i < k_size; i++) {
         auto r = mp.find(key[i]);
-        ASSERT_TRUE(r != nullptr);
-        EXPECT_EQ(*r, expected_mp[key[i]]);
+        REQUIRE(r != nullptr);
+        CHECK(*r, expected_mp[key[i]]);
     }
 
     for (int i = 0; i < k_size; i++) {
         mp.erase(key[i]);
         auto r = mp.find(key[i]);
-        EXPECT_TRUE(r == nullptr);
+        CHECK(r == nullptr);
     }
 }

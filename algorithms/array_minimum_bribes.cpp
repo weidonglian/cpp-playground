@@ -1,9 +1,8 @@
-#include <vector>
+#include "cpptest.hpp"
+#include <algorithm>
 #include <iostream>
 #include <optional>
-#include <algorithm>
-#include "cpptest.hpp"
-
+#include <vector>
 
 using namespace std;
 
@@ -13,7 +12,7 @@ optional<int> array_minimum_bribes(vector<int> q) {
     for (int v = v_max; v > 0; --v) {
         for (int i = 0; i < 3; ++i) {
             // v should be in the position v-1
-            const int should_pos = v-1;
+            const int should_pos = v - 1;
             if (q[should_pos - i] == v) {
                 // move to right i th.
                 for (int j = 0; j < i; ++j) {
@@ -30,11 +29,11 @@ optional<int> array_minimum_bribes(vector<int> q) {
     return cnt;
 }
 
-TEST(ArraySuite, array_minimum_bribes) {
+TEST_CASE('array_minimum_bribes', '[array]') {
     auto r1 = array_minimum_bribes({2, 1, 5, 3, 4});
-    EXPECT_TRUE(r1.has_value());
-    EXPECT_EQ(3, r1.value());
+    CHECK(r1.has_value());
+    CHECK(3, r1.value());
 
     auto r2 = array_minimum_bribes({2, 5, 1, 3, 4});
-    EXPECT_FALSE(r2.has_value());
+    CHECK_FALSE(r2.has_value());
 }

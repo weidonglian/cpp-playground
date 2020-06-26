@@ -1,6 +1,4 @@
-# Use gtest, gtest style play
-include(${CMAKE_SOURCE_DIR}/third_party/gtest/gtest.cmake)
-set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
+add_executable(algorithms
     array_find_common_elements.cpp
     array_mine_sweeper.cpp
     array_sum_pair.cpp
@@ -21,12 +19,10 @@ set(SRC_GTEST_CASES_LIST ${GTEST_SRC} ${GTEST_HDR}
     tree_ordered_map.cpp
     hash_table_separate_chainning.cpp
     container_set_key.cpp
+    testmain.cpp
     cpptest.hpp
     simple_svg_1.0.0.hpp
 )
 
-# Finalize to create a cpp-gtest
-add_executable(cpptest ${SRC_GTEST_CASES_LIST})
-target_link_libraries(cpptest Threads::Threads)
-target_include_directories(cpptest PRIVATE ${GTEST_INC})
-add_test(NAME test-cpptest COMMAND cpptest)
+target_link_libraries(algorithms Threads::Threads catch2)
+add_TEST_CASE(NAME test-algorithms COMMAND algorithms)
