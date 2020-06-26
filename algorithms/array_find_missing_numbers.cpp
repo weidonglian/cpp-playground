@@ -126,7 +126,7 @@ std::vector<int> find_missing_numbers_2(const std::vector<int> &sorted_numbers,
     return numbers;
 }
 
-TEST_CASE('find_missing_numbers', '[array]') {
+TEST_CASE("find_missing_numbers", "[array]") {
     CHECK(binary_search_iterative({1, 3, 7, 9, 17, 23}, 1, 4, 9) == 3);
     CHECK(binary_search_iterative({1, 3, 3, 7, 9, 9, 17, 23}, 0, 6, 3) == 1);
     CHECK(binary_search_iterative({1, 3, 3, 7, 7, 9, 9, 17, 20}, 1, 7, 9) == 5);

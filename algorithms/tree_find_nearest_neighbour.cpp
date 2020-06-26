@@ -1,6 +1,5 @@
 #include "cpptest.hpp"
 #include "simple_svg_1.0.0.hpp"
-#include "gtest/gtest.h"
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -254,7 +253,7 @@ void dump_svg(const string &file_name, const vector<point> &points, point test,
 }
 } // namespace details
 
-TEST_CASE(TreeSuite, find_nns_query_point_in_cluster) {
+TEST_CASE("find_nns_query_point_in_cluster", "[tree]") {
     using namespace nns;
     const vector<point> fixed_points = {{1, 2},    {5, 8},    {20, 4}, {2, 9},
                                         {100, 40}, {43, -30}, {-10, 8}};
@@ -263,16 +262,16 @@ TEST_CASE(TreeSuite, find_nns_query_point_in_cluster) {
         const auto q_linear =
             find_nearest_neighbour(fixed_points, p, find_policy::linear_search);
         REQUIRE(q_linear.has_value());
-        CHECK(q_linear.value(), p); // they should be the same
+        CHECK(q_linear.value() == p); // they should be the same
 
         const auto q_kd_tree =
             find_nearest_neighbour(fixed_points, p, find_policy::kd_tree);
         REQUIRE(q_kd_tree.has_value());
-        CHECK(q_kd_tree, q_linear); // find the existing point in cluster
+        CHECK(q_kd_tree == q_linear); // find the existing point in cluster
     }
 }
 
-TEST_CASE(TreeSuite, find_nns_query_point_in_cluster_random) {
+TEST_CASE("find_nns_query_point_in_cluster_random", "[tree]") {
     using namespace nns;
     const vector<point> points = details::generate_random_cloud_points(1000);
 
@@ -281,14 +280,14 @@ TEST_CASE(TreeSuite, find_nns_query_point_in_cluster_random) {
         const auto q_linear =
             find_nearest_neighbour(points, p, find_policy::linear_search);
         REQUIRE(q_linear.has_value());
-        CHECK(q_linear.value(), p); // they should be the same
+        CHECK(q_linear.value() == p); // they should be the same
 
         const auto q_kd_tree =
             find_nearest_neighbour(points, p, find_policy::kd_tree);
         REQUIRE(q_kd_tree.has_value());
         // find existing point in cluster
-        CHECK(q_kd_tree.value(), q_linear.value())
-            << "with p=[" << p[0] << ", " << p[1] << "]";
+        INFO("with p=[" << p[0] << ", " << p[1] << "]");
+        CHECK(q_kd_tree.value() == q_linear.value());
         if (q_kd_tree.value() != q_linear.value()) {
             details::dump_svg("find_nearest_neighbour_random" +
                                   to_string(cnt++) + ".svg",
@@ -297,7 +296,7 @@ TEST_CASE(TreeSuite, find_nns_query_point_in_cluster_random) {
     }
 }
 
-TEST_CASE(TreeSuite, find_nns_query_not_necessarily_from_cluster) {
+TEST_CASE("find_nns_query_not_necessarily_from_cluster", "[tree]") {
     using namespace nns;
     const vector<point> points = details::generate_random_cloud_points(1000);
     const vector<point> points_to_test =
@@ -313,7 +312,7 @@ TEST_CASE(TreeSuite, find_nns_query_not_necessarily_from_cluster) {
         REQUIRE(q_kd_tree.has_value());
         const int min_dist_linear = distance(q_linear.value(), p);
         const int min_dist_kd_tree = distance(q_kd_tree.value(), p);
-        CHECK(min_dist_linear, min_dist_kd_tree);
+        CHECK(min_dist_linear == min_dist_kd_tree);
         if (min_dist_kd_tree != min_dist_linear) {
             details::dump_svg("find_nearest_neighbour_random_point_" +
                                   to_string(cnt++) + ".svg",

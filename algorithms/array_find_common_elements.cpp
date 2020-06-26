@@ -22,7 +22,7 @@ vector<int> find_common_elements(const vector<int> &arr1,
     return results;
 }
 
-TEST_CASE('find_common_elements', '[array]') {
+TEST_CASE("find_common_elements", "[array]") {
     CHECK(find_common_elements({1, 3, 4, 6, 7, 9}, {1, 2, 4, 5, 9, 10}) ==
           vector<int>({1, 4, 9}));
     CHECK(find_common_elements({1, 2, 9, 10, 11, 12},

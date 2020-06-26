@@ -33,13 +33,13 @@ vector<vector<int>> generate_mine_sweeper_board(const vector<position> &bombs,
     return board;
 }
 
-TEST_CASE('mine_sweeper_assign_numbers', '[array]') {
+TEST_CASE("mine_sweeper_assign_numbers", "[array]") {
     // NOTE: The following input values will be used for testing your solution.
     // mine_sweeper([[0, 2], [2, 0]], 3, 3) should return:
     // [[0, 1, -1],
     //  [1, 2, 1],
     //  [-1, 1, 0]]
-    CHECK(generate_mine_sweeper_board({position{0, 2}, position{2, 0}}, 3, 3),
+    CHECK(generate_mine_sweeper_board({position{0, 2}, position{2, 0}}, 3, 3) ==
           vector<vector<int>>({{0, 1, -1}, {1, 2, 1}, {-1, 1, 0}}));
 
     // mine_sweeper([[0, 0], [0, 1], [1, 2]], 3, 4) should return:
@@ -47,7 +47,7 @@ TEST_CASE('mine_sweeper_assign_numbers', '[array]') {
     //  [2, 3, -1, 1],
     //  [0, 1, 1, 1]]
     CHECK(generate_mine_sweeper_board(
-              {position{0, 0}, position{0, 1}, position{1, 2}}, 3, 4),
+              {position{0, 0}, position{0, 1}, position{1, 2}}, 3, 4) ==
           vector<vector<int>>({{-1, -1, 2, 1}, {2, 3, -1, 1}, {0, 1, 1, 1}}));
 
     // mine_sweeper([[1, 1], [1, 2], [2, 2], [4, 3]], 5, 5) should return:
@@ -58,12 +58,11 @@ TEST_CASE('mine_sweeper_assign_numbers', '[array]') {
     //  [0, 0, 1, -1, 1]]
     CHECK(generate_mine_sweeper_board(
               {position{1, 1}, position{1, 2}, position{4, 3}, position{2, 2}},
-              5, 5),
-          vector<vector<int>>({{1, 2, 2, 1, 0},
-                               {1, -1, -1, 2, 0},
-                               {1, 3, -1, 2, 0},
-                               {0, 1, 2, 2, 1},
-                               {0, 0, 1, -1, 1}}));
+              5, 5) == vector<vector<int>>({{1, 2, 2, 1, 0},
+                                            {1, -1, -1, 2, 0},
+                                            {1, 3, -1, 2, 0},
+                                            {0, 1, 2, 2, 1},
+                                            {0, 0, 1, -1, 1}}));
 }
 
 void mine_sweeper_click_to_expand(vector<vector<int>> &field, int click_x,
@@ -101,17 +100,17 @@ void mine_sweeper_click_to_expand(vector<vector<int>> &field, int click_x,
         }
     }
 }
-TEST_CASE('mine_sweeper_where_to_expand', '[array]') {
+TEST_CASE("mine_sweeper_where_to_expand", "[array]") {
     // NOTE: The following input values will be used for testing your solution.
     const vector<vector<int>> field1 = {
         {0, 0, 0, 0, 0}, {0, 1, 1, 1, 0}, {0, 1, -1, 1, 0}};
     auto field1_result1 = field1;
     mine_sweeper_click_to_expand(field1_result1, 2, 2);
-    CHECK(field1, field1_result1);
+    CHECK(field1 == field1_result1);
 
     auto field1_result2 = field1;
     mine_sweeper_click_to_expand(field1_result2, 1, 4);
-    CHECK(field1_result2,
+    CHECK(field1_result2 ==
           vector<vector<int>>(
               {{-2, -2, -2, -2, -2}, {-2, 1, 1, 1, -2}, {-2, 1, -1, 1, -2}}));
 
@@ -119,14 +118,14 @@ TEST_CASE('mine_sweeper_where_to_expand', '[array]') {
         {-1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 1, 1}, {0, 0, 1, -1}};
     auto field2_result1 = field2;
     mine_sweeper_click_to_expand(field2_result1, 0, 1);
-    CHECK(field2_result1,
+    CHECK(field2_result1 ==
           vector<vector<int>>(
               {{-1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 1, 1}, {0, 0, 1, -1}}));
 
     auto field2_result2 = field2;
     mine_sweeper_click_to_expand(field2_result2, 1, 3);
-    CHECK(field2_result2, vector<vector<int>>({{-1, 1, -2, -2},
-                                               {1, 1, -2, -2},
-                                               {-2, -2, 1, 1},
-                                               {-2, -2, 1, -1}}));
+    CHECK(field2_result2 == vector<vector<int>>({{-1, 1, -2, -2},
+                                                 {1, 1, -2, -2},
+                                                 {-2, -2, 1, 1},
+                                                 {-2, -2, 1, -1}}));
 }

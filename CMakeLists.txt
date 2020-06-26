@@ -34,4 +34,4 @@ enable_testing()
 
 add_subdirectory(examples)
 add_subdirectory(algorithms)
-add_subdirectory(thrid_party)
+add_subdirectory(third_party)

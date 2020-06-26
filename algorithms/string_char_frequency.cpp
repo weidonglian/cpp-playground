@@ -1,13 +1,14 @@
 #include "cpptest.hpp"
 #include <functional>
+#include <map>
 #include <string>
 #include <unordered_map>
 
 using namespace std;
-using match_fn = std::function<bool(int, char)>;
+using match_fn = function<bool(int, char)>;
 enum class match_impl_policy { k_default, k_sorting, k_hashing };
 
-bool is_frequency_match_impl_hashing(const std::string &str, match_fn fn) {
+bool is_frequency_match_impl_hashing(const string &str, match_fn fn) {
     if (str.empty())
         return true;
 
@@ -23,7 +24,7 @@ bool is_frequency_match_impl_hashing(const std::string &str, match_fn fn) {
     return true;
 }
 
-bool is_frequency_match_impl_sorting(std::string str, match_fn fn) {
+bool is_frequency_match_impl_sorting(string str, match_fn fn) {
     if (str.empty())
         return true;
 
@@ -57,7 +58,7 @@ bool is_frequency_match_impl_sorting(std::string str, match_fn fn) {
 /// aabbcc is valid, aabbccc is not valid
 /// str may not be sorted.
 bool is_frequency_match(
-    std::string str, match_impl_policy policy = match_impl_policy::k_default) {
+    string str, match_impl_policy policy = match_impl_policy::k_default) {
     int last_cnt = -1;
     auto fn = [&last_cnt](int nb, char c) {
         if (last_cnt == -1)
@@ -66,16 +67,16 @@ bool is_frequency_match(
     };
 
     if (policy == match_impl_policy::k_sorting) {
-        return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
+        return is_frequency_match_impl_sorting(move(str), move(fn));
     } else { // by default and hashing
-        return is_frequency_match_impl_hashing(str, std::move(fn));
+        return is_frequency_match_impl_hashing(str, move(fn));
     }
 }
 
 /// the same as above condition, check if it can become valid when removing one
 /// char
 bool is_frequency_match_ext(
-    std::string str, match_impl_policy policy = match_impl_policy::k_default) {
+    string str, match_impl_policy policy = match_impl_policy::k_default) {
     // add more logic  to determine 322 223 332 patterns to be valid or not.
     map<int, int> cnt_freq;
     auto fn = [&cnt_freq](int nb, char c) {
@@ -90,13 +91,13 @@ bool is_frequency_match_ext(
     };
 
     if (policy == match_impl_policy::k_sorting) {
-        return is_frequency_match_impl_sorting(std::move(str), std::move(fn));
+        return is_frequency_match_impl_sorting(move(str), move(fn));
     } else { // by default and hashing
-        return is_frequency_match_impl_hashing(str, std::move(fn));
+        return is_frequency_match_impl_hashing(str, move(fn));
     }
 }
 
-TEST_CASE(StringSuite, char_frequency) {
+TEST_CASE("char_frequency", "[string]") {
     CHECK(is_frequency_match("aabbcc"));
     CHECK_FALSE(is_frequency_match("aabbccc"));
     CHECK_FALSE(is_frequency_match("aaabbbcc"));

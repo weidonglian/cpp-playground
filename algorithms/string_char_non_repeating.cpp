@@ -34,9 +34,9 @@ char find_non_repeating(const std::string &str) {
     return ret;
 }
 
-TEST_CASE(StringSuite, char_non_repeating) {
-    CHECK(find_non_repeating("abcab"), 'c');
-    CHECK(find_non_repeating("abab"), '\0');
-    CHECK(find_non_repeating("aabbbc"), 'c');
-    CHECK(find_non_repeating("aabbdbc"), 'd');
+TEST_CASE("char_non_repeating", "[string]") {
+    CHECK(find_non_repeating("abcab") == 'c');
+    CHECK(find_non_repeating("abab") == '\0');
+    CHECK(find_non_repeating("aabbbc") == 'c');
+    CHECK(find_non_repeating("aabbdbc") == 'd');
 }

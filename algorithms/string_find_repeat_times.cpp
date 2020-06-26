@@ -35,14 +35,14 @@ int find_repeat_times(string sa, string sb) {
     return min_repeat_times;
 }
 
-TEST_CASE(StringSuite, find_repeat_times) {
-    CHECK(find_repeat_times("abcd", "cdabcdab"), 3);
-    CHECK(find_repeat_times("aafbbbcd", "cdeabcdab"), -1);
-    CHECK(find_repeat_times("aabbbcdddeeef", "abcdeff"), 2);
-    CHECK(find_repeat_times("abf", "abf"), 2);
-    CHECK(find_repeat_times("abff", "abf"), 1);
-    CHECK(find_repeat_times("abfff", "abff"), 1);
-    CHECK(find_repeat_times("abf", "abff"), 2);
-    CHECK(find_repeat_times("abff", "abfff"), 2);
-    CHECK(find_repeat_times("aabbbcdddeeeff", "abcdefff"), 2);
+TEST_CASE("find_repeat_times", "[string]") {
+    CHECK(find_repeat_times("abcd", "cdabcdab") == 3);
+    CHECK(find_repeat_times("aafbbbcd", "cdeabcdab") == -1);
+    CHECK(find_repeat_times("aabbbcdddeeef", "abcdeff") == 2);
+    CHECK(find_repeat_times("abf", "abf") == 2);
+    CHECK(find_repeat_times("abff", "abf") == 1);
+    CHECK(find_repeat_times("abfff", "abff") == 1);
+    CHECK(find_repeat_times("abf", "abff") == 2);
+    CHECK(find_repeat_times("abff", "abfff") == 2);
+    CHECK(find_repeat_times("aabbbcdddeeeff", "abcdefff") == 2);
 }

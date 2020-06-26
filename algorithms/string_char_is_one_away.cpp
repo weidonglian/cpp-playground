@@ -37,7 +37,7 @@ bool is_one_away(std::string s1, std::string s2) {
     return true;
 }
 
-TEST_CASE(StringSuite, is_one_away) {
+TEST_CASE("is_one_away", "[string]") {
     CHECK(is_one_away("abcde", "abcd"));      // should return true
     CHECK(is_one_away("abde", "abcde"));      // should return true
     CHECK(is_one_away("a", "a"));             // should return true

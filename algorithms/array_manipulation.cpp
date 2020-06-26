@@ -42,7 +42,7 @@ std::string test_array_manipulation(const std::string &input) {
     return to_string(result);
 }
 
-TEST_CASE('array_manipulation', '[array]') {
+TEST_CASE("array_manipulation", "[array]") {
     const array<test_input_output, 3> cases = {
         test_input_output{
             R"(5 3

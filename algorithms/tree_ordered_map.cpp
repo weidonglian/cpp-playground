@@ -1,6 +1,7 @@
 #include <array>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <random>
 #include <string>
 
@@ -147,12 +148,12 @@ class ordered_map {
 };
 } // namespace
 
-TEST_CASE(TreeSuite, ordered_map_int_int) {
+TEST_CASE("ordered_map_int_int", "[tree]") {
     ordered_map<int, int> mp;
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
     const vector<int> val = generate_random_number(k_size);
-    std::map<int, int> expected_mp;
+    map<int, int> expected_mp;
     for (int i = 0; i < k_size; i++) {
         mp.insert(key[i], val[i]);
         expected_mp[key[i]] = val[i];
@@ -161,7 +162,7 @@ TEST_CASE(TreeSuite, ordered_map_int_int) {
     for (int i = 0; i < k_size; i++) {
         auto r = mp.find(key[i]);
         REQUIRE(r != nullptr);
-        CHECK(*r, expected_mp[key[i]]);
+        CHECK(*r == expected_mp[key[i]]);
     }
 
     for (int i = 0; i < k_size; i++) {

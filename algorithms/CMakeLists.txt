@@ -25,4 +25,4 @@ add_executable(algorithms
 )
 
 target_link_libraries(algorithms Threads::Threads catch2)
-add_TEST_CASE(NAME test-algorithms COMMAND algorithms)
+add_test(NAME test-algorithms COMMAND algorithms)

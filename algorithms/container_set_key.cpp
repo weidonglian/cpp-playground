@@ -20,7 +20,7 @@ struct DeadlineTimerComparator {
 
 using DeadlineTimerSet = std::set<DeadlineTimer *, DeadlineTimerComparator>;
 
-TEST_CASE('mutable_key', '[set]') {
+TEST_CASE("mutable_key", "[set]") {
     std::array<DeadlineTimer, 5> timers = {
         DeadlineTimer{0, 1.0}, DeadlineTimer{1, 2.0}, DeadlineTimer{2, 3.0},
         DeadlineTimer{4, 4.0}, DeadlineTimer{5, 5.0}};
@@ -31,11 +31,11 @@ TEST_CASE('mutable_key', '[set]') {
         timer_set.insert(&t);
     }
     const auto nb_timers = timers.size();
-    CHECK(nb_timers, timer_set.size());
+    CHECK(nb_timers == timer_set.size());
 
     for (auto &t : timers) {
         timer_set.insert(&t);
-        CHECK(nb_timers, timer_set.size());
+        CHECK(nb_timers == timer_set.size());
     }
 
     std::random_device
@@ -46,33 +46,33 @@ TEST_CASE('mutable_key', '[set]') {
     for (auto &t : timers) {
         t.expired_time_ = dis(gen);
         timer_set.insert(&t);
-        CHECK(nb_timers, timer_set.size());
+        CHECK(nb_timers == timer_set.size());
     }
 
     int i = 1;
     for (auto &t : timers) {
         t.expired_time_ += dis(gen);
         timer_set.erase(&t);
-        CHECK(nb_timers - i++, timer_set.size());
+        CHECK((nb_timers - i++) == timer_set.size());
     }
 
-    CHECK(0, timer_set.size());
+    CHECK(0 == timer_set.size());
 
     int j = 1;
     for (auto &t : timers) {
         t.expired_time_ += dis(gen);
         timer_set.insert(&t);
-        CHECK(j++, timer_set.size());
+        CHECK(j++ == timer_set.size());
     }
 
     for (auto &t : timers) {
         timer_set.erase(&t);
     }
 
-    CHECK(0, timer_set.size());
+    CHECK(0 == timer_set.size());
 }
 
-TEST_CASE('mutable_key_large', '[set]') {
+TEST_CASE("mutable_key_large", "[set]") {
     std::vector<DeadlineTimer> timers;
     timers.reserve(1000);
     for (int i = 0; i < 1000; ++i) {
@@ -85,11 +85,11 @@ TEST_CASE('mutable_key_large', '[set]') {
         timer_set.insert(&t);
     }
     const auto nb_timers = timers.size();
-    CHECK(nb_timers, timer_set.size());
+    CHECK(nb_timers == timer_set.size());
 
     for (auto &t : timers) {
         timer_set.insert(&t);
-        CHECK(nb_timers, timer_set.size());
+        CHECK(nb_timers == timer_set.size());
     }
 
     std::random_device
@@ -100,28 +100,28 @@ TEST_CASE('mutable_key_large', '[set]') {
     for (auto &t : timers) {
         t.expired_time_ = dis(gen);
         timer_set.insert(&t);
-        CHECK(nb_timers, timer_set.size());
+        CHECK(nb_timers == timer_set.size());
     }
 
     int i = 1;
     for (auto &t : timers) {
         t.expired_time_ += dis(gen);
         timer_set.erase(&t);
-        CHECK(nb_timers - i++, timer_set.size());
+        CHECK((nb_timers - i++) == timer_set.size());
     }
 
-    CHECK(0, timer_set.size());
+    CHECK(0 == timer_set.size());
 
     int j = 1;
     for (auto &t : timers) {
         t.expired_time_ += dis(gen);
         timer_set.insert(&t);
-        CHECK(j++, timer_set.size());
+        CHECK(j++ == timer_set.size());
     }
 
     for (auto &t : timers) {
         timer_set.erase(&t);
     }
 
-    CHECK(0, timer_set.size());
+    CHECK(0 == timer_set.size());
 }

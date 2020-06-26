@@ -39,7 +39,7 @@ std::string reverse_letters(const std::string &content) {
     return result;
 }
 
-TEST_CASE(StringSuite, reverse_letters) {
+TEST_CASE("reverse_letters", "[string]") {
     CHECK(reverse_letters("; ABC ; ") == "; CBA ; ");
     CHECK(reverse_letters("; ABC") == "; CBA");
     CHECK(reverse_letters("ABC") == "CBA");

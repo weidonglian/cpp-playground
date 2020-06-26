@@ -39,13 +39,13 @@ pair<int, int> find_sum_pair_brut(const vector<int> &arr1,
     return {-1, -1};
 }
 
-TEST_CASE('find_sum_pair', '[array]') {
+TEST_CASE("find_sum_pair", "[array]") {
     const vector<int> arr1 = {1, 8, 9, 20, -1, 3, 7, 5, 3, 7, 1};
     const vector<int> arr2 = {5, 4, -1, 2, -1, 2, -5, 7, 0, 8, 9, 3, 4, 2};
     auto pr = find_sum_pair_brut(arr1, arr2, 7);
-    REQUIRE(pr.first != -1 && pr.second != -1);
+    REQUIRE((pr.first != -1 && pr.second != -1));
     CHECK(arr1[pr.first] + arr2[pr.second] == 7);
     pr = find_sum_pair(arr1, arr2, 7);
-    REQUIRE(pr.first != -1 && pr.second != -1);
+    REQUIRE((pr.first != -1 && pr.second != -1));
     CHECK(arr1[pr.first] + arr2[pr.second] == 7);
 }

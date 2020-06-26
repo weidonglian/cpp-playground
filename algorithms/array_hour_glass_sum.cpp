@@ -41,7 +41,7 @@ int hour_glass_sum(vector<vector<int>> arr) {
     return 0;
 }
 
-TEST_CASE('array_hour_glass_sum', '[array]') {
+TEST_CASE("array_hour_glass_sum", "[array]") {
     CHECK(19 == hour_glass_sum({{1, 1, 1, 0, 0, 0},
                                 {0, 1, 0, 0, 0, 0},
                                 {1, 1, 1, 0, 0, 0},

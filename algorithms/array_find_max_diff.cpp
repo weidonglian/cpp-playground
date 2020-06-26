@@ -79,17 +79,18 @@ int find_max_diff_relative_dist_optimal(const vector<int> &arr) {
     return max_sum;
 }
 
-TEST_CASE('find_max_diff', '[array]') {
+TEST_CASE("find_max_diff", "[array]") {
     using calculator = function<int(const vector<int> &)>;
     int idx = 0;
     for (const auto &fn :
          {find_max_diff_brutal_force, find_max_diff_optimal,
           find_max_diff_relative_dist, find_max_diff_relative_dist_optimal}) {
-        CHECK(fn({1, 3, 4, 8, 2, 4, 7}) == 7) << "with idx " << idx;
-        CHECK(fn({1, 2, 3, 4, 5, 6, 8}) == 7) << "with idx " << idx;
-        CHECK(fn({3, 2, 1}) == 0) << "with idx " << idx;
-        CHECK(fn({4, 2, 8, 2, 7, 1, 7}) == 6) << "with idx " << idx;
-        CHECK(fn({80, 2, 6, 3, 100}) == 98) << " with idx " << idx;
+        INFO("with idx" << idx);
+        CHECK(fn({1, 3, 4, 8, 2, 4, 7}) == 7);
+        CHECK(fn({1, 2, 3, 4, 5, 6, 8}) == 7);
+        CHECK(fn({3, 2, 1}) == 0);
+        CHECK(fn({4, 2, 8, 2, 7, 1, 7}) == 6);
+        CHECK(fn({80, 2, 6, 3, 100}) == 98);
         idx++;
     }
 }

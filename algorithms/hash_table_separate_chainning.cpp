@@ -134,7 +134,7 @@ class hash_table {
 
 } // namespace
 
-TEST_CASE('separate_chainning_common', '[hashtable]') {
+TEST_CASE("separate_chainning_common", "[hashtable]") {
     hash_table<int, int> ht;
     constexpr int k_size = 1000;
     const vector<int> key = generate_random_number(k_size);
@@ -148,7 +148,7 @@ TEST_CASE('separate_chainning_common', '[hashtable]') {
     for (int i = 0; i < k_size; i++) {
         auto r = ht.find(key[i]);
         REQUIRE(r != nullptr);
-        CHECK(*r, expected_ht[key[i]]);
+        CHECK(*r == expected_ht[key[i]]);
     }
 
     for (int i = 0; i < k_size; i++) {

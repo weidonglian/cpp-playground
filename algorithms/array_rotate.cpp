@@ -33,18 +33,17 @@ void rot_left_inplace(vector<int> &arr, int d) {
     }
 }
 
-TEST_CASE('rotate_left', '[array]') {
+TEST_CASE("rotate_left", "[array]") {
     CHECK(rot_left({41, 73, 89, 7, 10, 1,  59, 58, 84, 77,
                     77, 97, 58, 1, 86, 58, 26, 10, 86, 51},
-                   10),
-          vector<int>({77, 97, 58, 1, 86, 58, 26, 10, 86, 51,
-                       41, 73, 89, 7, 10, 1,  59, 58, 84, 77}));
+                   10) == vector<int>({77, 97, 58, 1, 86, 58, 26, 10, 86, 51,
+                                       41, 73, 89, 7, 10, 1,  59, 58, 84, 77}));
     vector<int> arr;
     rot_left_inplace((arr = {41, 73, 89, 7, 10, 1,  59, 58, 84, 77,
                              77, 97, 58, 1, 86, 58, 26, 10, 86, 51}),
                      10);
-    CHECK(arr, vector<int>({77, 97, 58, 1, 86, 58, 26, 10, 86, 51,
-                            41, 73, 89, 7, 10, 1,  59, 58, 84, 77}));
+    CHECK(arr == vector<int>({77, 97, 58, 1, 86, 58, 26, 10, 86, 51,
+                              41, 73, 89, 7, 10, 1,  59, 58, 84, 77}));
 }
 
 bool is_match_rotated(const vector<int> &arr1, const vector<int> &arr2) {
@@ -76,7 +75,7 @@ bool is_match_rotated(const vector<int> &arr1, const vector<int> &arr2) {
     return true;
 }
 
-TEST_CASE('[array]', is_rotated) {
+TEST_CASE("is_rotated", "[array]") {
     CHECK_FALSE(
         is_match_rotated({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7, 8, 1, 2, 3}));
     CHECK(is_match_rotated({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7, 1, 2, 3}));
@@ -148,20 +147,20 @@ void rotate_inplace(vector<vector<int>> &arr) {
     print(arr);
 }
 
-TEST_CASE('[array]', 2d_array_rotate) {
+TEST_CASE("2d_array_rotate", "[array]") {
     // NOTE: The following input values will be used for testing your solution.
     vector<vector<int>> a1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    CHECK(rotate(a1), vector<vector<int>>({{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}));
+    CHECK(rotate(a1) == vector<vector<int>>({{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}));
     rotate_inplace(a1);
-    CHECK(a1, vector<vector<int>>({{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}));
+    CHECK(a1 == vector<vector<int>>({{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}));
 
     vector<vector<int>> a2 = {
         {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
-    CHECK(rotate(a2),
+    CHECK(rotate(a2) ==
           vector<vector<int>>(
               {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}));
     rotate_inplace(a2);
-    CHECK(a2,
+    CHECK(a2 ==
           vector<vector<int>>(
               {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}));
 }

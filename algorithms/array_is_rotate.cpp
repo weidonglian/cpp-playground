@@ -25,7 +25,7 @@ bool is_match_rotated(const vector<int> &arr1, const vector<int> &arr2) {
     return true;
 }
 
-TEST_CASE('is_rotated', '[array]') {
+TEST_CASE("is_rotated", "[array]") {
     CHECK_FALSE(
         is_match_rotated({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7, 8, 1, 2, 3}));
     CHECK(is_match_rotated({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7, 1, 2, 3}));

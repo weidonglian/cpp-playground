@@ -29,10 +29,10 @@ optional<int> array_minimum_bribes(vector<int> q) {
     return cnt;
 }
 
-TEST_CASE('array_minimum_bribes', '[array]') {
+TEST_CASE("array_minimum_bribes", "[array]") {
     auto r1 = array_minimum_bribes({2, 1, 5, 3, 4});
     CHECK(r1.has_value());
-    CHECK(3, r1.value());
+    CHECK(3 == r1.value());
 
     auto r2 = array_minimum_bribes({2, 5, 1, 3, 4});
     CHECK_FALSE(r2.has_value());
