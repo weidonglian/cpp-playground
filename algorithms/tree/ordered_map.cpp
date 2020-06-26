@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 
-#include "test.hpp"
+#include "algorithms.hpp"
 
 using namespace std;
 
