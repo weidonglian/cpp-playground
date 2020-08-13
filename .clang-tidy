@@ -1,0 +1,19 @@
+---
+Checks:          '-*,clang-analyzer-*,
+                  -clang-analyzer-security.FloatLoopCounter,
+                  -clang-analyzer-valist.Uninitialized,
+                  modernize-*,
+                  -modernize-use-trailing-return-type,
+                  -modernize-avoid-c-arrays,
+                  -modernize-use-auto,
+                  -modernize-use-default-member-init,
+                  -modernize-avoid-bind'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle:     none
+CheckOptions:
+  - key:             modernize-use-nullptr.NullMacros
+    value:           'NULL'
+...
+
