@@ -17,6 +17,7 @@ add_executable(algorithms
     string/find_repeat_times.cpp
     tree/find_nearest_neighbour.cpp
     tree/ordered_map.cpp
+    tree/visit_tree.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
     algorithms.cpp
