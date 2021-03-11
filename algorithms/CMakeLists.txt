@@ -1,4 +1,4 @@
-add_executable(algorithms
+add_executable(test-algorithms
     array/find_common_elements.cpp
     array/mine_sweeper.cpp
     array/sum_pair.cpp
@@ -25,6 +25,6 @@ add_executable(algorithms
     random.hpp
 )
 
-target_link_libraries(algorithms Threads::Threads catch2 simple_svg)
-target_include_directories(algorithms PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
-add_test(NAME test-algorithms COMMAND algorithms)
+target_link_libraries(test-algorithms Threads::Threads catch2 simple_svg)
+target_include_directories(test-algorithms PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
+add_test(NAME test-algorithms COMMAND test-algorithms)
