@@ -9,7 +9,7 @@
 #include <optional>
 #include <vector>
 
-#include "algorithms.hpp"
+#include "base.hpp"
 #include "random.hpp"
 #include "simple_svg.hpp"
 

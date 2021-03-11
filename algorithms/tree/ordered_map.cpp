@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 
-#include "algorithms.hpp"
+#include "base.hpp"
 #include "random.hpp"
 
 using namespace std;

@@ -20,8 +20,8 @@ add_executable(test-algorithms
     tree/visit_tree.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
-    algorithms.cpp
-    algorithms.hpp
+    base.cpp
+    base.hpp
     random.hpp
 )
 

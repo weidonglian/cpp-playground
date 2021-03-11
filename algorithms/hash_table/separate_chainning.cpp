@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "algorithms.hpp"
+#include "base.hpp"
 #include "random.hpp"
 
 using namespace std;

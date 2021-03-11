@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "algorithms.hpp"
+#include "base.hpp"
 
 //#define CHECK(e) if (!(e)) std::cout << "Failure: '" << #e << "'  ==
 // false" << std::endl
