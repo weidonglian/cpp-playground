@@ -35,6 +35,13 @@ bool has_sum_pair(const vector<int>& arr, int sum) {
   return false;
 }
 
+/**
+ * @brief Check if the array has a pair of the given sum.
+ *
+ * 1. Brutal: loop i, j all elements. O(N^2).
+ * 2. HashSet: loop i and save the complement (i.e. sum-arr[i]) into a HashSet. O(N).
+ * 3. Sorting: sort array and the scan from two directions and gradually shrink search range.
+ */
 TEST_CASE("array_sum_pair", "[array]") {
   CHECK(has_sum_pair_sorted({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19}, 12));
   CHECK_FALSE(has_sum_pair_sorted({1, 2, 3, 9}, 8));

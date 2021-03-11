@@ -2,6 +2,7 @@ add_executable(test-algorithms
     array/find_common_elements.cpp
     array/mine_sweeper.cpp
     array/sum_pair.cpp
+    array/sum_three_some.cpp
     array/find_sum_pair.cpp
     array/minimum_swaps.cpp
     array/find_max_diff.cpp
