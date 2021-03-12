@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <functional>
 #include <iostream>
+#include <iterator>
+#include <optional>
 #include <vector>
 
 #include "base.hpp"
@@ -36,15 +38,37 @@ public:
     }
   }
 
+  void populate(const std::vector<std::optional<int>>& data) {
+    if (data.empty()) {
+      return;
+    }
+
+    if (root) {
+      delete root;
+      root = nullptr;
+    }
+
+    if (!data[0]) {
+      return;
+    }
+    root = new tree_node(data[0].value());
+
+    value_iter it(data.begin() + 1, data.end());
+    int level = 0;
+    while (it.has_next()) {
+      fill_bfs(root, level++, it);
+    }
+  }
+
   void print() const {
     int print_cnt;
     int level = 0;
     do {
       print_cnt = 0;
-      std::cout << "level-" << level << ": ";
+      std::cout << "L" << level << ": -";
       visit_bfs(root, level, [&](tree_node* n) {
         print_cnt++;
-        std::cout << n->value_ << "-";
+        std::cout << (n ? std::to_string(n->value_) : "x") << "-";
       });
       std::cout << std::endl;
       level++;
@@ -52,10 +76,68 @@ public:
 
     std::cout << std::endl;
   }
-  bool operator==(const tree& right) const { return true; }
+  bool operator==(const tree& right) const {
+    const tree_node* r1 = root;
+    const tree_node* r2 = right.root;
+    return node_equal(r1, r2);
+  }
+
+  bool operator!=(const tree& right) const { return !(*this == right); }
 
 private:
   using node_cb = std::function<void(tree_node*)>;
+
+  template <class Iter>
+  struct value_iter_t {
+    using value_type = typename std::iterator_traits<Iter>::value_type;
+
+    value_iter_t(Iter start, Iter end) : current_(start), end_(end) {}
+    bool has_next() const { return current_ != end_; }
+    const value_type& next() { return *current_++; }
+
+  private:
+    Iter current_;
+    Iter end_;
+  };
+
+  using value_iter = value_iter_t<std::vector<std::optional<int>>::const_iterator>;
+
+  static bool node_equal(const tree_node* r1, const tree_node* r2) {
+    if (!r1 && !r2) {
+      return true;
+    }
+    if (!(r1 && r2)) {
+      return false;
+    }
+    if (r1->value_ != r2->value_) {
+      return false;
+    }
+    return node_equal(r1->left_, r2->left_) && node_equal(r2->right_, r2->right_);
+  }
+
+  static void fill_bfs(tree_node* root, size_t level, value_iter& vit) {
+    if (!root) {
+      return;
+    }
+    if (!level) {
+      if (vit.has_next()) {
+        auto& v1 = vit.next();
+        if (v1) {
+          root->left_ = new tree_node(*v1);
+        }
+      }
+
+      if (vit.has_next()) {
+        const auto& v2 = vit.next();
+        if (v2) {
+          root->right_ = new tree_node(*v2);
+        }
+      }
+    } else {
+      fill_bfs(root->left_, level - 1, vit);
+      fill_bfs(root->right_, level - 1, vit);
+    }
+  }
 
   static bool populate_bfs(tree_node* root, size_t level, int val) {
     if (!root) {
@@ -77,13 +159,9 @@ private:
   }
 
   static void visit_bfs(tree_node* root, size_t level, const node_cb& fn_cb) {
-    if (!root) {
-      return;
-    }
-
     if (!level) {
       fn_cb(root);
-    } else {
+    } else if (root) {
       visit_bfs(root->left_, level - 1, fn_cb);
       visit_bfs(root->right_, level - 1, fn_cb);
     }
@@ -120,13 +198,49 @@ TEST_CASE("tree_compare_random", "[tree]") {
   }
 }
 
-TEST_CASE("tree_compare", "[tree]") {
-  std::vector<int> data{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+TEST_CASE("tree_compare_equal", "[tree]") {
+  std::vector<int> data1{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
   tree t1;
-  t1.populate(data);
+  t1.populate(data1);
   t1.print();
   tree t2;
-  t2.populate(data);
+  t2.populate(data1);
   t2.print();
   REQUIRE(t1 == t2);
+}
+
+TEST_CASE("tree_compare_not_equal", "[tree]") {
+  std::vector<int> data1{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+  std::vector<int> data2{1, 2, 3, 5, 4, 7, 6, 8, 9, 10, 11, 12};
+  tree t1;
+  t1.populate(data1);
+  t1.print();
+  tree t2;
+  t2.populate(data2);
+  t2.print();
+  REQUIRE(t1 != t2);
+}
+
+TEST_CASE("tree_compare_opt_equal", "[tree]") {
+  std::vector<std::optional<int>> data1{1, 2, 3, std::nullopt, 5, 6, 7, 8, 9, 10, 11, 12};
+  std::vector<std::optional<int>> data2{1, 2, 3, std::nullopt, 5, 6, 7, 8, 9, 10, 11, 12};
+  tree t1;
+  t1.populate(data1);
+  t1.print();
+  tree t2;
+  t2.populate(data2);
+  t2.print();
+  REQUIRE(t1 == t2);
+}
+
+TEST_CASE("tree_compare_opt_not_equal", "[tree]") {
+  std::vector<std::optional<int>> data1{1, 2, 3, std::nullopt, 5, 6, 7, 8, 9, 10, 11, 12};
+  std::vector<std::optional<int>> data2{1, 2, 3, 5, std::nullopt, 6, 7, 8, 9, 10, 11, 12};
+  tree t1;
+  t1.populate(data1);
+  t1.print();
+  tree t2;
+  t2.populate(data2);
+  t2.print();
+  REQUIRE(t1 != t2);
 }
