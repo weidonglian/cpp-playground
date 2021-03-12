@@ -12,6 +12,7 @@ add_executable(test-algorithms
     array/minimum_bribes.cpp
     array/find_missing_numbers.cpp
     link_list/add_two_integers.cpp
+    link_list/merge_two_sorted_link_list.cpp
     string/reverse_letters.cpp
     string/char_frequency.cpp
     string/char_non_repeating.cpp
