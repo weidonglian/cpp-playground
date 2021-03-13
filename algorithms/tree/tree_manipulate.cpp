@@ -22,17 +22,17 @@ struct tree_node {
 
 class tree {
 public:
-  tree() : root(nullptr) {}
-  ~tree() { delete root; }
+  tree() : root_(nullptr) {}
+  ~tree() { delete root_; }
 
   // Load the data in the breadth first access order
   void populate(const std::vector<int>& data) {
     for (int v : data) {
-      if (!root) {
-        root = new tree_node(v);
+      if (!root_) {
+        root_ = new tree_node(v);
       } else {
         int level = 0;
-        while (!populate_bfs(root, level++, v)) {
+        while (!populate_bfs(root_, level++, v)) {
         }
       }
     }
@@ -43,20 +43,20 @@ public:
       return;
     }
 
-    if (root) {
-      delete root;
-      root = nullptr;
+    if (root_) {
+      delete root_;
+      root_ = nullptr;
     }
 
     if (!data[0]) {
       return;
     }
-    root = new tree_node(data[0].value());
+    root_ = new tree_node(data[0].value());
 
     value_iter it(data.begin() + 1, data.end());
     int level = 0;
     while (it.has_next()) {
-      fill_bfs(root, level++, it);
+      fill_bfs(root_, level++, it);
     }
   }
 
@@ -66,7 +66,7 @@ public:
     do {
       print_cnt = 0;
       std::cout << "L" << level << ": -";
-      visit_bfs(root, level, [&](tree_node* n) {
+      visit_bfs(root_, level, [&](tree_node* n) {
         print_cnt++;
         std::cout << (n ? std::to_string(n->value_) : "x") << "-";
       });
@@ -77,12 +77,14 @@ public:
     std::cout << std::endl;
   }
   bool operator==(const tree& right) const {
-    const tree_node* r1 = root;
-    const tree_node* r2 = right.root;
+    const tree_node* r1 = root_;
+    const tree_node* r2 = right.root_;
     return node_equal(r1, r2);
   }
 
   bool operator!=(const tree& right) const { return !(*this == right); }
+
+  void swap_left_right() { node_swap_left_right(root_); }
 
 private:
   using node_cb = std::function<void(tree_node*)>;
@@ -101,6 +103,15 @@ private:
   };
 
   using value_iter = value_iter_t<std::vector<std::optional<int>>::const_iterator>;
+
+  static void node_swap_left_right(tree_node* root) {
+    if (!root) {
+      return;
+    }
+    node_swap_left_right(root->left_);
+    node_swap_left_right(root->right_);
+    std::swap(root->left_, root->right_);
+  }
 
   static bool node_equal(const tree_node* r1, const tree_node* r2) {
     if (!r1 && !r2) {
@@ -166,7 +177,7 @@ private:
       visit_bfs(root->right_, level - 1, fn_cb);
     }
   }
-  tree_node* root;
+  tree_node* root_;
 };
 
 std::vector<int> gen_random_list(int sz) {
@@ -243,4 +254,19 @@ TEST_CASE("tree_compare_opt_not_equal", "[tree]") {
   t2.populate(data2);
   t2.print();
   REQUIRE(t1 != t2);
+}
+
+TEST_CASE("tree_compare_swap", "[tree]") {
+  std::vector<std::optional<int>> data1{1, 3, 2, std::nullopt, 5, 7, 6, 8, 9, 10, 11, 12, std::nullopt};
+  std::vector<std::optional<int>> data2{1, 2, 3, 6, 7, 5, std::nullopt, std::nullopt, 12, 11, 10, 9, 8};
+  tree t1;
+  t1.populate(data1);
+  t1.print();
+  tree t2;
+  t2.populate(data2);
+  t2.print();
+  REQUIRE(t1 != t2);
+  t1.swap_left_right();
+  t1.print();
+  REQUIRE(t1 == t2);
 }
