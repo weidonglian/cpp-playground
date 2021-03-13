@@ -21,7 +21,7 @@ add_executable(test-algorithms
     tree/find_nearest_neighbour.cpp
     tree/ordered_map.cpp
     tree/visit_tree.cpp
-    tree/tree_compare.cpp
+    tree/tree_manipulate.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
     base.cpp
