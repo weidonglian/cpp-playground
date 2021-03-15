@@ -11,6 +11,7 @@ add_executable(test-algorithms
     array/hour_glass_sum.cpp
     array/minimum_bribes.cpp
     array/find_missing_numbers.cpp
+    array/binary_search_rotated_array.cpp
     link_list/add_two_integers.cpp
     link_list/merge_two_sorted_link_list.cpp
     string/reverse_letters.cpp
