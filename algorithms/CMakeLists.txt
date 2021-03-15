@@ -19,6 +19,7 @@ add_executable(test-algorithms
     string/char_non_repeating.cpp
     string/char_is_one_away.cpp
     string/find_repeat_times.cpp
+    sort/quick_sort.cpp
     tree/find_nearest_neighbour.cpp
     tree/ordered_map.cpp
     tree/visit_tree.cpp
