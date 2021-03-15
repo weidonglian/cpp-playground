@@ -24,6 +24,7 @@ add_executable(test-algorithms
     tree/tree_manipulate.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
+    math/x_power_y.cpp
     base.cpp
     base.hpp
     random.hpp
