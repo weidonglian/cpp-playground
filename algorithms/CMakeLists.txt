@@ -24,6 +24,7 @@ add_executable(test-algorithms
     tree/ordered_map.cpp
     tree/visit_tree.cpp
     tree/tree_manipulate.cpp
+    tree/directed_graph.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
     math/x_power_y.cpp
