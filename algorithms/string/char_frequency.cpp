@@ -73,8 +73,8 @@ bool is_frequency_match(string str, match_impl_policy policy = match_impl_policy
   }
 }
 
-/// the same as above condition, check if it can become valid when removing one
-/// char
+/// the same as above condition
+/// check if it can become valid when removing one char
 bool is_frequency_match_ext(string str, match_impl_policy policy = match_impl_policy::k_default) {
   // add more logic  to determine 322 223 332 patterns to be valid or not.
   map<int, int> cnt_freq;
@@ -85,6 +85,7 @@ bool is_frequency_match_ext(string str, match_impl_policy policy = match_impl_po
     else if (cnt_freq.size() <= 1) {
       return true;
     } else { // cnt_freq.sizie() == 2
+      // high frequence one has to be 1, e.g. 322 is not possible, but 223 is possible
       return cnt_freq.rbegin()->second == 1;
     }
   };
