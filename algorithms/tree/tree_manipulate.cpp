@@ -85,6 +85,7 @@ public:
   bool operator!=(const tree& right) const { return !(*this == right); }
 
   void swap_left_right() { node_swap_left_right(root_); }
+  int measure_level() const { return measure_level_recur(this->root_, 0); }
 
 private:
   using node_cb = std::function<void(tree_node*)>;
@@ -103,6 +104,18 @@ private:
   };
 
   using value_iter = value_iter_t<std::vector<std::optional<int>>::const_iterator>;
+
+  static int measure_level_recur(const tree_node* root, int level) {
+    if (root && root->left_ && root->right_) {
+      return std::max(measure_level_recur(root->left_, level + 1), measure_level_recur(root->right_, level + 1));
+    } else if (root && root->left_) {
+      return measure_level_recur(root->left_, level + 1);
+    } else if (root && root->right_) {
+      return measure_level_recur(root->right_, level + 1);
+    } else {
+      return level;
+    }
+  }
 
   static void node_swap_left_right(tree_node* root) {
     if (!root) {
@@ -189,6 +202,34 @@ std::vector<int> gen_random_list(int sz) {
   return data;
 }
 
+// Calculate the level of full bindary search tree with given size.
+int calculate_level(int sz) {
+  int level = 0;
+  int cnt = 1;
+  int power = 2;
+  while (sz > cnt) {
+    ++level;
+    cnt += power;
+    power *= 2;
+  }
+  return level;
+}
+
+TEST_CASE("calcualte_level", "[tree]") {
+  REQUIRE(calculate_level(0) == 0);
+  REQUIRE(calculate_level(1) == 0);
+  REQUIRE(calculate_level(2) == 1);
+  REQUIRE(calculate_level(3) == 1);
+  REQUIRE(calculate_level(4) == 2);
+  REQUIRE(calculate_level(5) == 2);
+  REQUIRE(calculate_level(6) == 2);
+  REQUIRE(calculate_level(7) == 2);
+  REQUIRE(calculate_level(8) == 3);
+  REQUIRE(calculate_level(11) == 3);
+  REQUIRE(calculate_level(12) == 3);
+  REQUIRE(calculate_level(20) == 4);
+}
+
 /**
  * @brief Compare the equality of two binary tree.
  *
@@ -206,6 +247,8 @@ TEST_CASE("tree_compare_random", "[tree]") {
     t2.populate(data);
     t2.print();
     REQUIRE(t1 == t2);
+    REQUIRE(t1.measure_level() == calculate_level(data.size()));
+    REQUIRE(t2.measure_level() == calculate_level(data.size()));
   }
 }
 
@@ -218,6 +261,8 @@ TEST_CASE("tree_compare_equal", "[tree]") {
   t2.populate(data1);
   t2.print();
   REQUIRE(t1 == t2);
+  REQUIRE(t1.measure_level() == 3);
+  REQUIRE(t1.measure_level() == calculate_level(data1.size()));
 }
 
 TEST_CASE("tree_compare_not_equal", "[tree]") {

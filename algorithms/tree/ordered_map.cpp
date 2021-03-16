@@ -96,18 +96,22 @@ private:
     } else { // Remove the root node.
 
       if (!root->left) {
+        // no left child and then just promote the right node to be the new root.
         tree_node* right = nullptr;
         swap(right, root->right);
         bst_delete(root);
         return right;
       } else if (!root->right) {
+        // no right child and then just promote the left child to be the new root.
         tree_node* left = nullptr;
         swap(left, root->left);
         bst_delete(root);
         return left;
-      } else { // both left and right existant
+      } else {
+        // both left and right child existent
         // we need to select a candidate from the two branches.
-        // we could select the max in the left branch or
+        // It is required to keep the tree balanced (left <= root <= right),
+        // thus we could select the max in the left branch or
         // the min in the right branch to replace current node
         tree_node* max_left = bst_find_max(root->left, pred);
         assert(max_left); // must exist, since root->left exists
