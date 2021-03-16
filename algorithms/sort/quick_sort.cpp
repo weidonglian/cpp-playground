@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <vector>
 
@@ -7,7 +8,14 @@
 namespace {
 
 int pivot(std::vector<int>& a, int lo, int hi) {
-  return lo;
+  int m = lo + (hi - lo) / 2;
+  if (a[m] >= a[lo] && a[m] <= a[hi]) {
+    return m;
+  } else if (a[lo] >= a[m] && a[lo] <= a[hi]) {
+    return lo;
+  } else {
+    return hi;
+  }
 }
 
 void quick_sort(std::vector<int>& a, int lo, int hi) {
