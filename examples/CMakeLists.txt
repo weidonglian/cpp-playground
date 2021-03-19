@@ -5,13 +5,20 @@ function(add_example)
     "HDRS;SRCS;DEPS"
     ${ARGN}
   )
+
+  if(OpenMP_CXX_FOUND)
+    set(LINK_LIB_OPENMP OpenMP::OpenMP_CXX)
+  endif()
+
   add_executable(${EXAM_NAME} ${EXAM_SRCS} ${EXAM_HDRS})
-  target_link_libraries(${EXAM_NAME} Threads::Threads ${EXAM_DEPS})
+  target_link_libraries(${EXAM_NAME} Threads::Threads ${EXAM_DEPS} ${LINK_LIB_OPENMP})
+
   INSTALL(TARGETS ${EXAM_NAME} RUNTIME DESTINATION .)
   add_test(NAME test-${EXAM_NAME} COMMAND ${EXAM_NAME})
 endfunction()
 
 # Normal play
+add_example(NAME openmp_vs_std SRCS openmp_vs_std.cpp)
 add_example(NAME ctor_dtor_throws SRCS ctor_dtor_throws.cpp)
 add_example(NAME func_over_load_ride_hide SRCS func_over_load_ride_hide.cpp)
 add_example(NAME objects_alignment SRCS objects_alignment.cpp)

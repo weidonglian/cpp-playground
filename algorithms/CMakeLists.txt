@@ -12,6 +12,7 @@ add_executable(test-algorithms
     array/minimum_bribes.cpp
     array/find_missing_numbers.cpp
     array/binary_search_rotated_array.cpp
+    array/pair_sum_in_parallel.cpp
     link_list/add_two_integers.cpp
     link_list/merge_two_sorted_link_list.cpp
     string/reverse_letters.cpp
@@ -33,6 +34,11 @@ add_executable(test-algorithms
     random.hpp
 )
 
-target_link_libraries(test-algorithms Threads::Threads catch2 simple_svg)
+if(OpenMP_CXX_FOUND)
+    set(LINK_LIB_OPENMP OpenMP::OpenMP_CXX)
+endif()
+
+target_link_libraries(test-algorithms Threads::Threads catch2 simple_svg ${LINK_LIB_OPENMP})
+
 target_include_directories(test-algorithms PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 add_test(NAME test-algorithms COMMAND test-algorithms)

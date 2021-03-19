@@ -22,6 +22,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
+# OpenMP
+find_package(OpenMP)
+
 # MSVS compiler settings
 if (MSVC)
     add_definitions(/W3 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251)
