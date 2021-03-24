@@ -115,8 +115,8 @@ vector<vector<int>> rotate(const vector<vector<int>>& arr) {
 }
 
 void rotate_inplace(vector<vector<int>>& arr) {
-  cout << "before\n";
-  print(arr);
+  // cout << "before\n";
+  // print(arr);
   if (arr.empty() || arr[0].size() != arr.size())
     return;
   const int n = (int)arr.size();
@@ -137,8 +137,8 @@ void rotate_inplace(vector<vector<int>>& arr) {
       }
     }
   }
-  cout << "after:\n";
-  print(arr);
+  // cout << "after:\n";
+  // print(arr);
 }
 
 TEST_CASE("2d_array_rotate", "[array]") {

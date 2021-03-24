@@ -45,6 +45,6 @@ TEST_CASE("sort_two_directions", "[sort]") {
   point_list input({{2, 1}, {3, 2}, {5, 4}, {3, 6}, {4, 7}, {2, 9}});
   auto output = sort_xy(input, point{2, 9});
   point_list expected({{2, 1}, {2, 9}, {3, 2}, {5, 4}, {3, 6}, {4, 7}});
-  std::cout << "output:" << output << std::endl;
+  // std::cout << "output:" << output << std::endl;
   REQUIRE(output == expected);
 }

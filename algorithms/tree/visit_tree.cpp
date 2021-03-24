@@ -123,7 +123,7 @@ TEST_CASE("visit_tree_bst", "[tree]") {
   for (int i = 1; i <= 50; ++i) {
     root->insert_bfs(std::to_string(i));
   }
-  root->print_bfs();
+  // root->print_bfs();
   std::cout << std::endl;
 }
 
@@ -132,7 +132,7 @@ TEST_CASE("visit_tree_dst", "[tree]") {
   for (int i = 1; i <= 10; ++i) {
     root->insert_dfs(std::to_string(i));
   }
-  root->print_dfs();
-  root->print_bfs();
+  // root->print_dfs();
+  // root->print_bfs();
   std::cout << std::endl;
 }
