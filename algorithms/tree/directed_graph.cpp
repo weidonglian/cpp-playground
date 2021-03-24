@@ -27,4 +27,4 @@ private:
   std::vector<dg_edge> edges;
 };
 
-TEST_CASE("directed_graph", "[tree]") {
+TEST_CASE("directed_graph", "[tree]") {}
