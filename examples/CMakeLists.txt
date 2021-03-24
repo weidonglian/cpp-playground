@@ -36,7 +36,7 @@ add_example(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_example(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
 
 IF (WIN32)
-// GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
-// this is not portable and we are not going to use `par` on Linux.
-add_example(NAME openmp_vs_std SRCS openmp_vs_std.cpp)
+  # GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
+  # this is not portable and we are not going to use `par` on Linux.
+  add_example(NAME openmp_vs_std SRCS openmp_vs_std.cpp)
 ENDIF()
