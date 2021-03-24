@@ -18,7 +18,6 @@ function(add_example)
 endfunction()
 
 # Normal play
-add_example(NAME openmp_vs_std SRCS openmp_vs_std.cpp)
 add_example(NAME ctor_dtor_throws SRCS ctor_dtor_throws.cpp)
 add_example(NAME func_over_load_ride_hide SRCS func_over_load_ride_hide.cpp)
 add_example(NAME objects_alignment SRCS objects_alignment.cpp)
@@ -35,3 +34,9 @@ add_example(NAME time_generation SRCS time_generation.cpp)
 add_example(NAME file_system SRCS file_system.cpp)
 add_example(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_example(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
+
+IF (WIN32)
+// GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
+// this is not portable and we are not going to use `par` on Linux.
+add_example(NAME openmp_vs_std SRCS openmp_vs_std.cpp)
+ENDIF()
