@@ -1,3 +1,5 @@
+#include <iterator>
+
 #include "base.hpp"
 
 namespace {
