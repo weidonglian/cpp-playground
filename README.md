@@ -1,7 +1,8 @@
 # cpp-playground ![cpp-playground](https://github.com/weidonglian/cpp-playground/workflows/cpp-playground/badge.svg)
-Cpp samples for testing and learning C++ 14
 
-# Useful command
+Cpp samples for testing and learning C++ 11/14/17/20
+
+## Useful Commands
 
 ```bash
 mkdir build
@@ -9,7 +10,12 @@ cd build
 cmake ..
 make
 make test
-python ../third_party/gtest-parallel/gtest-parallel -r 100 -w 10 ./bin/cpptest.exe
+```
+
+We use `catch2` testing framework in this repo, the corresponding executable is `test-algorithms`. run below command to check how to list and filter tests.
+
+```bash
+test-algorithms --help
 ```
 
 On Windows GitBash
@@ -20,5 +26,9 @@ cd build
 cmake ..
 cmake --build . --parallel 4 --config Debug
 cmake --build . --target RUN_TESTS --config Debug
-python ../third_party/gtest-parallel/gtest-parallel -r 100 -w 10 ./bin/cpptest.exe
 ```
+
+## Github Action
+
+In this repo, we use `github` action to run all the tests when we push changes to `master` branch.
+The action will build and run tests using docker, see `Dockerfile` where we use alphine:latest.
