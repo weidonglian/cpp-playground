@@ -36,6 +36,9 @@ void fill_array_openmp(std::vector<double>& arr) {
     arr[i] = std::sin(2 * C_PI * i / total);
 }
 
+// GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
+// this is not portable and we are not going to use `par` on Linux.
+#ifdef _WIN32
 void fill_array_std_par(std::vector<double>& arr) {
   const int total = static_cast<int>(arr.size());
   std::for_each(std::execution::par, arr.begin(), arr.end(), [&](auto& v) {
@@ -43,7 +46,15 @@ void fill_array_std_par(std::vector<double>& arr) {
     v = std::sin(2 * C_PI * i / total);
   });
 }
-
+#else
+void fill_array_std_par(std::vector<double>& arr) {
+  const int total = static_cast<int>(arr.size());
+  std::for_each(arr.begin(), arr.end(), [&](auto& v) {
+    const int i = static_cast<int>(&v - &arr[0]);
+    v = std::sin(2 * C_PI * i / total);
+  });
+}
+#endif
 } // namespace
 
 int main(int argc, char** argv) {
