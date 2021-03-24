@@ -13,6 +13,7 @@ add_executable(test-algorithms
     array/find_missing_numbers.cpp
     array/binary_search_rotated_array.cpp
     array/pair_sum_in_parallel.cpp
+    array/merge_pairs.cpp
     link_list/add_two_integers.cpp
     link_list/merge_two_sorted_link_list.cpp
     string/reverse_letters.cpp
@@ -21,6 +22,7 @@ add_executable(test-algorithms
     string/char_is_one_away.cpp
     string/find_repeat_times.cpp
     sort/quick_sort.cpp
+    sort/sort_two_direction.cpp
     tree/find_nearest_neighbour.cpp
     tree/ordered_map.cpp
     tree/visit_tree.cpp

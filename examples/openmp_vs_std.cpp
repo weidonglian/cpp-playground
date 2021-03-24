@@ -51,14 +51,14 @@ int main(int argc, char** argv) {
   for (auto sz : k_scales) {
     std::cout << "profiling N=" << sz << std::endl;
     std::vector<double> arr(sz, 0);
-    struct algorithm {
+    struct algor {
       std::string name;
       std::function<void(std::vector<double>&)> fn_call;
     };
-    using algorithm_list = std::initializer_list<algorithm>;
-    for (auto alg : algorithm_list{{"fill_array", fill_array},
-                                   {"fill_array_openmp", fill_array_openmp},
-                                   {"fill_array_std_par", fill_array_std_par}}) {
+    using algor_list = std::vector<algor>;
+    for (const auto& alg : algor_list{{"fill_array", fill_array},
+                                      {"fill_array_openmp", fill_array_openmp},
+                                      {"fill_array_std_par", fill_array_std_par}}) {
       cpu_timer scope_timer(alg.name);
       alg.fn_call(arr);
     }
