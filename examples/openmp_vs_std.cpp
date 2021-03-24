@@ -18,7 +18,7 @@ public:
 
 private:
   std::string description;
-  std::chrono::steady_clock::time_point start;
+  std::chrono::high_resolution_clock::time_point start;
 };
 
 #define C_PI 3.14159265358979323846
