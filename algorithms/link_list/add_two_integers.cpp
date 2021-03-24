@@ -104,8 +104,8 @@ TEST_CASE("add_two_integers", "[link_list]") {
   REQUIRE(test_two_integers(9901, 237) == 10138);
   int k_test_count = 100;
   while (k_test_count-- > 0) {
-    const int v1 = std::rand();
-    const int v2 = std::rand();
+    const int v1 = std::rand() % 100000;
+    const int v2 = std::rand() % 100000;
     INFO("testing " + std::to_string(v1) + " + " + std::to_string(v2));
     REQUIRE(test_two_integers(v1, v2) == v1 + v2);
   }
