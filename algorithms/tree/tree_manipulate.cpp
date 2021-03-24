@@ -242,10 +242,10 @@ TEST_CASE("tree_compare_random", "[tree]") {
     auto data = gen_random_list(std::rand() % 100);
     tree t1;
     t1.populate(data);
-    t1.print();
+    // t1.print();
     tree t2;
     t2.populate(data);
-    t2.print();
+    // t2.print();
     REQUIRE(t1 == t2);
     REQUIRE(t1.measure_level() == calculate_level(data.size()));
     REQUIRE(t2.measure_level() == calculate_level(data.size()));
@@ -256,10 +256,10 @@ TEST_CASE("tree_compare_equal", "[tree]") {
   std::vector<int> data1{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
   tree t1;
   t1.populate(data1);
-  t1.print();
+  // t1.print();
   tree t2;
   t2.populate(data1);
-  t2.print();
+  // t2.print();
   REQUIRE(t1 == t2);
   REQUIRE(t1.measure_level() == 3);
   REQUIRE(t1.measure_level() == calculate_level(data1.size()));
@@ -270,10 +270,10 @@ TEST_CASE("tree_compare_not_equal", "[tree]") {
   std::vector<int> data2{1, 2, 3, 5, 4, 7, 6, 8, 9, 10, 11, 12};
   tree t1;
   t1.populate(data1);
-  t1.print();
+  // t1.print();
   tree t2;
   t2.populate(data2);
-  t2.print();
+  // t2.print();
   REQUIRE(t1 != t2);
 }
 
@@ -282,10 +282,10 @@ TEST_CASE("tree_compare_opt_equal", "[tree]") {
   std::vector<std::optional<int>> data2{1, 2, 3, std::nullopt, 5, 6, 7, 8, 9, 10, 11, 12};
   tree t1;
   t1.populate(data1);
-  t1.print();
+  // t1.print();
   tree t2;
   t2.populate(data2);
-  t2.print();
+  // t2.print();
   REQUIRE(t1 == t2);
 }
 
@@ -294,10 +294,10 @@ TEST_CASE("tree_compare_opt_not_equal", "[tree]") {
   std::vector<std::optional<int>> data2{1, 2, 3, 5, std::nullopt, 6, 7, 8, 9, 10, 11, 12};
   tree t1;
   t1.populate(data1);
-  t1.print();
+  // t1.print();
   tree t2;
   t2.populate(data2);
-  t2.print();
+  // t2.print();
   REQUIRE(t1 != t2);
 }
 
@@ -306,12 +306,12 @@ TEST_CASE("tree_compare_swap", "[tree]") {
   std::vector<std::optional<int>> data2{1, 2, 3, 6, 7, 5, std::nullopt, std::nullopt, 12, 11, 10, 9, 8};
   tree t1;
   t1.populate(data1);
-  t1.print();
+  // t1.print();
   tree t2;
   t2.populate(data2);
-  t2.print();
+  // t2.print();
   REQUIRE(t1 != t2);
   t1.swap_left_right();
-  t1.print();
+  // t1.print();
   REQUIRE(t1 == t2);
 }
