@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cstdlib>
-#include <execution>
 #include <future>
 #include <iterator>
 #include <thread>
@@ -81,8 +80,7 @@ std::vector<kv_pair> merge_kv_pairs_parallel(std::vector<kv_pair> pairs) {
     return merge_kv_pairs(std::move(pairs));
   }
   // sort the pairs in the pair's `key` order.
-  std::sort(std::execution::par, pairs.begin(), pairs.end(),
-            [](const kv_pair& p1, const kv_pair& p2) { return p1.key < p2.key; });
+  std::sort(pairs.begin(), pairs.end(), [](const kv_pair& p1, const kv_pair& p2) { return p1.key < p2.key; });
   const int k_processor_count = std::thread::hardware_concurrency();
   std::vector<std::thread> runners;
   std::vector<std::vector<kv_pair>> results;
