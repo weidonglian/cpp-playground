@@ -28,6 +28,7 @@ add_executable(test-algorithms
     tree/visit_tree.cpp
     tree/tree_manipulate.cpp
     tree/directed_graph.cpp
+    tree/flatten_bst_into_linked_list.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
     math/x_power_y.cpp
