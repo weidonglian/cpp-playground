@@ -11,29 +11,38 @@ struct bst_node {
   int val;
   bst_node* left;
   bst_node* right;
+
+  bst_node(int v) : val(v), left(nullptr), right(nullptr) {}
+  ~bst_node() {
+    delete left;
+    delete right;
+  }
 };
 
 struct lk_node {
   int val;
   lk_node* next;
+
+  lk_node(int v) : val(v), next(nullptr) {}
+  ~lk_node() { delete next; }
 };
 
 lk_node* linked_list_insert(lk_node* head, int val) {
   if (!head) {
-    head = new lk_node{val, nullptr};
+    head = new lk_node{val};
   } else {
     lk_node* current = head;
     while (current && current->next) {
       current = current->next;
     }
-    current->next = new lk_node{val, nullptr};
+    current->next = new lk_node{val};
   }
   return head;
 }
 
 bst_node* bst_tree_insert(bst_node* root, int val) {
   if (!root) {
-    root = new bst_node{val, nullptr, nullptr};
+    root = new bst_node{val};
   } else {
     if (val > root->val) {
       root->right = bst_tree_insert(root->right, val);
@@ -87,9 +96,9 @@ vector<int> convert_linked_list_to_vector(lk_node* head) {
 }
 
 vector<int> test_flatten_bst_into_linked_list(const vector<int>& arr) {
-  bst_node* root = build_bst_tree(arr);
-  lk_node* head = flatten_bst_into_linked_list(root);
-  return convert_linked_list_to_vector(head);
+  std::unique_ptr<bst_node> root(build_bst_tree(arr));
+  std::unique_ptr<lk_node> head(flatten_bst_into_linked_list(root.get()));
+  auto result = convert_linked_list_to_vector(head.get());
 }
 
 } // namespace

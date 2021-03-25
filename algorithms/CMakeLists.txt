@@ -16,6 +16,7 @@ add_executable(test-algorithms
     array/merge_pairs.cpp
     link_list/add_two_integers.cpp
     link_list/merge_two_sorted_link_list.cpp
+    link_list/find_circular_loop.cpp
     string/reverse_letters.cpp
     string/char_frequency.cpp
     string/char_non_repeating.cpp

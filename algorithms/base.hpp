@@ -5,6 +5,7 @@
 #include <string>
 
 #include "catch2/catch.hpp"
+#include "random.hpp"
 
 class cpu_timer {
 public:
