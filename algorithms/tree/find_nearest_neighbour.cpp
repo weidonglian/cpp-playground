@@ -180,6 +180,12 @@ private:
   std::vector<kd_node> nodes_;
 };
 
+struct qd_node {};
+
+struct qd_leaf {};
+
+class qd_tree {};
+
 optional<point> nns_kd_tree_search(const vector<point>& points, const point& pt_query) {
   kd_tree tree;
   tree.build(points);
