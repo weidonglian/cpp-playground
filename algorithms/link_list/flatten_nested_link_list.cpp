@@ -45,10 +45,20 @@ lk_node* flatten(lk_node* head) {
 }
 
 } // namespace
+
 /**
  * @brief A link list node could store the normal data and a pointer may/maynot point to another linked_list.
  *        The goal is flattern the given link list into a link list that only contains normal data.
  * Note: the nested/child linked list could also has nested multiple levels. We should recursively flatten
          the child node using divide and conquer.
  */
-TEST_CASE("flatten_nested_link_list", "[link_list]")
+TEST_CASE("flatten_nested_link_list", "[link_list]") {}
+
+/**
+ * @brief A link list node could store the normal data and a pointer may/maynot point to another linked_list.
+ *        The goal is flattern the given link list into a link list level by level. Level 0 first and then
+ *        second level, ..., etc.
+ * Note: the nested/child linked list could also has nested multiple levels. We should recursively flatten
+         the child node using divide and conquer.
+ */
+TEST_CASE("flatten_nested_link_list_level_by_level", "[link_list]") {}
