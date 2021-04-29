@@ -10,22 +10,6 @@ auto do_one() {
   return cti::make_ready_continuable(0);
 }
 
-// This is not a realy async handling
-// If the std::future obtained from std::async is not moved from or bound to a reference,
-// the destructor of the std::future will block at the end of the full expression until
-// the asynchronous operation completes.
-// A real async example should look at continuable_asio.cpp
-auto calc_square_async(float val) {
-  return cti::make_continuable<float>([=](auto&& promise) {
-    std::async(std::launch::async, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
-      std::cout << "start async resolver\n";
-      std::this_thread::sleep_for(std::chrono::seconds(5));
-      promise.set_value(val * val);
-      std::cout << "end async resolver\n";
-    });
-  });
-}
-
 auto calc_square(float val) {
   return cti::make_continuable<float>([=](auto&& promise) { return promise.set_value(val * val); });
 }
@@ -48,12 +32,5 @@ int main(int argc, char** argv) {
     std::cout << "calc_square is resolved with:" << result << " thread_id:" << std::this_thread::get_id() << std::endl;
   });
   std::cout << "calc_square end\n";
-
-  // calc square async continuable
-  std::cout << "calc_square_async begin\n";
-  calc_square_async(5.0f).then([](auto result) {
-    std::cout << "calc_square is resolved with:" << result << " thread_id:" << std::this_thread::get_id() << std::endl;
-  });
-  std::cout << "calc_square_async end\n";
   return 0;
 }
