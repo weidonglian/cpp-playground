@@ -28,7 +28,13 @@ cmake --build . --parallel 4 --config Debug
 cmake --build . --target RUN_TESTS --config Debug
 ```
 
-## Github Action
+## CI/CD with github action
 
 In this repo, we use `github` action to run all the tests when we push changes to `master` branch.
 The action will build and run tests using docker, see `Dockerfile` where we use alphine:latest.
+
+## Learning notes
+
+### Asynchrous programming
+
+Standalone `asio` and `continuable` libraries are the best libraries to handle the async programming.
