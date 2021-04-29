@@ -99,6 +99,7 @@ vector<int> test_flatten_bst_into_linked_list(const vector<int>& arr) {
   std::unique_ptr<bst_node> root(build_bst_tree(arr));
   std::unique_ptr<lk_node> head(flatten_bst_into_linked_list(root.get()));
   auto result = convert_linked_list_to_vector(head.get());
+  return result;
 }
 
 } // namespace
