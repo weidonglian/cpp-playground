@@ -34,8 +34,8 @@ add_example(NAME time_generation SRCS time_generation.cpp)
 add_example(NAME file_system SRCS file_system.cpp)
 add_example(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_example(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
-add_example(NAME continuable_hello_world SRCS continuable_hello_world DEPS continuable)
-add_example(NAME continuable_asio SRCS continuable_asio DEPS continuable asio)
+add_example(NAME continuable_hello_world SRCS continuable_hello_world.cpp DEPS continuable)
+add_example(NAME continuable_asio SRCS continuable_asio.cpp DEPS continuable asio)
 
 IF (WIN32)
   # GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
