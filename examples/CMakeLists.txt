@@ -2,7 +2,7 @@ function(add_example)
   cmake_parse_arguments(EXAM
     ""
     "NAME"
-    "HDRS;SRCS;DEPS"
+    "HDRS;SRCS;DEPS;DEFS"
     ${ARGN}
   )
 
@@ -12,6 +12,7 @@ function(add_example)
 
   add_executable(${EXAM_NAME} ${EXAM_SRCS} ${EXAM_HDRS})
   target_link_libraries(${EXAM_NAME} Threads::Threads ${EXAM_DEPS} ${LINK_LIB_OPENMP})
+  target_compile_definitions(${EXAM_NAME} PUBLIC ${EXAM_DEFS})
 
   INSTALL(TARGETS ${EXAM_NAME} RUNTIME DESTINATION .)
   add_test(NAME test-${EXAM_NAME} COMMAND ${EXAM_NAME})
@@ -35,7 +36,7 @@ add_example(NAME file_system SRCS file_system.cpp)
 add_example(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_example(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
 add_example(NAME continuable_hello_world SRCS continuable_hello_world.cpp DEPS continuable)
-add_example(NAME continuable_asio SRCS continuable_asio.cpp DEPS continuable asio)
+add_example(NAME continuable_asio SRCS continuable_asio.cpp DEPS continuable asio DEFS -DCONTINUABLE_WITH_NO_EXCEPTIONS)
 
 IF (WIN32)
   # GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
