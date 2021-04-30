@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(cpp-playground)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/distr)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/distr)

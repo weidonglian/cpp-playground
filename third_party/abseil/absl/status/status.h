@@ -463,6 +463,8 @@ class Status final {
   void Update(const Status& new_status);
   void Update(Status&& new_status);
 
+  explicit operator bool() const { return !ok(); }
+
   // Status::ok()
   //
   // Returns `true` if `this->ok()`. Prefer checking for an OK status using this
