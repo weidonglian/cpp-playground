@@ -8,6 +8,7 @@
 #include <chrono>
 #include <continuable/continuable-base.hpp>
 #include <continuable/continuable.hpp>
+#include <continuable/external/asio.hpp>
 #include <future>
 #include <iostream>
 #include <thread>
@@ -42,6 +43,35 @@ auto calc_offset_async(int val, int offset, asio::thread_pool* pool) {
       std::cout << "calc offset async end...";
     });
   });
+}
+
+using asio::ip::tcp;
+
+struct tcp_socket_context {
+  tcp::resolver resolver;
+  tcp::socket socket;
+  std::string buf;
+
+  tcp_socket_context(asio::io_context* ioc) : resolver(*ioc), socket(*ioc), buf() {}
+};
+
+auto http_request_daytime_async(asio::io_context* ioc) {
+
+  auto ctx = std::make_shared<tcp_socket_context>(ioc);
+
+  ctx->resolver.async_resolve("time.nist.gov", "daytime", cti::use_continuable)
+    .then([&socket](tcp::resolver::results_type endpoints) {
+      return asio::async_connect(socket, endpoints, cti::use_continuable);
+    })
+    .then(
+      [&socket, &buf] { return asio::async_read_until(socket, asio::dynamic_buffer(buf), '\n', cti::use_continuable); })
+    .then([&buf](std::size_t) {
+      puts("Continuation successfully got a daytime response:");
+      puts(buf.c_str());
+    })
+    .fail(&unexpected_error);
+
+  ioc.run();
 }
 
 auto calc_square(float val) {
