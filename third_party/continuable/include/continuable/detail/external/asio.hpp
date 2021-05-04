@@ -126,7 +126,7 @@ auto promise_resolver_handler(Promise&& promise, Token&& token) noexcept {
           promise.set_exception(
               std::make_exception_ptr(system_error_t(std::move(e))));
 #else
-          promise.set_exception(exception_t(e.value(), e.category()));
+          promise.set_exception(make_asio_exception(e));
 #endif
           return;
         }
