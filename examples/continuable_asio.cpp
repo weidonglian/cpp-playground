@@ -14,6 +14,33 @@
 #include <thread>
 #include <utility>
 
+absl::Status make_asio_exception(asio::error_code e) {
+  return absl::InternalError(e.message());
+}
+
+cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* pool) {
+  return cti::make_continuable<int>([=](auto&& promise) {
+           asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
+             std::cout << "start recursive async resolver with:" << val << "\n";
+             if (val < 0) {
+               promise.set_exception(absl::InvalidArgumentError(
+                 absl::StrFormat("Input argument:%f should be a positive float number", val)));
+             } else {
+               std::this_thread::sleep_for(std::chrono::seconds(1));
+               promise.set_value(val / 2);
+             }
+             std::cout << "end recursive async resolver\n";
+           });
+         })
+    .then([pool](int val) -> cti::result<int> {
+      if (val > 0) {
+        return cti::make_result(val);
+      }
+      return cti::cancel();
+    })
+    .then([pool](int val) { return calc_recursive_async(val, pool); });
+}
+
 auto calc_square_async(float val, asio::thread_pool* pool) {
   return cti::make_continuable<float>([=](auto&& promise) {
     asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
@@ -123,6 +150,20 @@ int main(int argc, char** argv) {
                 << " thread_id:" << std::this_thread::get_id() << std::endl;
     });
   std::cout << "calc_square_async failure end\n";
+
+  // calc divide by 2D
+  // calc square async continuable with failure
+  std::cout << "calc_recursive_async \n";
+  calc_recursive_async(7, &pool)
+    .then([](int result) {
+      std::cout << "calc_recursive_async is resolved with:" << result << " thread_id:" << std::this_thread::get_id()
+                << std::endl;
+    })
+    .fail([](cti::exception_t status) {
+      std::cout << "calc_recursive_async calc_square async failure is rejected with:" << status.ToString()
+                << " thread_id:" << std::this_thread::get_id() << std::endl;
+    });
+  std::cout << "calc_recursive_async end\n";
 
   pool.join();
   return 0;
