@@ -14,14 +14,17 @@
 #include <thread>
 #include <utility>
 
+#include "logger.hpp"
+
 absl::Status make_asio_exception(asio::error_code e) {
   return absl::InternalError(e.message());
 }
 
 cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* pool) {
   return cti::make_continuable<int>([=](auto&& promise) {
+           LOGI("calc_recursive_async's promise thread_id:%s", ToString(std::this_thread::get_id()));
            asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
-             std::cout << "start recursive async resolver with:" << val << "\n";
+             LOGI("start recursive async resolver with:%d", val);
              if (val < 0) {
                promise.set_exception(absl::InvalidArgumentError(
                  absl::StrFormat("Input argument:%f should be a positive float number", val)));
@@ -29,22 +32,26 @@ cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* po
                std::this_thread::sleep_for(std::chrono::seconds(1));
                promise.set_value(val / 2);
              }
-             std::cout << "end recursive async resolver\n";
+             LOGI("end recursive async resolver");
            });
          })
-    .then([pool](int val) -> cti::result<int> {
-      if (val > 0) {
-        return cti::make_result(val);
+    .then([pool](int val) -> cti::continuable<int> {
+      if (val == 1) {
+        return cti::make_ready_continuable(val);
       }
-      return cti::cancel();
-    })
-    .then([pool](int val) { return calc_recursive_async(val, pool); });
+
+      if (val > 0) {
+        return calc_recursive_async(val, pool);
+      }
+
+      return cti::make_cancelling_continuable<int>();
+    });
 }
 
 auto calc_square_async(float val, asio::thread_pool* pool) {
   return cti::make_continuable<float>([=](auto&& promise) {
     asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
-      std::cout << "start async resolver\n";
+      LOGI("start async resolver");
       if (val < 0) {
         promise.set_exception(
           absl::InvalidArgumentError(absl::StrFormat("Input argument:%f should be a positive float number", val)));
@@ -52,7 +59,7 @@ auto calc_square_async(float val, asio::thread_pool* pool) {
         std::this_thread::sleep_for(std::chrono::seconds(5));
         promise.set_value(val * val);
       }
-      std::cout << "end async resolver\n";
+      LOGI("end async resolver");
     });
   });
 }
@@ -60,14 +67,14 @@ auto calc_square_async(float val, asio::thread_pool* pool) {
 auto calc_offset_async(int val, int offset, asio::thread_pool* pool) {
   return cti::make_continuable<int>([=](auto&& promise) {
     asio::post(*pool, [val, offset, promise = std::forward<decltype(promise)>(promise)]() mutable {
-      std::cout << "calc offset async begin...";
+      LOGI("calc offset async begin...");
       if (offset < 0) {
         promise.set_exception(
           absl::InvalidArgumentError(absl::StrFormat("Input offset argument:%f should be a positive number", offset)));
       } else {
         promise.set_value(val + offset);
       }
-      std::cout << "calc offset async end...";
+      LOGI("calc offset async end...");
     });
   });
 }
@@ -82,28 +89,17 @@ struct tcp_socket_context {
   tcp_socket_context(asio::io_context* ioc) : resolver(*ioc), socket(*ioc), buf() {}
 };
 
-void unexpected_error(cti::exception_t e) {
-  if (!e.ok()) {
-    puts("Continuation failed with unexpected cancellation!");
-    std::terminate();
-  }
-}
-
-auto http_request_daytime_async(asio::io_context* ioc) {
+auto http_request_daytime_async(asio::io_context* ioc, const std::string& host, const std::string& service) {
 
   auto ctx = std::make_shared<tcp_socket_context>(ioc);
 
-  ctx->resolver.async_resolve("time.nist.gov", "daytime", cti::use_continuable)
+  return ctx->resolver.async_resolve(host, service, cti::use_continuable)
     .then([ctx](tcp::resolver::results_type endpoints) {
       return asio::async_connect(ctx->socket, endpoints, cti::use_continuable);
     })
     .then(
       [ctx] { return asio::async_read_until(ctx->socket, asio::dynamic_buffer(ctx->buf), '\n', cti::use_continuable); })
-    .then([ctx](std::size_t) {
-      puts("Continuation successfully got a daytime response:");
-      puts(ctx->buf.c_str());
-    })
-    .fail(&unexpected_error);
+    .then([ctx](std::size_t) { LOGI("Continuation successfully got a daytime response:%s", ctx->buf); });
 }
 
 auto calc_square(float val) {
@@ -113,57 +109,74 @@ auto calc_square(float val) {
 int main(int argc, char** argv) {
   asio::thread_pool pool(3);
 
-  std::cout << "main thread id:" << std::this_thread::get_id() << std::endl;
+  LOGI("main thread id:%s", ToString(std::this_thread::get_id()));
   // calc square continuable
-  std::cout << "calc_square begin\n";
+  LOGI("calc_square begin");
   calc_square(5.0f).then([](auto result) {
-    std::cout << "calc_square is resolved with:" << result << " thread_id:" << std::this_thread::get_id() << std::endl;
+    LOGI("calc_square is resolved with:%f with thread_id:%s", result, ToString(std::this_thread::get_id()));
   });
-  std::cout << "calc_square end\n";
+  LOGI( "calc_square end");
 
   // calc square async continuable
-  std::cout << "calc_square_async begin\n";
+  LOGI( "calc_square_async begin");
   calc_square_async(5.25f, &pool)
     .then([](auto result) {
-      std::cout << "calc_square is resolved with:" << result << " thread_id:" << std::this_thread::get_id()
-                << std::endl;
+      LOGI("calc_square is resolved with:%f thread_id:%s", result, ToString(std::this_thread::get_id()));
       return static_cast<int>(result);
     })
     .then([](int abs_val) {
-      std::cout << "calc_square is resolved with abs:" << abs_val << " thread_id:" << std::this_thread::get_id()
-                << std::endl;
+      LOGI("calc_square is resolved with abs:%d with thread_id:%s", abs_val, ToString(std::this_thread::get_id()));
       return abs_val;
     })
-    .then([&pool](int val) { return calc_offset_async(val, 10, &pool); });
+    .then([&pool](int val) {
+    return calc_offset_async(val, 10, &pool); });
 
-  std::cout << "calc_square_async end\n";
+  LOGI("calc_square_async end");
 
   // calc square async continuable with failure
-  std::cout << "calc_square_async failure begin\n";
+  LOGI( "calc_square_async failure begin");
   calc_square_async(-5.5f, &pool)
     .then([](float result) {
-      std::cout << "calc_square async failure is resolved with:" << result
-                << " thread_id:" << std::this_thread::get_id() << std::endl;
+      LOGI("calc_square async failure is resolved with: %f", result);
     })
     .fail([](cti::exception_t status) {
-      std::cout << "calc_square async failure is rejected with:" << status.ToString()
-                << " thread_id:" << std::this_thread::get_id() << std::endl;
+      LOGI("calc_square async failure is rejected with:%s", status.ToString());
     });
-  std::cout << "calc_square_async failure end\n";
+  LOGI( "calc_square_async failure end");
 
-  // calc divide by 2D
+  // calc divide by 2
   // calc square async continuable with failure
-  std::cout << "calc_recursive_async \n";
-  calc_recursive_async(7, &pool)
-    .then([](int result) {
-      std::cout << "calc_recursive_async is resolved with:" << result << " thread_id:" << std::this_thread::get_id()
-                << std::endl;
+  LOGI( "calc_recursive_async ");
+  calc_recursive_async(20, &pool)
+    .then([](int result) { LOGI("==calc_recursive_async is resolved with:%d", result);
     })
     .fail([](cti::exception_t status) {
-      std::cout << "calc_recursive_async calc_square async failure is rejected with:" << status.ToString()
-                << " thread_id:" << std::this_thread::get_id() << std::endl;
+      LOGI("## calc_recursive_async is rejected with:%s", status.ToString());
     });
-  std::cout << "calc_recursive_async end\n";
+  LOGI( "calc_recursive_async end");
+
+  // test the http request via asio socket
+  asio::io_context ioc{};
+  http_request_daytime_async(&ioc, "time.nist.gov", "daytime")
+    .then([] {
+    LOGI("==http_request_daytime_async has done now"); })
+    .fail([](cti::exception_t e) {
+    if (!e.ok()) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.message());
+    }
+    });
+
+  http_request_daytime_async(&ioc, "xxxx.nist.gov", "daytime")
+    .then([] {
+    LOGI("==http_request_daytime_async has done now"); })
+    .fail([](cti::exception_t e) {
+    if (!e.ok()) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.message());
+    }
+    });
+  // run it inside the pool until all jobs are done in ioc
+  asio::post(pool, [&] {
+    ioc.run(); });
 
   pool.join();
   return 0;

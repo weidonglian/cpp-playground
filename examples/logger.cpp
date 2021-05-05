@@ -6,8 +6,6 @@
 #include <thread>
 #include <unordered_map>
 
-namespace biosol {
-
 std::unique_ptr<Logger> Logger::Root(new Logger(LogCategory::kRoot));
 std::unique_ptr<Logger> Logger::Profiling(new Logger(LogCategory::kProfiling));
 
@@ -59,5 +57,3 @@ void Logger::Init(const std::string& log_file, bool is_console_output, LogLevel 
 const std::string& Logger::GetLevelName(LogLevel level) {
   return kLogLevelDescriptions.at(level);
 }
-
-} // namespace biosol

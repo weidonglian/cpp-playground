@@ -1,5 +1,4 @@
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -69,4 +68,9 @@ private:
 // Utilities
 #define LOG_EXCEPTION(ex) LOGE("Caught exception: %s", ex.what())
 
-#endif
+template <typename T, typename = std::enable_if_t<!std::is_fundamental<T>::value>>
+std::string ToString(const T& val) {
+  std::stringstream ss;
+  ss << val;
+  return ss.str();
+}
