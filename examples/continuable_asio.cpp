@@ -16,10 +16,6 @@
 
 #include "logger.hpp"
 
-absl::Status make_asio_exception(asio::error_code e) {
-  return absl::InternalError(e.message());
-}
-
 cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* pool) {
   return cti::make_continuable<int>([=](auto&& promise) {
            LOGI("calc_recursive_async's promise thread_id:%s", ToString(std::this_thread::get_id()));
