@@ -16,6 +16,26 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# MSVS compiler settings
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # using Clang
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # using GCC
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  # /wd4996  the compiler encountered a deprecated declaration.
+  # /wd4002  too many actual parameters for macro 'identifier'
+  # /wd4005  macro-redefinition
+  # /wd4068  unknown pragma
+  # /wd4244  conversion from 'type1' to 'type2'
+  # /wd4267  conversion from 'size_t' to 'type2'
+  # /wd4800  force value to bool 'true' or 'false' (performance warning)
+  set( MSVC_FLAGS "/W3 /WX /wd4996 /wd4002 /wd4005 /wd4068 /wd4800 /wd4251")
+  set( CMAKE_CXX_FLAGS_RELEASE "${MSVC_FLAGS}")
+  set( CMAKE_C_FLAGS_RELEASE "${MSVC_FLAGS}")
+  set( CMAKE_CXX_FLAGS_DEBUG "${MSVC_FLAGS}")
+  set( CMAKE_C_FLAGS_DEBUG "${MSVC_FLAGS}")
+endif()
+
 # PIC option
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 

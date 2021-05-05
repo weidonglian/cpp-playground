@@ -49,7 +49,7 @@ public:
     if (!h)
       return {};
     result.resize(size());
-    int idx = result.size() - 1;
+    int idx = static_cast<int>(result.size()) - 1;
     while (h) {
       result[idx--] = '0' + h->digit_;
       h = h->next_;

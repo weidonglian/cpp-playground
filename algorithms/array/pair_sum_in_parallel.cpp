@@ -41,7 +41,7 @@ std::vector<kv_pair> merge_kv_pairs_async(std::vector<kv_pair> pairs) {
   std::sort(pairs.begin(), pairs.end(), [](const kv_pair& p1, const kv_pair& p2) { return p1.key < p2.key; });
   const int k_processor_count = std::thread::hardware_concurrency();
   std::vector<std::future<std::vector<kv_pair>>> futures;
-  const int count_per_group = pairs.size() / k_processor_count;
+  const int count_per_group = static_cast<int>(pairs.size()) / k_processor_count;
   futures.reserve(k_processor_count);
   int left = 0;
   int cnt = count_per_group;
@@ -57,7 +57,7 @@ std::vector<kv_pair> merge_kv_pairs_async(std::vector<kv_pair> pairs) {
     left = left + cnt;
     cnt = k_processor_count;
     if (left + cnt > pairs.size()) {
-      cnt = pairs.size() - left;
+      cnt = static_cast<int>(pairs.size()) - left;
     }
   }
   std::vector<std::vector<kv_pair>> results;
@@ -84,7 +84,7 @@ std::vector<kv_pair> merge_kv_pairs_parallel(std::vector<kv_pair> pairs) {
   const int k_processor_count = std::thread::hardware_concurrency();
   std::vector<std::thread> runners;
   std::vector<std::vector<kv_pair>> results;
-  const int count_per_group = pairs.size() / k_processor_count;
+  const int count_per_group = static_cast<int>(pairs.size()) / k_processor_count;
   runners.reserve(k_processor_count);
   results.reserve(k_processor_count);
   int left = 0;
@@ -93,17 +93,16 @@ std::vector<kv_pair> merge_kv_pairs_parallel(std::vector<kv_pair> pairs) {
     while (left + cnt < pairs.size() && pairs[left + cnt - 1].key == pairs[left + cnt].key) {
       ++cnt;
     }
-    results.push_back({});
-    runners.push_back(std::thread{[&pairs, left, cnt, result = &results.back()] {
+    runners.emplace_back([&pairs, left, cnt, result = &results.back()] {
       *result = merge_kv_pairs(std::vector<kv_pair>{pairs.begin() + left, pairs.begin() + left + cnt});
-    }});
+    });
     if (left + cnt >= pairs.size()) {
       break;
     }
     left = left + cnt;
     cnt = k_processor_count;
     if (left + cnt > pairs.size()) {
-      cnt = pairs.size() - left;
+      cnt = static_cast<int>(pairs.size()) - left;
     }
   }
   for (auto& f : runners) {
@@ -127,7 +126,7 @@ TEST_CASE("pair_sum_in_parallel", "[array]") {
   std::vector<kv_pair> pairs;
   pairs.resize(total_count);
   for (auto& v : pairs) {
-    std::srand(time(nullptr));
+    std::srand(static_cast<unsigned int>(time(nullptr)));
     v.key = std::rand();
     v.val = std::rand();
   }
@@ -138,7 +137,7 @@ TEST_CASE("pair_sum_huge", "[array]") {
   std::vector<kv_pair> pairs;
   pairs.resize(total_count);
   for (auto& v : pairs) {
-    std::srand(time(nullptr));
+    std::srand(static_cast<unsigned int>(time(nullptr)));
     v.key = std::rand();
     v.val = std::rand();
   }

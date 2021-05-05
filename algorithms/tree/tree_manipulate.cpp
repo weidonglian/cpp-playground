@@ -247,8 +247,8 @@ TEST_CASE("tree_compare_random", "[tree]") {
     t2.populate(data);
     // t2.print();
     REQUIRE(t1 == t2);
-    REQUIRE(t1.measure_level() == calculate_level(data.size()));
-    REQUIRE(t2.measure_level() == calculate_level(data.size()));
+    REQUIRE(t1.measure_level() == calculate_level(static_cast<int>(data.size())));
+    REQUIRE(t2.measure_level() == calculate_level(static_cast<int>(data.size())));
   }
 }
 
@@ -262,7 +262,7 @@ TEST_CASE("tree_compare_equal", "[tree]") {
   // t2.print();
   REQUIRE(t1 == t2);
   REQUIRE(t1.measure_level() == 3);
-  REQUIRE(t1.measure_level() == calculate_level(data1.size()));
+  REQUIRE(t1.measure_level() == calculate_level(static_cast<int>(data1.size())));
 }
 
 TEST_CASE("tree_compare_not_equal", "[tree]") {
