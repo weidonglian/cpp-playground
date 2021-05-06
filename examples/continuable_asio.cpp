@@ -9,12 +9,28 @@
 #include <continuable/continuable-base.hpp>
 #include <continuable/continuable.hpp>
 #include <continuable/external/asio.hpp>
+#include <function2/function2.hpp>
 #include <future>
 #include <iostream>
 #include <thread>
 #include <utility>
 
 #include "logger.hpp"
+
+using on_complete_t = fu2::unique_function<void(absl::Status)>;
+
+struct next_handler {
+  on_complete_t on_complete;
+  explicit next_handler(on_complete_t cb) : on_complete(std::move(cb)) {}
+  auto operator()() {
+    on_complete(absl::OkStatus());
+    return 1;
+  }
+  auto operator()(cti::exception_arg_t, cti::exception_t status) {
+    on_complete(std::move(status));
+    return cti::rethrow(status);
+  }
+};
 
 cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* pool) {
   return cti::make_continuable<int>([=](auto&& promise) {
@@ -75,6 +91,20 @@ auto calc_offset_async(int val, int offset, asio::thread_pool* pool) {
   });
 }
 
+auto test_next_handler_async(int val) {
+  return cti::make_continuable<int>([=](auto&& promise) {
+           if (val > 0) {
+             promise.set_value(val);
+           } else {
+             promise.set_exception(
+               absl::InvalidArgumentError(absl::StrFormat("Input argument:%f should be a positive float number", val)));
+           }
+         })
+    .next(next_handler{[](absl::Status s) {
+      LOGI("next_handler's common lambda is calling no matter resolved or rejected with:%s", s.ToString());
+    }});
+}
+
 using asio::ip::tcp;
 
 struct tcp_socket_context {
@@ -111,10 +141,10 @@ int main(int argc, char** argv) {
   calc_square(5.0f).then([](auto result) {
     LOGI("calc_square is resolved with:%f with thread_id:%s", result, ToString(std::this_thread::get_id()));
   });
-  LOGI( "calc_square end");
+  LOGI("calc_square end");
 
   // calc square async continuable
-  LOGI( "calc_square_async begin");
+  LOGI("calc_square_async begin");
   calc_square_async(5.25f, &pool)
     .then([](auto result) {
       LOGI("calc_square is resolved with:%f thread_id:%s", result, ToString(std::this_thread::get_id()));
@@ -124,56 +154,52 @@ int main(int argc, char** argv) {
       LOGI("calc_square is resolved with abs:%d with thread_id:%s", abs_val, ToString(std::this_thread::get_id()));
       return abs_val;
     })
-    .then([&pool](int val) {
-    return calc_offset_async(val, 10, &pool); });
+    .then([&pool](int val) { return calc_offset_async(val, 10, &pool); });
 
   LOGI("calc_square_async end");
 
   // calc square async continuable with failure
-  LOGI( "calc_square_async failure begin");
+  LOGI("calc_square_async failure begin");
   calc_square_async(-5.5f, &pool)
-    .then([](float result) {
-      LOGI("calc_square async failure is resolved with: %f", result);
-    })
-    .fail([](cti::exception_t status) {
-      LOGI("calc_square async failure is rejected with:%s", status.ToString());
-    });
-  LOGI( "calc_square_async failure end");
+    .then([](float result) { LOGI("calc_square async failure is resolved with: %f", result); })
+    .fail([](cti::exception_t status) { LOGI("calc_square async failure is rejected with:%s", status.ToString()); });
+  LOGI("calc_square_async failure end");
 
   // calc divide by 2
   // calc square async continuable with failure
-  LOGI( "calc_recursive_async ");
+  LOGI("calc_recursive_async ");
   calc_recursive_async(20, &pool)
-    .then([](int result) { LOGI("==calc_recursive_async is resolved with:%d", result);
-    })
-    .fail([](cti::exception_t status) {
-      LOGI("## calc_recursive_async is rejected with:%s", status.ToString());
-    });
-  LOGI( "calc_recursive_async end");
+    .then([](int result) { LOGI("==calc_recursive_async is resolved with:%d", result); })
+    .fail([](cti::exception_t status) { LOGI("## calc_recursive_async is rejected with:%s", status.ToString()); });
+  LOGI("calc_recursive_async end");
 
   // test the http request via asio socket
   asio::io_context ioc{};
   http_request_daytime_async(&ioc, "time.nist.gov", "daytime")
-    .then([] {
-    LOGI("==http_request_daytime_async has done now"); })
+    .then([] { LOGI("==http_request_daytime_async has done now"); })
     .fail([](cti::exception_t e) {
-    if (!e.ok()) {
+      if (!e.ok()) {
         LOGI("Continuation failed with unexpected cancellation:%s", e.message());
-    }
+      }
     });
 
   http_request_daytime_async(&ioc, "xxxx.nist.gov", "daytime")
-    .then([] {
-    LOGI("==http_request_daytime_async has done now"); })
+    .then([] { LOGI("==http_request_daytime_async has done now"); })
     .fail([](cti::exception_t e) {
-    if (!e.ok()) {
+      if (!e.ok()) {
         LOGI("Continuation failed with unexpected cancellation:%s", e.message());
-    }
+      }
     });
   // run it inside the pool until all jobs are done in ioc
-  asio::post(pool, [&] {
-    ioc.run(); });
+  asio::post(pool, [&] { ioc.run(); });
 
+  // test next handler
+  test_next_handler_async(10).then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); }).fail([](cti::exception_t e) {
+    LOGI("##test_next_handler_async rejected with:%s", e.message());
+  });
+  test_next_handler_async(-10).then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); }).fail([](cti::exception_t e) {
+    LOGI("##test_next_handler_async rejected with:%s", e.message());    
+  });
   pool.join();
   return 0;
 }
