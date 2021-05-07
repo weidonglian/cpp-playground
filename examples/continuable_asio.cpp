@@ -105,6 +105,14 @@ auto test_next_handler_async(int val) {
     }});
 }
 
+cti::continuable<> test_ready_continuable() {
+  return cti::make_ready_continuable<>();
+}
+
+cti::continuable<> test_ready_continuable_void() {
+  return cti::make_continuable<void>([](auto&& promise) { promise.set_value(); });
+}
+
 using asio::ip::tcp;
 
 struct tcp_socket_context {
@@ -194,12 +202,15 @@ int main(int argc, char** argv) {
   asio::post(pool, [&] { ioc.run(); });
 
   // test next handler
-  test_next_handler_async(10).then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); }).fail([](cti::exception_t e) {
-    LOGI("##test_next_handler_async rejected with:%s", e.message());
-  });
-  test_next_handler_async(-10).then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); }).fail([](cti::exception_t e) {
-    LOGI("##test_next_handler_async rejected with:%s", e.message());    
-  });
+  test_next_handler_async(10)
+    .then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); })
+    .fail([](cti::exception_t e) { LOGI("##test_next_handler_async rejected with:%s", e.message()); });
+  test_next_handler_async(-10)
+    .then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); })
+    .fail([](cti::exception_t e) { LOGI("##test_next_handler_async rejected with:%s", e.message()); });
+
+  // test ready void continuable
+  test_ready_continuable().then([] { LOGI("test_ready_continuable is resolved now"); });
   pool.join();
   return 0;
 }
