@@ -27,7 +27,7 @@ struct next_handler {
     return 1;
   }
   auto operator()(cti::exception_arg_t, cti::exception_t status) {
-    on_complete(std::move(status));
+    on_complete(status);
     return cti::rethrow(status);
   }
 };
@@ -111,6 +111,25 @@ cti::continuable<> test_ready_continuable() {
 
 cti::continuable<> test_ready_continuable_void() {
   return cti::make_continuable<void>([](auto&& promise) { promise.set_value(); });
+}
+
+cti::continuable<> continuable_a() {
+  LOGI("enter:continuable_a");
+  return cti::make_continuable<void>([](auto&& promise){
+    LOGI("resolve:continuable_a");
+    promise.set_value();
+  });
+  LOGI("leave:continuable_a");
+}
+
+
+cti::continuable<> continuable_b() {
+  LOGI("enter:continuable_b");
+  return cti::make_continuable<void>([](auto&& promise){
+    LOGI("resolve:continuable_b");
+    promise.set_value();
+  });
+  LOGI("leave:continuable_b");
 }
 
 using asio::ip::tcp;
@@ -211,6 +230,9 @@ int main(int argc, char** argv) {
 
   // test ready void continuable
   test_ready_continuable().then([] { LOGI("test_ready_continuable is resolved now"); });
+
+  // test continuable order a, b
+  continuable_a() >> continuable_b();
   pool.join();
   return 0;
 }
