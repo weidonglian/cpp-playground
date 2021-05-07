@@ -22,7 +22,7 @@ vector<int> generate_random_number(size_t sz, int min, int max) {
 
   vector<int> durations;
   durations.reserve(sz);
-  int cnt = 0;
+  size_t cnt = 0;
   while (cnt++ < sz)
     durations.push_back(uniform_dist(e1));
   return durations;

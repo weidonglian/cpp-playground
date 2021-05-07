@@ -4,6 +4,7 @@
 #include <functional>
 #include <iostream>
 #include <vector>
+#include <string>
 
 namespace {
 class cpu_timer {

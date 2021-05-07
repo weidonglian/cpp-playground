@@ -19,7 +19,7 @@ inline std::vector<int> generate_random_number(size_t sz) {
 
   std::vector<int> points;
   points.reserve(sz);
-  int cnt = 0;
+  size_t cnt = 0;
   while (cnt++ < sz)
     points.push_back((int)normal_dist(e2));
   return points;

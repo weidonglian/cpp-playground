@@ -6,8 +6,8 @@ using namespace std;
 
 vector<int> find_common_elements(const vector<int>& arr1, const vector<int>& arr2) {
   vector<int> results;
-  int i = 0;
-  int j = 0;
+  size_t i = 0;
+  size_t j = 0;
   while (i < arr1.size() && j < arr2.size()) {
     if (arr1[i] == arr2[j]) {
       results.push_back(arr1[i]);

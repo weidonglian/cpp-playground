@@ -62,9 +62,9 @@ bool has_three_some_sum_binary_search(std::vector<int> arr, int target_sum) {
 
 // this implementation is space optimal, but a brutal force with N^3 complexity.
 bool has_three_some_sum_brutal(const std::vector<int>& arr, int target_sum) {
-  for (int i = 0; i < arr.size(); ++i) {
-    for (int j = i + 1; j < arr.size(); ++j) {
-      for (int k = j + 1; k < arr.size(); ++k) {
+  for (size_t i = 0; i < arr.size(); ++i) {
+    for (size_t j = i + 1; j < arr.size(); ++j) {
+      for (size_t k = j + 1; k < arr.size(); ++k) {
         if (arr[i] + arr[j] + arr[k] == target_sum) {
           return true;
         }

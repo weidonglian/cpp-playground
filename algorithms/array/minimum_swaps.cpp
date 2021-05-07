@@ -8,7 +8,7 @@ int array_minimum_swaps(vector<int> arr) {
     auto is_matched = [&arr](int i) { return arr[i] == i + 1; };
     int cnt = 0;
     int s = 0;
-    while (s < arr.size()) {
+    while (s < static_cast<int>(arr.size())) {
         if (is_matched(s)) {
             ++s;
         } else {

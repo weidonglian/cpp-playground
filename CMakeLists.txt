@@ -29,7 +29,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   # /wd4244  conversion from 'type1' to 'type2'
   # /wd4267  conversion from 'size_t' to 'type2'
   # /wd4800  force value to bool 'true' or 'false' (performance warning)
-  set( MSVC_FLAGS "/W3 /WX /wd4996 /wd4002 /wd4005 /wd4068 /wd4800 /wd4251")
+  set( MSVC_FLAGS "/W3 /wd4996 /wd4002 /wd4005 /wd4068 /wd4800 /wd4251")
   set( CMAKE_CXX_FLAGS_RELEASE "${MSVC_FLAGS}")
   set( CMAKE_C_FLAGS_RELEASE "${MSVC_FLAGS}")
   set( CMAKE_CXX_FLAGS_DEBUG "${MSVC_FLAGS}")

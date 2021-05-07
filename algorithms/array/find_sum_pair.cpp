@@ -30,8 +30,8 @@ pair<int, int> find_sum_pair(vector<int> arr1, vector<int> arr2, int sum) {
 }
 
 pair<int, int> find_sum_pair_brut(const vector<int>& arr1, const vector<int>& arr2, int sum) {
-  for (int i = 0; i < arr1.size(); ++i)
-    for (int j = 0; j < arr2.size(); ++j) {
+  for (int i = 0; i < static_cast<int>(arr1.size()); ++i)
+    for (int j = 0; j < static_cast<int>(arr2.size()); ++j) {
       if (arr1[i] + arr2[j] == sum) {
         return {i, j};
       }
