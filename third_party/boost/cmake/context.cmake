@@ -27,9 +27,9 @@ else()
   # Using combined sources in order to support macOS / iOS universal builds
   # It makes it super easy to extend to new platforms too
   set(context_srcs
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/context/jump_combined.S
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/context/make_combined.S
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/context/ontop_combined.S
+    ${CMAKE_CURRENT_LIST_DIR}/context/jump_combined.S
+    ${CMAKE_CURRENT_LIST_DIR}/context/make_combined.S
+    ${CMAKE_CURRENT_LIST_DIR}/context/ontop_combined.S
     ${BOOST_SOURCE}/libs/context/src/posix/stack_traits.cpp
   )
   enable_language(ASM)
