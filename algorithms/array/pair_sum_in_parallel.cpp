@@ -75,63 +75,8 @@ std::vector<kv_pair> merge_kv_pairs_async(std::vector<kv_pair> pairs) {
   return all;
 }
 
-std::vector<kv_pair> merge_kv_pairs_parallel(std::vector<kv_pair> pairs) {
-  if (pairs.size() <= 10000) {
-    return merge_kv_pairs(std::move(pairs));
-  }
-  // sort the pairs in the pair's `key` order.
-  std::sort(pairs.begin(), pairs.end(), [](const kv_pair& p1, const kv_pair& p2) { return p1.key < p2.key; });
-  const int k_processor_count = std::thread::hardware_concurrency();
-  std::vector<std::thread> runners;
-  std::vector<std::vector<kv_pair>> results;
-  const int count_per_group = static_cast<int>(pairs.size()) / k_processor_count;
-  runners.reserve(k_processor_count);
-  results.reserve(k_processor_count);
-  int left = 0;
-  int cnt = count_per_group;
-  while (left + cnt <= pairs.size()) {
-    while (left + cnt < pairs.size() && pairs[left + cnt - 1].key == pairs[left + cnt].key) {
-      ++cnt;
-    }
-    runners.emplace_back([&pairs, left, cnt, result = &results.back()] {
-      *result = merge_kv_pairs(std::vector<kv_pair>{pairs.begin() + left, pairs.begin() + left + cnt});
-    });
-    if (left + cnt >= pairs.size()) {
-      break;
-    }
-    left = left + cnt;
-    cnt = k_processor_count;
-    if (left + cnt > pairs.size()) {
-      cnt = static_cast<int>(pairs.size()) - left;
-    }
-  }
-  for (auto& f : runners) {
-    f.join();
-  }
-  size_t total_count = 0;
-  for (auto& v : results) {
-    total_count += v.size();
-  }
-  std::vector<kv_pair> all;
-  all.reserve(total_count);
-  for (auto& r : results) {
-    std::copy(r.begin(), r.end(), std::back_inserter(all));
-  }
-  return all;
-}
-
 static const size_t total_count = 10000000;
 
-TEST_CASE("pair_sum_in_parallel", "[array]") {
-  std::vector<kv_pair> pairs;
-  pairs.resize(total_count);
-  for (auto& v : pairs) {
-    std::srand(static_cast<unsigned int>(time(nullptr)));
-    v.key = std::rand();
-    v.val = std::rand();
-  }
-  merge_kv_pairs_parallel(std::move(pairs));
-}
 
 TEST_CASE("pair_sum_huge", "[array]") {
   std::vector<kv_pair> pairs;
