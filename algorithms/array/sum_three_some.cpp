@@ -104,6 +104,13 @@ std::vector<int> generate_random_sequence(int sz) {
   return arr;
 }
 
+/**  @brief Check if there exists sum pair in a sorted array. */
+TEST_CASE("match_sum_pair", "[array]") {
+  REQUIRE(has_pair_sum({1, 8, 9, 20, -1, 3, 7, 5, 3, 7, 1}, 0, 0) == true);
+  REQUIRE(has_pair_sum({1, 8, 9, 20, -1, 3, 7, 5, 3, 7, 1}, 0, 10) == true);
+  REQUIRE(has_pair_sum({1, 8, 9, 20, -1, 3, 7, 5, 3, 7, 1}, 0, 100) == false);
+}
+
 /**
  * @brief Check if the array has a sum of three values matching the given value.
  *
@@ -123,6 +130,9 @@ TEST_CASE("match_sum_three_some", "[array]") {
   // REQUIRE(has_three_some_sum_binary_search({1, 8, 9, 20, -1, 3, 7, 5, 3, 7, 1}, 100) == false);
   // REQUIRE(has_three_some_sum_binary_search({1, 8, 9, 20, -1, 6, 3, 7, 5, 3, 7, 1}, 7) == true);
   // REQUIRE(has_three_some_sum_binary_search({1, 8, 9, 20, -1, 6, 3, 7, 5, 3, 7, 1}, 100) == false);
+}
+
+TEST_CASE("match_sum_three_some_one_case", "[array]") {
   std::vector<int> tarr{
     14343, 30523, 1587,  29314, 9503,  7448,  25200, 13458, 6618,  20580, 19796, 14798, 15281, 19589, 20798, 28009,
     27157, 20472, 23622, 18538, 12292, 6038,  24179, 18190, 29657, 7958,  6191,  19815, 22888, 19156, 11511, 16202,
@@ -132,8 +142,10 @@ TEST_CASE("match_sum_three_some", "[array]") {
     17189, 19976, 31329, 2368,  28692, 21425, 10555, 3434,  16549, 7441,  9512,  30145, 18060};
   const int t_target_sum = 21718;
   REQUIRE(has_three_some_sum_brutal(tarr, t_target_sum));
-  // REQUIRE(has_three_some_sum_binary_search(tarr, t_target_sum));
+  REQUIRE(has_three_some_sum(tarr, t_target_sum));
+}
 
+TEST_CASE("match_sum_three_some_random", "[array]") {
   int cnt = 100;
   while (cnt-- > 0) {
     auto arr = generate_random_sequence(std::rand() % 100);
