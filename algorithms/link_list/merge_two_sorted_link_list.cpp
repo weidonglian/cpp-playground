@@ -95,7 +95,7 @@ std::vector<int> gen_random_list(size_t sz) {
 TEST_CASE("merge_two_sorted_link_list", "[link_list]") {
   REQUIRE(test_sorted_link_list({1, 4, 9, 10}, {1, 2, 4, 4, 5, 7, 8, 10}) ==
           std::vector{1, 1, 2, 4, 4, 4, 5, 7, 8, 9, 10, 10});
-  int k_test_cnt = 100000;
+  int k_test_cnt = 100;
   while (k_test_cnt-- > 0) {
     auto l1 = gen_random_list(std::rand() % 1000);
     auto l2 = gen_random_list(std::rand() % 1000);

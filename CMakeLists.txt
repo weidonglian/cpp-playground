@@ -54,6 +54,7 @@ endif ()
 # Enable test
 enable_testing()
 
+add_subdirectory(third_party)
+add_subdirectory(logger)
 add_subdirectory(examples)
 add_subdirectory(algorithms)
-add_subdirectory(third_party)
