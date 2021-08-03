@@ -66,10 +66,11 @@ TEST_CASE("quick_sort", "[sort]") {
 }
 
 TEST_CASE("quick_sort_prop_testing", "[sort]") {
-  rc::prop([](const std::vector<int>& l0) {
+  rc::prop("test quick sort with prop", [](const std::vector<int>& l0) {
     auto l1 = l0;
     quick_sort(l1, 0, static_cast<int>(l1.size()) - 1);
     auto l2 = l0;
+    std::sort(std::begin(l2), std::end(l2));
     RC_ASSERT(l1 == l2);
   });
 }
