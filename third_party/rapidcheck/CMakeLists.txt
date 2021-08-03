@@ -111,7 +111,7 @@ if(NOT RC_ENABLE_RTTI)
   target_compile_definitions(rapidcheck PUBLIC RC_DONT_USE_RTTI)
 endif()
 
-add_subdirectory(ext)
+# add_subdirectory(ext)
 
 if(RC_ENABLE_TESTS)
   enable_testing()
