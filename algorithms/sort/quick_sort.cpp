@@ -53,6 +53,7 @@ std::vector<int> gen_random_sequence(size_t sz) {
 }
 
 } // namespace
+
 TEST_CASE("quick_sort", "[sort]") {
   int k_test_count = 1000;
   while (k_test_count-- > 0) {
@@ -62,4 +63,14 @@ TEST_CASE("quick_sort", "[sort]") {
     quick_sort(data, 0, static_cast<int>(data.size()) - 1);
     REQUIRE(data == expected);
   }
+}
+
+TEST_CASE("quick_sort_prop_testing", "[sort]") {
+  rc::prop("test quick sort with prop", [](const std::vector<int>& l0) {
+    auto l1 = l0;
+    quick_sort(l1, 0, static_cast<int>(l1.size()) - 1);
+    auto l2 = l0;
+    std::sort(std::begin(l2), std::end(l2));
+    RC_ASSERT(l1 == l2);
+  });
 }
