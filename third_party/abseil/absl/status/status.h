@@ -472,6 +472,9 @@ class Status final {
   // Returns `true` if `this->ok()`. Prefer checking for an OK status using this
   // member function.
   ABSL_MUST_USE_RESULT bool ok() const;
+  explicit operator bool() const noexcept {
+    return ok();
+  }
 
   // Status::code()
   //
