@@ -7,14 +7,11 @@ WORKDIR "/project"
 RUN apk update && \
     apk upgrade && \
     apk --update add \
-        linux-headers \
-        gcc \
-        g++ \
-        build-base \
-        cmake \
-        bash \
-        libstdc++ \
-        cppcheck \
-        py-pip && \
-        pip install conan && \
+    linux-headers \
+    gcc \
+    g++ \
+    build-base \
+    cmake \
+    bash \
+    libstdc++ \
     rm -rf /var/cache/apk/*

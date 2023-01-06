@@ -1,0 +1,1 @@
+docker build -t weidonglian/cpp-playground:latest . && docker push weidonglian/cpp-playground:latest
