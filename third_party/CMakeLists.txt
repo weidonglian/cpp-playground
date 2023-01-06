@@ -4,7 +4,7 @@ add_subdirectory(function2)
 add_subdirectory(asio)
 add_subdirectory(continuable)
 add_subdirectory(abseil)
-add_subdirectory(boost)
+# add_subdirectory(boost)
 
 option(RC_ENABLE_CATCH "Build Catch.hpp support" ON)
 add_subdirectory(rapidcheck)
