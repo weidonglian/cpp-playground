@@ -2,6 +2,17 @@
 
 Cpp samples for testing and learning C++ 11/14/17/20
 
+## LLVM Clang Linux/WSL
+
+install llvm version 15
+
+```bash
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 15
+sudo apt install libomp-15-dev // for openmp
+```
+
 ## Useful Commands
 
 ```bash
