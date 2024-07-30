@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <cstdint>
 
 int main() {
     using namespace std;
@@ -9,9 +10,9 @@ int main() {
     cout << big_int64 << endl;
     uint32_t big_int64_mod1 = static_cast<uint32_t>(big_int64%std::numeric_limits<int32_t>::max());
     cout << big_int64_mod1 << endl;
-    
+
     uint32_t big_int64_mod2 = static_cast<uint32_t>(big_int64);
     cout << big_int64_mod2 << endl;
-    
+
     return 0;
 }
