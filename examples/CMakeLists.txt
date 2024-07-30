@@ -37,9 +37,7 @@ add_example(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_example(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
 add_example(NAME continuable_hello_world SRCS continuable_hello_world.cpp DEPS continuable)
 add_example(NAME continuable_asio SRCS continuable_asio.cpp DEPS logger continuable asio absl::status DEFS -DCONTINUABLE_WITH_CUSTOM_ERROR_TYPE=absl::Status)
-# add_example(NAME fiber_shared_work SRCS fiber_shared_work.cpp DEPS Boost::boost Boost::fiber)
-add_example(NAME coroutine_generator SRCS coroutine_generator.cpp)
-add_example(NAME tag_dispatch SRCS tag_dispatch.cpp)
+add_example(NAME fiber_shared_work SRCS fiber_shared_work.cpp DEPS Boost::boost Boost::fiber)
 
 IF (WIN32)
   # GCC compiler supports c++ 17 but requires install tbb and linking to tbb yourself
