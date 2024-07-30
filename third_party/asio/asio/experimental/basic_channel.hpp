@@ -2,7 +2,11 @@
 // experimental/basic_channel.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -110,8 +114,14 @@ private:
 
   template <typename... PayloadSignatures,
       ASIO_COMPLETION_TOKEN_FOR(PayloadSignatures...) CompletionToken>
+<<<<<<< HEAD
   auto do_async_receive(detail::channel_payload<PayloadSignatures...>*,
       ASIO_MOVE_ARG(CompletionToken) token)
+=======
+  auto do_async_receive(
+      asio::detail::completion_payload<PayloadSignatures...>*,
+      CompletionToken&& token)
+>>>>>>> 142038d (add asio new version)
     -> decltype(
         async_initiate<CompletionToken, PayloadSignatures...>(
           declval<initiate_async_receive>(), token))
@@ -167,10 +177,17 @@ public:
    */
   template <typename ExecutionContext>
   basic_channel(ExecutionContext& context, std::size_t max_buffer_size = 0,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : service_(&asio::use_service<service_type>(context)),
       impl_(),
       executor_(context.get_executor())
@@ -178,7 +195,10 @@ public:
     service_->construct(impl_, max_buffer_size);
   }
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+>>>>>>> 142038d (add asio new version)
   /// Move-construct a basic_channel from another.
   /**
    * This constructor moves a channel from one object to another.
@@ -236,6 +256,7 @@ public:
   template <typename Executor1>
   basic_channel(
       basic_channel<Executor1, Traits, Signatures...>&& other,
+<<<<<<< HEAD
       typename constraint<
           is_convertible<Executor1, Executor>::value
       >::type = 0)
@@ -243,6 +264,15 @@ public:
       executor_(other.executor_)
   {
     service_->move_construct(impl_, *other.service_, other.impl_);
+=======
+      constraint_t<
+          is_convertible<Executor1, Executor>::value
+      > = 0)
+    : service_(other.service_),
+      executor_(other.executor_)
+  {
+    service_->move_construct(impl_, other.impl_);
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Move-assign a basic_channel from another.
@@ -259,10 +289,17 @@ public:
    * constructor.
    */
   template <typename Executor1>
+<<<<<<< HEAD
   typename constraint<
     is_convertible<Executor1, Executor>::value,
     basic_channel&
   >::type operator=(basic_channel<Executor1, Traits, Signatures...>&& other)
+=======
+  constraint_t<
+    is_convertible<Executor1, Executor>::value,
+    basic_channel&
+  > operator=(basic_channel<Executor1, Traits, Signatures...>&& other)
+>>>>>>> 142038d (add asio new version)
   {
     if (this != &other)
     {
@@ -273,7 +310,10 @@ public:
     }
     return *this;
   }
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+>>>>>>> 142038d (add asio new version)
 
   /// Destructor.
   ~basic_channel()
@@ -282,19 +322,31 @@ public:
   }
 
   /// Get the executor associated with the object.
+<<<<<<< HEAD
   executor_type get_executor() ASIO_NOEXCEPT
+=======
+  const executor_type& get_executor() noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return executor_;
   }
 
   /// Get the capacity of the channel's buffer.
+<<<<<<< HEAD
   std::size_t capacity() ASIO_NOEXCEPT
+=======
+  std::size_t capacity() noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return service_->capacity(impl_);
   }
 
   /// Determine whether the channel is open.
+<<<<<<< HEAD
   bool is_open() const ASIO_NOEXCEPT
+=======
+  bool is_open() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return service_->is_open(impl_);
   }
@@ -323,7 +375,11 @@ public:
   }
 
   /// Determine whether a message can be received without blocking.
+<<<<<<< HEAD
   bool ready() const ASIO_NOEXCEPT
+=======
+  bool ready() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return service_->ready(impl_);
   }
@@ -337,14 +393,46 @@ public:
    * @returns @c true on success, @c false on failure.
    */
   template <typename... Args>
+<<<<<<< HEAD
   bool try_send(ASIO_MOVE_ARG(Args)... args);
+=======
+  bool try_send(Args&&... args);
+
+  /// Try to send a message without blocking, using dispatch semantics to call
+  /// the receive operation's completion handler.
+  /**
+   * Fails if the buffer is full and there are no waiting receive operations.
+   *
+   * The receive operation's completion handler may be called from inside this
+   * function.
+   *
+   * @returns @c true on success, @c false on failure.
+   */
+  template <typename... Args>
+  bool try_send_via_dispatch(Args&&... args);
+>>>>>>> 142038d (add asio new version)
 
   /// Try to send a number of messages without blocking.
   /**
    * @returns The number of messages that were sent.
    */
   template <typename... Args>
+<<<<<<< HEAD
   std::size_t try_send_n(std::size_t count, ASIO_MOVE_ARG(Args)... args);
+=======
+  std::size_t try_send_n(std::size_t count, Args&&... args);
+
+  /// Try to send a number of messages without blocking, using dispatch
+  /// semantics to call the receive operations' completion handlers.
+  /**
+   * The receive operations' completion handlers may be called from inside this
+   * function.
+   *
+   * @returns The number of messages that were sent.
+   */
+  template <typename... Args>
+  std::size_t try_send_n_via_dispatch(std::size_t count, Args&&... args);
+>>>>>>> 142038d (add asio new version)
 
   /// Asynchronously send a message.
   /**
@@ -354,8 +442,13 @@ public:
   template <typename... Args,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
         CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
+<<<<<<< HEAD
   auto async_send(ASIO_MOVE_ARG(Args)... args,
       ASIO_MOVE_ARG(CompletionToken) token);
+=======
+  auto async_send(Args&&... args,
+      CompletionToken&& token);
+>>>>>>> 142038d (add asio new version)
 
 #endif // defined(GENERATING_DOCUMENTATION)
 
@@ -366,9 +459,15 @@ public:
    * @returns @c true on success, @c false on failure.
    */
   template <typename Handler>
+<<<<<<< HEAD
   bool try_receive(ASIO_MOVE_ARG(Handler) handler)
   {
     return service_->try_receive(impl_, ASIO_MOVE_CAST(Handler)(handler));
+=======
+  bool try_receive(Handler&& handler)
+  {
+    return service_->try_receive(impl_, static_cast<Handler&&>(handler));
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Asynchronously receive a message.
@@ -380,22 +479,39 @@ public:
   template <typename CompletionToken
       ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   auto async_receive(
+<<<<<<< HEAD
       ASIO_MOVE_ARG(CompletionToken) token
+=======
+      CompletionToken&& token
+>>>>>>> 142038d (add asio new version)
         ASIO_DEFAULT_COMPLETION_TOKEN(Executor))
 #if !defined(GENERATING_DOCUMENTATION)
     -> decltype(
         this->do_async_receive(static_cast<payload_type*>(0),
+<<<<<<< HEAD
           ASIO_MOVE_CAST(CompletionToken)(token)))
 #endif // !defined(GENERATING_DOCUMENTATION)
   {
     return this->do_async_receive(static_cast<payload_type*>(0),
         ASIO_MOVE_CAST(CompletionToken)(token));
+=======
+          static_cast<CompletionToken&&>(token)))
+#endif // !defined(GENERATING_DOCUMENTATION)
+  {
+    return this->do_async_receive(static_cast<payload_type*>(0),
+        static_cast<CompletionToken&&>(token));
+>>>>>>> 142038d (add asio new version)
   }
 
 private:
   // Disallow copying and assignment.
+<<<<<<< HEAD
   basic_channel(const basic_channel&) ASIO_DELETED;
   basic_channel& operator=(const basic_channel&) ASIO_DELETED;
+=======
+  basic_channel(const basic_channel&) = delete;
+  basic_channel& operator=(const basic_channel&) = delete;
+>>>>>>> 142038d (add asio new version)
 
   template <typename, typename, typename...>
   friend class detail::channel_send_functions;
@@ -403,7 +519,11 @@ private:
   // Helper function to get an executor's context.
   template <typename T>
   static execution_context& get_context(const T& t,
+<<<<<<< HEAD
       typename enable_if<execution::is_executor<T>::value>::type* = 0)
+=======
+      enable_if_t<execution::is_executor<T>::value>* = 0)
+>>>>>>> 142038d (add asio new version)
   {
     return asio::query(t, execution::context);
   }
@@ -411,7 +531,11 @@ private:
   // Helper function to get an executor's context.
   template <typename T>
   static execution_context& get_context(const T& t,
+<<<<<<< HEAD
       typename enable_if<!execution::is_executor<T>::value>::type* = 0)
+=======
+      enable_if_t<!execution::is_executor<T>::value>* = 0)
+>>>>>>> 142038d (add asio new version)
   {
     return t.context();
   }
@@ -426,18 +550,31 @@ private:
     {
     }
 
+<<<<<<< HEAD
     executor_type get_executor() const ASIO_NOEXCEPT
+=======
+    const executor_type& get_executor() const noexcept
+>>>>>>> 142038d (add asio new version)
     {
       return self_->get_executor();
     }
 
     template <typename SendHandler>
+<<<<<<< HEAD
     void operator()(ASIO_MOVE_ARG(SendHandler) handler,
         ASIO_MOVE_ARG(payload_type) payload) const
     {
       asio::detail::non_const_lvalue<SendHandler> handler2(handler);
       self_->service_->async_send(self_->impl_,
           ASIO_MOVE_CAST(payload_type)(payload),
+=======
+    void operator()(SendHandler&& handler,
+        payload_type&& payload) const
+    {
+      asio::detail::non_const_lvalue<SendHandler> handler2(handler);
+      self_->service_->async_send(self_->impl_,
+          static_cast<payload_type&&>(payload),
+>>>>>>> 142038d (add asio new version)
           handler2.value, self_->get_executor());
     }
 
@@ -455,13 +592,21 @@ private:
     {
     }
 
+<<<<<<< HEAD
     executor_type get_executor() const ASIO_NOEXCEPT
+=======
+    const executor_type& get_executor() const noexcept
+>>>>>>> 142038d (add asio new version)
     {
       return self_->get_executor();
     }
 
     template <typename ReceiveHandler>
+<<<<<<< HEAD
     void operator()(ASIO_MOVE_ARG(ReceiveHandler) handler) const
+=======
+    void operator()(ReceiveHandler&& handler) const
+>>>>>>> 142038d (add asio new version)
     {
       asio::detail::non_const_lvalue<ReceiveHandler> handler2(handler);
       self_->service_->async_receive(self_->impl_,

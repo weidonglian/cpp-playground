@@ -2,7 +2,11 @@
 // ip/address_v6.hpp
 // ~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +20,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+#include <functional>
 #include <string>
 #include "asio/detail/array.hpp"
 #include "asio/detail/cstdint.hpp"
@@ -72,7 +77,11 @@ public:
    * @li <tt>to_bytes()</tt> yields <tt>{0, 0, ..., 0}</tt>; and
    * @li <tt>scope_id() == 0</tt>.
    */
+<<<<<<< HEAD
   ASIO_DECL address_v6() ASIO_NOEXCEPT;
+=======
+  ASIO_DECL address_v6() noexcept;
+>>>>>>> 142038d (add asio new version)
 
   /// Construct an address from raw bytes and scope ID.
   /**
@@ -88,27 +97,27 @@ public:
       scope_id_type scope_id = 0);
 
   /// Copy constructor.
-  ASIO_DECL address_v6(const address_v6& other) ASIO_NOEXCEPT;
+  ASIO_DECL address_v6(const address_v6& other) noexcept;
 
-#if defined(ASIO_HAS_MOVE)
   /// Move constructor.
-  ASIO_DECL address_v6(address_v6&& other) ASIO_NOEXCEPT;
-#endif // defined(ASIO_HAS_MOVE)
+  ASIO_DECL address_v6(address_v6&& other) noexcept;
 
   /// Assign from another address.
   ASIO_DECL address_v6& operator=(
-      const address_v6& other) ASIO_NOEXCEPT;
+      const address_v6& other) noexcept;
 
-#if defined(ASIO_HAS_MOVE)
   /// Move-assign from another address.
-  ASIO_DECL address_v6& operator=(address_v6&& other) ASIO_NOEXCEPT;
-#endif // defined(ASIO_HAS_MOVE)
+  ASIO_DECL address_v6& operator=(address_v6&& other) noexcept;
 
   /// The scope ID of the address.
   /**
    * Returns the scope ID associated with the IPv6 address.
    */
+<<<<<<< HEAD
   scope_id_type scope_id() const ASIO_NOEXCEPT
+=======
+  scope_id_type scope_id() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return scope_id_;
   }
@@ -119,13 +128,17 @@ public:
    *
    * @param id The new scope ID.
    */
+<<<<<<< HEAD
   void scope_id(scope_id_type id) ASIO_NOEXCEPT
+=======
+  void scope_id(scope_id_type id) noexcept
+>>>>>>> 142038d (add asio new version)
   {
     scope_id_ = id;
   }
 
   /// Get the address in bytes, in network byte order.
-  ASIO_DECL bytes_type to_bytes() const ASIO_NOEXCEPT;
+  ASIO_DECL bytes_type to_bytes() const noexcept;
 
   /// Get the address as a string.
   ASIO_DECL std::string to_string() const;
@@ -162,23 +175,31 @@ public:
    * This function tests whether the address is the loopback address
    * <tt>::1</tt>.
    */
+<<<<<<< HEAD
   ASIO_DECL bool is_loopback() const ASIO_NOEXCEPT;
+=======
+  ASIO_DECL bool is_loopback() const noexcept;
+>>>>>>> 142038d (add asio new version)
 
   /// Determine whether the address is unspecified.
   /**
    * This function tests whether the address is the loopback address
    * <tt>::</tt>.
    */
+<<<<<<< HEAD
   ASIO_DECL bool is_unspecified() const ASIO_NOEXCEPT;
+=======
+  ASIO_DECL bool is_unspecified() const noexcept;
+>>>>>>> 142038d (add asio new version)
 
   /// Determine whether the address is link local.
-  ASIO_DECL bool is_link_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_link_local() const noexcept;
 
   /// Determine whether the address is site local.
-  ASIO_DECL bool is_site_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_site_local() const noexcept;
 
   /// Determine whether the address is a mapped IPv4 address.
-  ASIO_DECL bool is_v4_mapped() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_v4_mapped() const noexcept;
 
 #if !defined(ASIO_NO_DEPRECATED)
   /// (Deprecated: No replacement.) Determine whether the address is an
@@ -187,55 +208,55 @@ public:
 #endif // !defined(ASIO_NO_DEPRECATED)
 
   /// Determine whether the address is a multicast address.
-  ASIO_DECL bool is_multicast() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast() const noexcept;
 
   /// Determine whether the address is a global multicast address.
-  ASIO_DECL bool is_multicast_global() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast_global() const noexcept;
 
   /// Determine whether the address is a link-local multicast address.
-  ASIO_DECL bool is_multicast_link_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast_link_local() const noexcept;
 
   /// Determine whether the address is a node-local multicast address.
-  ASIO_DECL bool is_multicast_node_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast_node_local() const noexcept;
 
   /// Determine whether the address is a org-local multicast address.
-  ASIO_DECL bool is_multicast_org_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast_org_local() const noexcept;
 
   /// Determine whether the address is a site-local multicast address.
-  ASIO_DECL bool is_multicast_site_local() const ASIO_NOEXCEPT;
+  ASIO_DECL bool is_multicast_site_local() const noexcept;
 
   /// Compare two addresses for equality.
   ASIO_DECL friend bool operator==(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT;
+      const address_v6& a2) noexcept;
 
   /// Compare two addresses for inequality.
   friend bool operator!=(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT
+      const address_v6& a2) noexcept
   {
     return !(a1 == a2);
   }
 
   /// Compare addresses for ordering.
   ASIO_DECL friend bool operator<(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT;
+      const address_v6& a2) noexcept;
 
   /// Compare addresses for ordering.
   friend bool operator>(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT
+      const address_v6& a2) noexcept
   {
     return a2 < a1;
   }
 
   /// Compare addresses for ordering.
   friend bool operator<=(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT
+      const address_v6& a2) noexcept
   {
     return !(a2 < a1);
   }
 
   /// Compare addresses for ordering.
   friend bool operator>=(const address_v6& a1,
-      const address_v6& a2) ASIO_NOEXCEPT
+      const address_v6& a2) noexcept
   {
     return !(a1 < a2);
   }
@@ -247,7 +268,11 @@ public:
    *
    * @returns A default-constructed @c address_v6 object.
    */
+<<<<<<< HEAD
   static address_v6 any() ASIO_NOEXCEPT
+=======
+  static address_v6 any() noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return address_v6();
   }
@@ -257,7 +282,11 @@ public:
    * This function returns an address that represents the well-known loopback
    * address <tt>::1</tt>.
    */
+<<<<<<< HEAD
   ASIO_DECL static address_v6 loopback() ASIO_NOEXCEPT;
+=======
+  ASIO_DECL static address_v6 loopback() noexcept;
+>>>>>>> 142038d (add asio new version)
 
 #if !defined(ASIO_NO_DEPRECATED)
   /// (Deprecated: Use make_address_v6().) Create an IPv4-mapped IPv6 address.
@@ -298,7 +327,7 @@ ASIO_DECL address_v6 make_address_v6(const char* str);
  * @relates address_v6
  */
 ASIO_DECL address_v6 make_address_v6(const char* str,
-    asio::error_code& ec) ASIO_NOEXCEPT;
+    asio::error_code& ec) noexcept;
 
 /// Createan IPv6 address from an IP address string.
 /**
@@ -311,7 +340,7 @@ ASIO_DECL address_v6 make_address_v6(const std::string& str);
  * @relates address_v6
  */
 ASIO_DECL address_v6 make_address_v6(const std::string& str,
-    asio::error_code& ec) ASIO_NOEXCEPT;
+    asio::error_code& ec) noexcept;
 
 #if defined(ASIO_HAS_STRING_VIEW) \
   || defined(GENERATING_DOCUMENTATION)
@@ -327,7 +356,7 @@ ASIO_DECL address_v6 make_address_v6(string_view str);
  * @relates address_v6
  */
 ASIO_DECL address_v6 make_address_v6(string_view str,
-    asio::error_code& ec) ASIO_NOEXCEPT;
+    asio::error_code& ec) noexcept;
 
 #endif // defined(ASIO_HAS_STRING_VIEW)
        //  || defined(GENERATING_DOCUMENTATION)
@@ -373,14 +402,21 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace ip
 } // namespace asio
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_STD_HASH)
+=======
+>>>>>>> 142038d (add asio new version)
 namespace std {
 
 template <>
 struct hash<asio::ip::address_v6>
 {
   std::size_t operator()(const asio::ip::address_v6& addr)
+<<<<<<< HEAD
     const ASIO_NOEXCEPT
+=======
+    const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     const asio::ip::address_v6::bytes_type bytes = addr.to_bytes();
     std::size_t result = static_cast<std::size_t>(addr.scope_id());
@@ -404,7 +440,10 @@ private:
 };
 
 } // namespace std
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_STD_HASH)
+=======
+>>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/pop_options.hpp"
 

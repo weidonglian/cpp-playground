@@ -2,7 +2,11 @@
 // spawn.hpp
 // ~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -42,7 +46,12 @@ public:
   spawned_thread_base()
     : owner_(0),
       has_context_switched_(false),
+<<<<<<< HEAD
       throw_if_cancelled_(false)
+=======
+      throw_if_cancelled_(false),
+      terminal_(false)
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -75,12 +84,20 @@ public:
     suspend_with(&spawned_thread_base::call<F>, &f);
   }
 
+<<<<<<< HEAD
   cancellation_slot get_cancellation_slot() const ASIO_NOEXCEPT
+=======
+  cancellation_slot get_cancellation_slot() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_.slot();
   }
 
+<<<<<<< HEAD
   cancellation_state get_cancellation_state() const ASIO_NOEXCEPT
+=======
+  cancellation_state get_cancellation_state() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_;
   }
@@ -104,22 +121,38 @@ public:
         parent_cancellation_slot_, in_filter, out_filter);
   }
 
+<<<<<<< HEAD
   cancellation_type_t cancelled() const ASIO_NOEXCEPT
+=======
+  cancellation_type_t cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_.cancelled();
   }
 
+<<<<<<< HEAD
   bool has_context_switched() const ASIO_NOEXCEPT
+=======
+  bool has_context_switched() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return has_context_switched_;
   }
 
+<<<<<<< HEAD
   bool throw_if_cancelled() const ASIO_NOEXCEPT
+=======
+  bool throw_if_cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return throw_if_cancelled_;
   }
 
+<<<<<<< HEAD
   void throw_if_cancelled(bool value) ASIO_NOEXCEPT
+=======
+  void throw_if_cancelled(bool value) noexcept
+>>>>>>> 142038d (add asio new version)
   {
     throw_if_cancelled_ = value;
   }
@@ -130,11 +163,20 @@ protected:
   asio::cancellation_state cancellation_state_;
   bool has_context_switched_;
   bool throw_if_cancelled_;
+<<<<<<< HEAD
 
 private:
   // Disallow copying and assignment.
   spawned_thread_base(const spawned_thread_base&) ASIO_DELETED;
   spawned_thread_base& operator=(const spawned_thread_base&) ASIO_DELETED;
+=======
+  bool terminal_;
+
+private:
+  // Disallow copying and assignment.
+  spawned_thread_base(const spawned_thread_base&) = delete;
+  spawned_thread_base& operator=(const spawned_thread_base&) = delete;
+>>>>>>> 142038d (add asio new version)
 
   template <typename F>
   static void call(void* f)
@@ -143,7 +185,10 @@ private:
   }
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 142038d (add asio new version)
 template <typename T>
 struct spawn_signature
 {
@@ -196,9 +241,15 @@ public:
    */
   template <typename OtherExecutor>
   basic_yield_context(const basic_yield_context<OtherExecutor>& other,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<OtherExecutor, Executor>::value
       >::type = 0)
+=======
+      constraint_t<
+        is_convertible<OtherExecutor, Executor>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
     : spawned_thread_(other.spawned_thread_),
       executor_(other.executor_),
       ec_(other.ec_)
@@ -206,19 +257,31 @@ public:
   }
 
   /// Get the executor associated with the yield context.
+<<<<<<< HEAD
   executor_type get_executor() const ASIO_NOEXCEPT
+=======
+  executor_type get_executor() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return executor_;
   }
 
   /// Get the cancellation slot associated with the coroutine.
+<<<<<<< HEAD
   cancellation_slot_type get_cancellation_slot() const ASIO_NOEXCEPT
+=======
+  cancellation_slot_type get_cancellation_slot() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return spawned_thread_->get_cancellation_slot();
   }
 
   /// Get the cancellation state associated with the coroutine.
+<<<<<<< HEAD
   cancellation_state get_cancellation_state() const ASIO_NOEXCEPT
+=======
+  cancellation_state get_cancellation_state() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return spawned_thread_->get_cancellation_state();
   }
@@ -244,10 +307,17 @@ public:
    * cancellation state object.
    */
   template <typename Filter>
+<<<<<<< HEAD
   void reset_cancellation_state(ASIO_MOVE_ARG(Filter) filter) const
   {
     spawned_thread_->reset_cancellation_state(
         ASIO_MOVE_CAST(Filter)(filter));
+=======
+  void reset_cancellation_state(Filter&& filter) const
+  {
+    spawned_thread_->reset_cancellation_state(
+        static_cast<Filter&&>(filter));
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Reset the cancellation state associated with the coroutine.
@@ -260,6 +330,7 @@ public:
    * cancellation state object.
    */
   template <typename InFilter, typename OutFilter>
+<<<<<<< HEAD
   void reset_cancellation_state(ASIO_MOVE_ARG(InFilter) in_filter,
       ASIO_MOVE_ARG(OutFilter) out_filter) const
   {
@@ -270,20 +341,40 @@ public:
 
   /// Determine whether the current coroutine has been cancelled.
   cancellation_type_t cancelled() const ASIO_NOEXCEPT
+=======
+  void reset_cancellation_state(InFilter&& in_filter,
+      OutFilter&& out_filter) const
+  {
+    spawned_thread_->reset_cancellation_state(
+        static_cast<InFilter&&>(in_filter),
+        static_cast<OutFilter&&>(out_filter));
+  }
+
+  /// Determine whether the current coroutine has been cancelled.
+  cancellation_type_t cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return spawned_thread_->cancelled();
   }
 
   /// Determine whether the coroutine throws if trying to suspend when it has
   /// been cancelled.
+<<<<<<< HEAD
   bool throw_if_cancelled() const ASIO_NOEXCEPT
+=======
+  bool throw_if_cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return spawned_thread_->throw_if_cancelled();
   }
 
   /// Set whether the coroutine throws if trying to suspend when it has been
   /// cancelled.
+<<<<<<< HEAD
   void throw_if_cancelled(bool value) const ASIO_NOEXCEPT
+=======
+  void throw_if_cancelled(bool value) const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     spawned_thread_->throw_if_cancelled(value);
   }
@@ -400,6 +491,7 @@ typedef basic_yield_context<any_io_executor> yield_context;
  */
 template <typename Executor, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<Executor>)>::type>::type)
         CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
 ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken,
@@ -425,6 +517,29 @@ spawn(const Executor& ex, ASIO_MOVE_ARG(F) function,
         typename result_of<F(basic_yield_context<Executor>)>::type>::type>(
           declval<detail::initiate_spawn<Executor> >(),
           token, ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<Executor>)>>::type)
+        CompletionToken = default_completion_token_t<Executor>>
+auto spawn(const Executor& ex, F&& function,
+    CompletionToken&& token = default_completion_token_t<Executor>(),
+#if defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      !is_same<
+        decay_t<CompletionToken>,
+        boost::coroutines::attributes
+      >::value
+    > = 0,
+#endif // defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<Executor>)>>::type>(
+          declval<detail::initiate_spawn<Executor>>(),
+          token, static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 /// Start a new stackful coroutine that executes on a given execution context.
 /**
@@ -457,6 +572,7 @@ spawn(const Executor& ex, ASIO_MOVE_ARG(F) function,
  */
 template <typename ExecutionContext, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<
         typename ExecutionContext::executor_type>)>::type>::type)
           CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
@@ -488,6 +604,34 @@ spawn(ExecutionContext& ctx, ASIO_MOVE_ARG(F) function,
             declval<detail::initiate_spawn<
               typename ExecutionContext::executor_type> >(),
             token, ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<
+        typename ExecutionContext::executor_type>)>>::type)
+          CompletionToken = default_completion_token_t<
+            typename ExecutionContext::executor_type>>
+auto spawn(ExecutionContext& ctx, F&& function,
+    CompletionToken&& token
+      = default_completion_token_t<typename ExecutionContext::executor_type>(),
+#if defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      !is_same<
+        decay_t<CompletionToken>,
+        boost::coroutines::attributes
+      >::value
+    > = 0,
+#endif // defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      is_convertible<ExecutionContext&, execution_context&>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<
+          typename ExecutionContext::executor_type>)>>::type>(
+            declval<detail::initiate_spawn<
+              typename ExecutionContext::executor_type>>(),
+            token, static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 /// Start a new stackful coroutine, inheriting the executor of another.
 /**
@@ -522,6 +666,7 @@ spawn(ExecutionContext& ctx, ASIO_MOVE_ARG(F) function,
  */
 template <typename Executor, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<Executor>)>::type>::type)
         CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
 ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken,
@@ -548,6 +693,29 @@ spawn(const basic_yield_context<Executor>& ctx,
         typename result_of<F(basic_yield_context<Executor>)>::type>::type>(
           declval<detail::initiate_spawn<Executor> >(),
           token, ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<Executor>)>>::type)
+        CompletionToken = default_completion_token_t<Executor>>
+auto spawn(const basic_yield_context<Executor>& ctx, F&& function,
+    CompletionToken&& token = default_completion_token_t<Executor>(),
+#if defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      !is_same<
+        decay_t<CompletionToken>,
+        boost::coroutines::attributes
+      >::value
+    > = 0,
+#endif // defined(ASIO_HAS_BOOST_COROUTINE)
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<Executor>)>>::type>(
+          declval<detail::initiate_spawn<Executor>>(),
+          token, static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 #if defined(ASIO_HAS_BOOST_CONTEXT_FIBER) \
   || defined(GENERATING_DOCUMENTATION)
@@ -587,6 +755,7 @@ spawn(const basic_yield_context<Executor>& ctx,
  */
 template <typename Executor, typename StackAllocator, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<Executor>)>::type>::type)
         CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
 ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken,
@@ -608,6 +777,24 @@ spawn(const Executor& ex, allocator_arg_t,
           token, allocator_arg_t(),
           ASIO_MOVE_CAST(StackAllocator)(stack_allocator),
           ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<Executor>)>>::type)
+        CompletionToken = default_completion_token_t<Executor>>
+auto spawn(const Executor& ex, allocator_arg_t,
+    StackAllocator&& stack_allocator, F&& function,
+    CompletionToken&& token = default_completion_token_t<Executor>(),
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<Executor>)>>::type>(
+          declval<detail::initiate_spawn<Executor>>(),
+          token, allocator_arg_t(),
+          static_cast<StackAllocator&&>(stack_allocator),
+          static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 /// Start a new stackful coroutine that executes on a given execution context.
 /**
@@ -644,6 +831,7 @@ spawn(const Executor& ex, allocator_arg_t,
  */
 template <typename ExecutionContext, typename StackAllocator, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<
         typename ExecutionContext::executor_type>)>::type>::type)
           CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
@@ -671,6 +859,29 @@ spawn(ExecutionContext& ctx, allocator_arg_t,
             token, allocator_arg_t(),
             ASIO_MOVE_CAST(StackAllocator)(stack_allocator),
             ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<
+        typename ExecutionContext::executor_type>)>>::type)
+          CompletionToken = default_completion_token_t<
+            typename ExecutionContext::executor_type>>
+auto spawn(ExecutionContext& ctx, allocator_arg_t,
+    StackAllocator&& stack_allocator, F&& function,
+    CompletionToken&& token
+      = default_completion_token_t<typename ExecutionContext::executor_type>(),
+    constraint_t<
+      is_convertible<ExecutionContext&, execution_context&>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<
+          typename ExecutionContext::executor_type>)>>::type>(
+            declval<detail::initiate_spawn<
+              typename ExecutionContext::executor_type>>(),
+            token, allocator_arg_t(),
+            static_cast<StackAllocator&&>(stack_allocator),
+            static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 /// Start a new stackful coroutine, inheriting the executor of another.
 /**
@@ -711,6 +922,7 @@ spawn(ExecutionContext& ctx, allocator_arg_t,
  */
 template <typename Executor, typename StackAllocator, typename F,
     ASIO_COMPLETION_TOKEN_FOR(typename detail::spawn_signature<
+<<<<<<< HEAD
       typename result_of<F(basic_yield_context<Executor>)>::type>::type)
         CompletionToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
 ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken,
@@ -732,6 +944,24 @@ ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
         token, allocator_arg_t(),
         ASIO_MOVE_CAST(StackAllocator)(stack_allocator),
         ASIO_MOVE_CAST(F)(function))));
+=======
+      result_of_t<F(basic_yield_context<Executor>)>>::type)
+        CompletionToken = default_completion_token_t<Executor>>
+auto spawn(const basic_yield_context<Executor>& ctx, allocator_arg_t,
+    StackAllocator&& stack_allocator, F&& function,
+    CompletionToken&& token = default_completion_token_t<Executor>(),
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0)
+  -> decltype(
+    async_initiate<CompletionToken,
+      typename detail::spawn_signature<
+        result_of_t<F(basic_yield_context<Executor>)>>::type>(
+          declval<detail::initiate_spawn<Executor>>(),
+          token, allocator_arg_t(),
+          static_cast<StackAllocator&&>(stack_allocator),
+          static_cast<F&&>(function)));
+>>>>>>> 142038d (add asio new version)
 
 #endif // defined(ASIO_HAS_BOOST_CONTEXT_FIBER)
        //   || defined(GENERATING_DOCUMENTATION)
@@ -751,7 +981,7 @@ ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Function>
-void spawn(ASIO_MOVE_ARG(Function) function,
+void spawn(Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes());
 
@@ -772,14 +1002,21 @@ void spawn(ASIO_MOVE_ARG(Function) function,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Handler, typename Function>
-void spawn(ASIO_MOVE_ARG(Handler) handler,
-    ASIO_MOVE_ARG(Function) function,
+void spawn(Handler&& handler, Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes(),
+<<<<<<< HEAD
     typename constraint<
       !is_executor<typename decay<Handler>::type>::value &&
       !execution::is_executor<typename decay<Handler>::type>::value &&
       !is_convertible<Handler&, execution_context&>::value>::type = 0);
+=======
+    constraint_t<
+      !is_executor<decay_t<Handler>>::value &&
+      !execution::is_executor<decay_t<Handler>>::value &&
+      !is_convertible<Handler&, execution_context&>::value
+    > = 0);
+>>>>>>> 142038d (add asio new version)
 
 /// (Deprecated: Use overloads with a completion token.) Start a new stackful
 /// coroutine, inheriting the execution context of another.
@@ -798,8 +1035,12 @@ void spawn(ASIO_MOVE_ARG(Handler) handler,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Executor, typename Function>
+<<<<<<< HEAD
 void spawn(basic_yield_context<Executor> ctx,
     ASIO_MOVE_ARG(Function) function,
+=======
+void spawn(basic_yield_context<Executor> ctx, Function&& function,
+>>>>>>> 142038d (add asio new version)
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes());
 
@@ -818,13 +1059,18 @@ void spawn(basic_yield_context<Executor> ctx,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Function, typename Executor>
-void spawn(const Executor& ex,
-    ASIO_MOVE_ARG(Function) function,
+void spawn(const Executor& ex, Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes(),
+<<<<<<< HEAD
     typename constraint<
       is_executor<Executor>::value || execution::is_executor<Executor>::value
     >::type = 0);
+=======
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0);
+>>>>>>> 142038d (add asio new version)
 
 /// (Deprecated: Use overloads with a completion token.) Start a new stackful
 /// coroutine that executes on a given strand.
@@ -839,8 +1085,7 @@ void spawn(const Executor& ex,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Function, typename Executor>
-void spawn(const strand<Executor>& ex,
-    ASIO_MOVE_ARG(Function) function,
+void spawn(const strand<Executor>& ex, Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes());
 
@@ -861,8 +1106,7 @@ void spawn(const strand<Executor>& ex,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Function>
-void spawn(const asio::io_context::strand& s,
-    ASIO_MOVE_ARG(Function) function,
+void spawn(const asio::io_context::strand& s, Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes());
 
@@ -883,12 +1127,17 @@ void spawn(const asio::io_context::strand& s,
  * @param attributes Boost.Coroutine attributes used to customise the coroutine.
  */
 template <typename Function, typename ExecutionContext>
-void spawn(ExecutionContext& ctx,
-    ASIO_MOVE_ARG(Function) function,
+void spawn(ExecutionContext& ctx, Function&& function,
     const boost::coroutines::attributes& attributes
       = boost::coroutines::attributes(),
+<<<<<<< HEAD
     typename constraint<is_convertible<
       ExecutionContext&, execution_context&>::value>::type = 0);
+=======
+    constraint_t<
+      is_convertible<ExecutionContext&, execution_context&>::value
+    > = 0);
+>>>>>>> 142038d (add asio new version)
 
 #endif // defined(ASIO_HAS_BOOST_COROUTINE)
        //   || defined(GENERATING_DOCUMENTATION)

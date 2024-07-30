@@ -2,7 +2,11 @@
 // detail/io_uring_descriptor_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -85,7 +89,11 @@ public:
 
   // Move-construct a new descriptor implementation.
   ASIO_DECL void move_construct(implementation_type& impl,
+<<<<<<< HEAD
       implementation_type& other_impl) ASIO_NOEXCEPT;
+=======
+      implementation_type& other_impl) noexcept;
+>>>>>>> 142038d (add asio new version)
 
   // Move-assign from another descriptor implementation.
   ASIO_DECL void move_assign(implementation_type& impl,
@@ -119,6 +127,17 @@ public:
   // Release ownership of the native descriptor representation.
   ASIO_DECL native_handle_type release(implementation_type& impl);
 
+<<<<<<< HEAD
+=======
+  // Release ownership of the native descriptor representation.
+  native_handle_type release(implementation_type& impl,
+      asio::error_code& ec)
+  {
+    ec = success_ec_;
+    return release(impl);
+  }
+
+>>>>>>> 142038d (add asio new version)
   // Cancel all operations associated with the descriptor.
   ASIO_DECL asio::error_code cancel(implementation_type& impl,
       asio::error_code& ec);
@@ -201,7 +220,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     int op_type;
@@ -296,7 +319,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -332,7 +359,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -401,7 +432,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -486,7 +521,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -522,7 +561,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -588,7 +631,11 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+<<<<<<< HEAD
     typename associated_cancellation_slot<Handler>::type slot
+=======
+    associated_cancellation_slot_t<Handler> slot
+>>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.

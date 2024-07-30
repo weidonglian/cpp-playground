@@ -2,7 +2,11 @@
 // detail/base_from_cancellation_state.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -31,12 +35,20 @@ class base_from_cancellation_state
 public:
   typedef cancellation_slot cancellation_slot_type;
 
+<<<<<<< HEAD
   cancellation_slot_type get_cancellation_slot() const ASIO_NOEXCEPT
+=======
+  cancellation_slot_type get_cancellation_slot() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_.slot();
   }
 
+<<<<<<< HEAD
   cancellation_state get_cancellation_state() const ASIO_NOEXCEPT
+=======
+  cancellation_state get_cancellation_state() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_;
   }
@@ -57,12 +69,21 @@ protected:
 
   template <typename InFilter, typename OutFilter>
   base_from_cancellation_state(const Handler& handler,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(InFilter) in_filter,
       ASIO_MOVE_ARG(OutFilter) out_filter)
     : cancellation_state_(
         asio::get_associated_cancellation_slot(handler),
         ASIO_MOVE_CAST(InFilter)(in_filter),
         ASIO_MOVE_CAST(OutFilter)(out_filter))
+=======
+      InFilter&& in_filter,
+      OutFilter&& out_filter)
+    : cancellation_state_(
+        asio::get_associated_cancellation_slot(handler),
+        static_cast<InFilter&&>(in_filter),
+        static_cast<OutFilter&&>(out_filter))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -81,6 +102,7 @@ protected:
 
   template <typename InFilter, typename OutFilter>
   void reset_cancellation_state(const Handler& handler,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(InFilter) in_filter,
       ASIO_MOVE_ARG(OutFilter) out_filter)
   {
@@ -91,6 +113,18 @@ protected:
   }
 
   cancellation_type_t cancelled() const ASIO_NOEXCEPT
+=======
+      InFilter&& in_filter,
+      OutFilter&& out_filter)
+  {
+    cancellation_state_ = cancellation_state(
+        asio::get_associated_cancellation_slot(handler),
+        static_cast<InFilter&&>(in_filter),
+        static_cast<OutFilter&&>(out_filter));
+  }
+
+  cancellation_type_t cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state_.cancelled();
   }
@@ -101,17 +135,29 @@ private:
 
 template <typename Handler>
 class base_from_cancellation_state<Handler,
+<<<<<<< HEAD
     typename enable_if<
+=======
+    enable_if_t<
+>>>>>>> 142038d (add asio new version)
       is_same<
         typename associated_cancellation_slot<
           Handler, cancellation_slot
         >::asio_associated_cancellation_slot_is_unspecialised,
         void
       >::value
+<<<<<<< HEAD
     >::type>
 {
 public:
   cancellation_state get_cancellation_state() const ASIO_NOEXCEPT
+=======
+    >
+  >
+{
+public:
+  cancellation_state get_cancellation_state() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_state();
   }
@@ -128,8 +174,13 @@ protected:
 
   template <typename InFilter, typename OutFilter>
   base_from_cancellation_state(const Handler&,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(InFilter),
       ASIO_MOVE_ARG(OutFilter))
+=======
+      InFilter&&,
+      OutFilter&&)
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -144,12 +195,21 @@ protected:
 
   template <typename InFilter, typename OutFilter>
   void reset_cancellation_state(const Handler&,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(InFilter),
       ASIO_MOVE_ARG(OutFilter))
   {
   }
 
   ASIO_CONSTEXPR cancellation_type_t cancelled() const ASIO_NOEXCEPT
+=======
+      InFilter&&,
+      OutFilter&&)
+  {
+  }
+
+  constexpr cancellation_type_t cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return cancellation_type::none;
   }

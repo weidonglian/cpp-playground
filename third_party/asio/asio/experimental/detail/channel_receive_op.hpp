@@ -2,7 +2,11 @@
 // experimental/detail/channel_receive_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,11 +21,18 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/detail/bind_handler.hpp"
+<<<<<<< HEAD
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/error.hpp"
 #include "asio/experimental/detail/channel_handler.hpp"
 #include "asio/experimental/detail/channel_operation.hpp"
 #include "asio/experimental/detail/channel_payload.hpp"
+=======
+#include "asio/detail/completion_handler.hpp"
+#include "asio/detail/handler_alloc_helpers.hpp"
+#include "asio/error.hpp"
+#include "asio/experimental/detail/channel_operation.hpp"
+>>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/push_options.hpp"
 
@@ -33,9 +44,25 @@ template <typename Payload>
 class channel_receive : public channel_operation
 {
 public:
+<<<<<<< HEAD
   void complete(Payload payload)
   {
     func_(this, complete_op, &payload);
+=======
+  void immediate(Payload payload)
+  {
+    func_(this, immediate_op, &payload);
+  }
+
+  void post(Payload payload)
+  {
+    func_(this, post_op, &payload);
+  }
+
+  void dispatch(Payload payload)
+  {
+    func_(this, dispatch_op, &payload);
+>>>>>>> 142038d (add asio new version)
   }
 
 protected:
@@ -54,7 +81,11 @@ public:
   template <typename... Args>
   channel_receive_op(Handler& handler, const IoExecutor& io_ex)
     : channel_receive<Payload>(&channel_receive_op::do_action),
+<<<<<<< HEAD
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
+=======
+      handler_(static_cast<Handler&&>(handler)),
+>>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }
@@ -70,8 +101,13 @@ public:
 
     // Take ownership of the operation's outstanding work.
     channel_operation::handler_work<Handler, IoExecutor> w(
+<<<<<<< HEAD
         ASIO_MOVE_CAST2(channel_operation::handler_work<
           Handler, IoExecutor>)(o->work_));
+=======
+        static_cast<channel_operation::handler_work<Handler, IoExecutor>&&>(
+          o->work_));
+>>>>>>> 142038d (add asio new version)
 
     // Make a copy of the handler so that the memory can be deallocated before
     // the handler is posted. Even if we're not about to post the handler, a
@@ -79,6 +115,7 @@ public:
     // with the handler. Consequently, a local copy of the handler is required
     // to ensure that any owning sub-object remains valid until after we have
     // deallocated the memory here.
+<<<<<<< HEAD
     if (a == channel_operation::complete_op)
     {
       Payload* payload = static_cast<Payload*>(v);
@@ -88,6 +125,22 @@ public:
       p.reset();
       ASIO_HANDLER_INVOCATION_BEGIN(());
       w.complete(handler, handler.handler_);
+=======
+    if (a != channel_operation::destroy_op)
+    {
+      Payload* payload = static_cast<Payload*>(v);
+      asio::detail::completion_payload_handler<Payload, Handler> handler(
+          static_cast<Payload&&>(*payload), o->handler_);
+      p.h = asio::detail::addressof(handler.handler_);
+      p.reset();
+      ASIO_HANDLER_INVOCATION_BEGIN(());
+      if (a == channel_operation::immediate_op)
+        w.immediate(handler, handler.handler_, 0);
+      else if (a == channel_operation::dispatch_op)
+        w.dispatch(handler, handler.handler_);
+      else
+        w.post(handler, handler.handler_);
+>>>>>>> 142038d (add asio new version)
       ASIO_HANDLER_INVOCATION_END;
     }
     else

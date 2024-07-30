@@ -2,7 +2,11 @@
 // ssl/stream.hpp
 // ~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +22,7 @@
 #include "asio/detail/config.hpp"
 
 #include "asio/async_result.hpp"
+#include "asio/buffer.hpp"
 #include "asio/detail/buffer_sequence_adapter.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/non_const_lvalue.hpp"
@@ -54,7 +59,7 @@ namespace ssl {
  * @code
  * asio::io_context my_context;
  * asio::ssl::context ctx(asio::ssl::context::sslv23);
- * asio::ssl::stream<asio:ip::tcp::socket> sock(my_context, ctx);
+ * asio::ssl::stream<asio::ip::tcp::socket> sock(my_context, ctx);
  * @endcode
  *
  * @par Concepts:
@@ -83,7 +88,7 @@ public:
   };
 
   /// The type of the next layer.
-  typedef typename remove_reference<Stream>::type next_layer_type;
+  typedef remove_reference_t<Stream> next_layer_type;
 
   /// The type of the lowest layer.
   typedef typename next_layer_type::lowest_layer_type lowest_layer_type;
@@ -91,7 +96,6 @@ public:
   /// The type of the executor associated with the object.
   typedef typename lowest_layer_type::executor_type executor_type;
 
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
   /// Construct a stream.
   /**
    * This constructor creates a stream and initialises the underlying stream
@@ -103,10 +107,11 @@ public:
    */
   template <typename Arg>
   stream(Arg&& arg, context& ctx)
-    : next_layer_(ASIO_MOVE_CAST(Arg)(arg)),
+    : next_layer_(static_cast<Arg&&>(arg)),
       core_(ctx.native_handle(), next_layer_.lowest_layer().get_executor())
   {
   }
+<<<<<<< HEAD
 
   /// Construct a stream from an existing native implementation.
   /**
@@ -139,8 +144,26 @@ public:
   {
   }
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+>>>>>>> 142038d (add asio new version)
 
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+  /// Construct a stream from an existing native implementation.
+  /**
+   * This constructor creates a stream and initialises the underlying stream
+   * object. On success, ownership of the native implementation is transferred
+   * to the stream, and it will be cleaned up when the stream is destroyed.
+   *
+   * @param arg The argument to be passed to initialise the underlying stream.
+   *
+   * @param handle An existing native SSL implementation.
+   */
+  template <typename Arg>
+  stream(Arg&& arg, native_handle_type handle)
+    : next_layer_(static_cast<Arg&&>(arg)),
+      core_(handle, next_layer_.lowest_layer().get_executor())
+  {
+  }
+
   /// Move-construct a stream from another.
   /**
    * @param other The other stream object from which the move will occur. Must
@@ -149,8 +172,8 @@ public:
    * operation is destruction, or use as the target of a move assignment.
    */
   stream(stream&& other)
-    : next_layer_(ASIO_MOVE_CAST(Stream)(other.next_layer_)),
-      core_(ASIO_MOVE_CAST(detail::stream_core)(other.core_))
+    : next_layer_(static_cast<Stream&&>(other.next_layer_)),
+      core_(static_cast<detail::stream_core&&>(other.core_))
   {
   }
 
@@ -165,12 +188,20 @@ public:
   {
     if (this != &other)
     {
+<<<<<<< HEAD
       next_layer_ = ASIO_MOVE_CAST(Stream)(other.next_layer_);
       core_ = ASIO_MOVE_CAST(detail::stream_core)(other.core_);
     }
     return *this;
   }
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+      next_layer_ = static_cast<Stream&&>(other.next_layer_);
+      core_ = static_cast<detail::stream_core&&>(other.core_);
+    }
+    return *this;
+  }
+>>>>>>> 142038d (add asio new version)
 
   /// Destructor.
   /**
@@ -188,7 +219,7 @@ public:
    *
    * @return A copy of the executor that stream will use to dispatch handlers.
    */
-  executor_type get_executor() ASIO_NOEXCEPT
+  executor_type get_executor() noexcept
   {
     return next_layer_.lowest_layer().get_executor();
   }
@@ -204,7 +235,7 @@ public:
    * suitable for passing to functions such as @c SSL_get_verify_result and
    * @c SSL_get_peer_certificate:
    * @code
-   * asio::ssl::stream<asio:ip::tcp::socket> sock(my_context, ctx);
+   * asio::ssl::stream<asio::ip::tcp::socket> sock(io_ctx, ctx);
    *
    * // ... establish connection and perform handshake ...
    *
@@ -498,7 +529,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -516,6 +551,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
+<<<<<<< HEAD
         HandshakeToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(HandshakeToken,
@@ -527,6 +563,15 @@ public:
       async_initiate<HandshakeToken,
         void (asio::error_code)>(
           declval<initiate_async_handshake>(), token, type)))
+=======
+        HandshakeToken = default_completion_token_t<executor_type>>
+  auto async_handshake(handshake_type type,
+      HandshakeToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<HandshakeToken,
+        void (asio::error_code)>(
+          declval<initiate_async_handshake>(), token, type))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<HandshakeToken,
       void (asio::error_code)>(
@@ -559,7 +604,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -578,6 +627,7 @@ public:
   template <typename ConstBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
         std::size_t)) BufferedHandshakeToken
+<<<<<<< HEAD
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(BufferedHandshakeToken,
       void (asio::error_code, std::size_t))
@@ -588,6 +638,19 @@ public:
       async_initiate<BufferedHandshakeToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_buffered_handshake>(), token, type, buffers)))
+=======
+          = default_completion_token_t<executor_type>>
+  auto async_handshake(handshake_type type, const ConstBufferSequence& buffers,
+      BufferedHandshakeToken&& token
+        = default_completion_token_t<executor_type>(),
+      constraint_t<
+        is_const_buffer_sequence<ConstBufferSequence>::value
+      > = 0)
+    -> decltype(
+      async_initiate<BufferedHandshakeToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_buffered_handshake>(), token, type, buffers))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<BufferedHandshakeToken,
       void (asio::error_code, std::size_t)>(
@@ -638,7 +701,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -657,6 +724,7 @@ public:
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
         ShutdownToken
+<<<<<<< HEAD
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ShutdownToken,
       void (asio::error_code))
@@ -667,6 +735,15 @@ public:
       async_initiate<ShutdownToken,
         void (asio::error_code)>(
           declval<initiate_async_shutdown>(), token)))
+=======
+          = default_completion_token_t<executor_type>>
+  auto async_shutdown(
+      ShutdownToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<ShutdownToken,
+        void (asio::error_code)>(
+          declval<initiate_async_shutdown>(), token))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<ShutdownToken,
       void (asio::error_code)>(
@@ -745,7 +822,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -768,6 +849,7 @@ public:
    */
   template <typename ConstBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         std::size_t)) WriteToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
@@ -779,6 +861,15 @@ public:
       async_initiate<WriteToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_write_some>(), token, buffers)))
+=======
+        std::size_t)) WriteToken = default_completion_token_t<executor_type>>
+  auto async_write_some(const ConstBufferSequence& buffers,
+      WriteToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<WriteToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_write_some>(), token, buffers))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WriteToken,
       void (asio::error_code, std::size_t)>(
@@ -857,7 +948,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -880,6 +975,7 @@ public:
    */
   template <typename MutableBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         std::size_t)) ReadToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
@@ -891,6 +987,15 @@ public:
       async_initiate<ReadToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_read_some>(), token, buffers)))
+=======
+        std::size_t)) ReadToken = default_completion_token_t<executor_type>>
+  auto async_read_some(const MutableBufferSequence& buffers,
+      ReadToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<ReadToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_read_some>(), token, buffers))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<ReadToken,
       void (asio::error_code, std::size_t)>(
@@ -908,13 +1013,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename HandshakeHandler>
-    void operator()(ASIO_MOVE_ARG(HandshakeHandler) handler,
+    void operator()(HandshakeHandler&& handler,
         handshake_type type) const
     {
       // If you get an error on the following line it means that your handler
@@ -940,13 +1045,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename BufferedHandshakeHandler, typename ConstBufferSequence>
-    void operator()(ASIO_MOVE_ARG(BufferedHandshakeHandler) handler,
+    void operator()(BufferedHandshakeHandler&& handler,
         handshake_type type, const ConstBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your
@@ -976,13 +1081,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename ShutdownHandler>
-    void operator()(ASIO_MOVE_ARG(ShutdownHandler) handler) const
+    void operator()(ShutdownHandler&& handler) const
     {
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a ShutdownHandler.
@@ -1007,13 +1112,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename WriteHandler, typename ConstBufferSequence>
-    void operator()(ASIO_MOVE_ARG(WriteHandler) handler,
+    void operator()(WriteHandler&& handler,
         const ConstBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your handler
@@ -1039,13 +1144,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename ReadHandler, typename MutableBufferSequence>
-    void operator()(ASIO_MOVE_ARG(ReadHandler) handler,
+    void operator()(ReadHandler&& handler,
         const MutableBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your handler

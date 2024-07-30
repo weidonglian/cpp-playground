@@ -2,7 +2,11 @@
 // basic_file.hpp
 // ~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,6 +25,10 @@
   || defined(GENERATING_DOCUMENTATION)
 
 #include <string>
+<<<<<<< HEAD
+=======
+#include <utility>
+>>>>>>> 142038d (add asio new version)
 #include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/cstdint.hpp"
@@ -39,10 +47,13 @@
 # include "asio/detail/io_uring_file_service.hpp"
 #endif
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE)
 # include <utility>
 #endif // defined(ASIO_HAS_MOVE)
 
+=======
+>>>>>>> 142038d (add asio new version)
 #include "asio/detail/push_options.hpp"
 
 namespace asio {
@@ -112,10 +123,17 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_file(ExecutionContext& context,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -157,10 +175,17 @@ public:
   template <typename ExecutionContext>
   explicit basic_file(ExecutionContext& context,
       const char* path, file_base::flags open_flags,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -206,10 +231,17 @@ public:
   template <typename ExecutionContext>
   explicit basic_file(ExecutionContext& context,
       const std::string& path, file_base::flags open_flags,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -252,10 +284,17 @@ public:
    */
   template <typename ExecutionContext>
   basic_file(ExecutionContext& context, const native_handle_type& native_file,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -264,7 +303,10 @@ public:
     asio::detail::throw_error(ec, "assign");
   }
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+>>>>>>> 142038d (add asio new version)
   /// Move-construct a basic_file from another.
   /**
    * This constructor moves a file from one object to another.
@@ -275,7 +317,11 @@ public:
    * @note Following the move, the moved-from object is in the same state as if
    * constructed using the @c basic_file(const executor_type&) constructor.
    */
+<<<<<<< HEAD
   basic_file(basic_file&& other) ASIO_NOEXCEPT
+=======
+  basic_file(basic_file&& other) noexcept
+>>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -312,10 +358,17 @@ public:
    */
   template <typename Executor1>
   basic_file(basic_file<Executor1>&& other,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<Executor1, Executor>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<Executor1, Executor>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -331,19 +384,32 @@ public:
    * constructed using the @c basic_file(const executor_type&) constructor.
    */
   template <typename Executor1>
+<<<<<<< HEAD
   typename constraint<
     is_convertible<Executor1, Executor>::value,
     basic_file&
   >::type operator=(basic_file<Executor1>&& other)
+=======
+  constraint_t<
+    is_convertible<Executor1, Executor>::value,
+    basic_file&
+  > operator=(basic_file<Executor1>&& other)
+>>>>>>> 142038d (add asio new version)
   {
     basic_file tmp(std::move(other));
     impl_ = std::move(tmp.impl_);
     return *this;
   }
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
   /// Get the executor associated with the object.
   executor_type get_executor() ASIO_NOEXCEPT
+=======
+
+  /// Get the executor associated with the object.
+  const executor_type& get_executor() noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return impl_.get_executor();
   }
@@ -815,8 +881,13 @@ protected:
 
 private:
   // Disallow copying and assignment.
+<<<<<<< HEAD
   basic_file(const basic_file&) ASIO_DELETED;
   basic_file& operator=(const basic_file&) ASIO_DELETED;
+=======
+  basic_file(const basic_file&) = delete;
+  basic_file& operator=(const basic_file&) = delete;
+>>>>>>> 142038d (add asio new version)
 };
 
 } // namespace asio

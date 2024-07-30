@@ -2,7 +2,11 @@
 // detail/impl/io_uring_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -377,6 +381,7 @@ void io_uring_service::deregister_io_object(
   if (!io_obj->shutdown_)
   {
     op_queue<operation> ops;
+<<<<<<< HEAD
     do_cancel_ops(io_obj, ops);
     io_obj->shutdown_ = true;
     io_object_lock.unlock();
@@ -384,6 +389,23 @@ void io_uring_service::deregister_io_object(
 
     // Leave io_obj set so that it will be freed by the subsequent
     // call to cleanup_io_obj.
+=======
+    bool pending_cancelled_ops = do_cancel_ops(io_obj, ops);
+    io_obj->shutdown_ = true;
+    io_object_lock.unlock();
+    scheduler_.post_deferred_completions(ops);
+    if (pending_cancelled_ops)
+    {
+      // There are still pending operations. Prevent cleanup_io_object from
+      // freeing the I/O object and let the last operation to complete free it.
+      io_obj = 0;
+    }
+    else
+    {
+      // Leave io_obj set so that it will be freed by the subsequent call to
+      // cleanup_io_object.
+    }
+>>>>>>> 142038d (add asio new version)
   }
   else
   {
@@ -427,15 +449,25 @@ void io_uring_service::run(long usec, op_queue<operation>& ops)
     ? ::io_uring_peek_cqe(&ring_, &cqe)
     : ::io_uring_wait_cqe(&ring_, &cqe);
 
+<<<<<<< HEAD
   if (result == 0 && usec > 0)
   {
     if (::io_uring_cqe_get_data(cqe) != &ts)
+=======
+  if (local_ops > 0)
+  {
+    if (result != 0 || ::io_uring_cqe_get_data(cqe) != &ts)
+>>>>>>> 142038d (add asio new version)
     {
       mutex::scoped_lock lock(mutex_);
       if (::io_uring_sqe* sqe = get_sqe())
       {
         ++local_ops;
         ::io_uring_prep_timeout_remove(sqe, reinterpret_cast<__u64>(&ts), 0);
+<<<<<<< HEAD
+=======
+        ::io_uring_sqe_set_data(sqe, &ts);
+>>>>>>> 142038d (add asio new version)
         submit_sqes();
       }
     }
@@ -443,6 +475,7 @@ void io_uring_service::run(long usec, op_queue<operation>& ops)
 
   bool check_timers = false;
   int count = 0;
+<<<<<<< HEAD
   while (result == 0)
   {
     if (void* ptr = ::io_uring_cqe_get_data(cqe))
@@ -474,6 +507,43 @@ void io_uring_service::run(long usec, op_queue<operation>& ops)
     }
     ::io_uring_cqe_seen(&ring_, cqe);
     result = (++count < complete_batch_size || local_ops > 0)
+=======
+  while (result == 0 || local_ops > 0)
+  {
+    if (result == 0)
+    {
+      if (void* ptr = ::io_uring_cqe_get_data(cqe))
+      {
+        if (ptr == this)
+        {
+          // The io_uring service was interrupted.
+        }
+        else if (ptr == &timer_queues_)
+        {
+          check_timers = true;
+        }
+        else if (ptr == &timeout_)
+        {
+          check_timers = true;
+          timeout_.tv_sec = 0;
+          timeout_.tv_nsec = 0;
+        }
+        else if (ptr == &ts)
+        {
+          --local_ops;
+        }
+        else
+        {
+          io_queue* io_q = static_cast<io_queue*>(ptr);
+          io_q->set_result(cqe->res);
+          ops.push(io_q);
+        }
+      }
+      ::io_uring_cqe_seen(&ring_, cqe);
+      ++count;
+    }
+    result = (count < complete_batch_size || local_ops > 0)
+>>>>>>> 142038d (add asio new version)
       ? ::io_uring_peek_cqe(&ring_, &cqe) : -EAGAIN;
   }
 
@@ -610,7 +680,11 @@ void io_uring_service::free_io_object(io_uring_service::io_object* io_obj)
   registered_io_objects_.free(io_obj);
 }
 
+<<<<<<< HEAD
 void io_uring_service::do_cancel_ops(
+=======
+bool io_uring_service::do_cancel_ops(
+>>>>>>> 142038d (add asio new version)
     per_io_object_data& io_obj, op_queue<operation>& ops)
 {
   bool cancel_op = false;
@@ -646,6 +720,11 @@ void io_uring_service::do_cancel_ops(
     }
     submit_sqes();
   }
+<<<<<<< HEAD
+=======
+
+  return cancel_op;
+>>>>>>> 142038d (add asio new version)
 }
 
 void io_uring_service::do_add_timer_queue(timer_queue_base& queue)
@@ -687,7 +766,14 @@ __kernel_timespec io_uring_service::get_timeout() const
     sqe = ::io_uring_get_sqe(&ring_);
   }
   if (sqe)
+<<<<<<< HEAD
     ++pending_sqes_;
+=======
+  {
+    ::io_uring_sqe_set_data(sqe, 0);
+    ++pending_sqes_;
+  }
+>>>>>>> 142038d (add asio new version)
   return sqe;
 }
 
@@ -757,12 +843,25 @@ io_uring_service::io_queue::io_queue()
 struct io_uring_service::perform_io_cleanup_on_block_exit
 {
   explicit perform_io_cleanup_on_block_exit(io_uring_service* s)
+<<<<<<< HEAD
     : service_(s), first_op_(0)
+=======
+    : service_(s), io_object_to_free_(0), first_op_(0)
+>>>>>>> 142038d (add asio new version)
   {
   }
 
   ~perform_io_cleanup_on_block_exit()
   {
+<<<<<<< HEAD
+=======
+    if (io_object_to_free_)
+    {
+      mutex::scoped_lock lock(service_->mutex_);
+      service_->free_io_object(io_object_to_free_);
+    }
+
+>>>>>>> 142038d (add asio new version)
     if (first_op_)
     {
       // Post the remaining completed operations for invocation.
@@ -783,6 +882,10 @@ struct io_uring_service::perform_io_cleanup_on_block_exit
   }
 
   io_uring_service* service_;
+<<<<<<< HEAD
+=======
+  io_object* io_object_to_free_;
+>>>>>>> 142038d (add asio new version)
   op_queue<operation> ops_;
   operation* first_op_;
 };
@@ -844,6 +947,18 @@ operation* io_uring_service::io_queue::perform_io(int result)
     }
   }
 
+<<<<<<< HEAD
+=======
+  // The last operation to complete on a shut down object must free it.
+  if (io_object_->shutdown_)
+  {
+    io_cleanup.io_object_to_free_ = io_object_;
+    for (int i = 0; i < max_ops; ++i)
+      if (!io_object_->queues_[i].op_queue_.empty())
+        io_cleanup.io_object_to_free_ = 0;
+  }
+
+>>>>>>> 142038d (add asio new version)
   // The first operation will be returned for completion now. The others will
   // be posted for later by the io_cleanup object's destructor.
   io_cleanup.first_op_ = io_cleanup.ops_.front();

@@ -2,7 +2,11 @@
 // detail/event.hpp
 // ~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,10 +27,8 @@
 # include "asio/detail/win_event.hpp"
 #elif defined(ASIO_HAS_PTHREADS)
 # include "asio/detail/posix_event.hpp"
-#elif defined(ASIO_HAS_STD_MUTEX_AND_CONDVAR)
-# include "asio/detail/std_event.hpp"
 #else
-# error Only Windows, POSIX and std::condition_variable are supported!
+# include "asio/detail/std_event.hpp"
 #endif
 
 namespace asio {
@@ -38,7 +40,7 @@ typedef null_event event;
 typedef win_event event;
 #elif defined(ASIO_HAS_PTHREADS)
 typedef posix_event event;
-#elif defined(ASIO_HAS_STD_MUTEX_AND_CONDVAR)
+#else
 typedef std_event event;
 #endif
 

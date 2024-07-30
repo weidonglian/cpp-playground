@@ -2,7 +2,11 @@
 // detail/handler_alloc_helpers.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,14 +21,12 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/detail/memory.hpp"
-#include "asio/detail/noncopyable.hpp"
 #include "asio/detail/recycling_allocator.hpp"
-#include "asio/detail/thread_info_base.hpp"
 #include "asio/associated_allocator.hpp"
-#include "asio/handler_alloc_hook.hpp"
 
 #include "asio/detail/push_options.hpp"
 
+<<<<<<< HEAD
 // Calls to asio_handler_allocate and asio_handler_deallocate must be made from
 // a namespace that does not contain any overloads of these functions. The
 // asio_handler_alloc_helpers namespace is defined here for that purpose.
@@ -193,6 +195,9 @@ struct get_hook_allocator<Handler, std::allocator<T> >
 } // namespace asio
 
 #define ASIO_DEFINE_HANDLER_PTR(op) \
+=======
+#define ASIO_DEFINE_TAGGED_HANDLER_PTR(purpose, op) \
+>>>>>>> 142038d (add asio new version)
   struct ptr \
   { \
     Handler* h; \
@@ -206,12 +211,12 @@ struct get_hook_allocator<Handler, std::allocator<T> >
     { \
       typedef typename ::asio::associated_allocator< \
         Handler>::type associated_allocator_type; \
-      typedef typename ::asio::detail::get_hook_allocator< \
-        Handler, associated_allocator_type>::type hook_allocator_type; \
-      ASIO_REBIND_ALLOC(hook_allocator_type, op) a( \
-            ::asio::detail::get_hook_allocator< \
-              Handler, associated_allocator_type>::get( \
-                handler, ::asio::get_associated_allocator(handler))); \
+      typedef typename ::asio::detail::get_recycling_allocator< \
+        associated_allocator_type, purpose>::type default_allocator_type; \
+      ASIO_REBIND_ALLOC(default_allocator_type, op) a( \
+            ::asio::detail::get_recycling_allocator< \
+              associated_allocator_type, purpose>::get( \
+                ::asio::get_associated_allocator(handler))); \
       return a.allocate(1); \
     } \
     void reset() \
@@ -225,17 +230,22 @@ struct get_hook_allocator<Handler, std::allocator<T> >
       { \
         typedef typename ::asio::associated_allocator< \
           Handler>::type associated_allocator_type; \
-        typedef typename ::asio::detail::get_hook_allocator< \
-          Handler, associated_allocator_type>::type hook_allocator_type; \
-        ASIO_REBIND_ALLOC(hook_allocator_type, op) a( \
-              ::asio::detail::get_hook_allocator< \
-                Handler, associated_allocator_type>::get( \
-                  *h, ::asio::get_associated_allocator(*h))); \
+        typedef typename ::asio::detail::get_recycling_allocator< \
+          associated_allocator_type, purpose>::type default_allocator_type; \
+        ASIO_REBIND_ALLOC(default_allocator_type, op) a( \
+              ::asio::detail::get_recycling_allocator< \
+                associated_allocator_type, purpose>::get( \
+                  ::asio::get_associated_allocator(*h))); \
         a.deallocate(static_cast<op*>(v), 1); \
         v = 0; \
       } \
     } \
   } \
+  /**/
+
+#define ASIO_DEFINE_HANDLER_PTR(op) \
+  ASIO_DEFINE_TAGGED_HANDLER_PTR( \
+      ::asio::detail::thread_info_base::default_tag, op ) \
   /**/
 
 #define ASIO_DEFINE_TAGGED_HANDLER_ALLOCATOR_PTR(purpose, op) \

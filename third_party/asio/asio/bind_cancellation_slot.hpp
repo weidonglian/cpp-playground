@@ -2,7 +2,11 @@
 // bind_cancellation_slot.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,11 +20,20 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+<<<<<<< HEAD
 #include "asio/detail/type_traits.hpp"
 #include "asio/detail/variadic_templates.hpp"
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/associator.hpp"
 #include "asio/async_result.hpp"
+=======
+#include "asio/associated_cancellation_slot.hpp"
+#include "asio/associated_executor.hpp"
+#include "asio/associator.hpp"
+#include "asio/async_result.hpp"
+#include "asio/detail/initiation_base.hpp"
+#include "asio/detail/type_traits.hpp"
+>>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/push_options.hpp"
 
@@ -37,8 +50,12 @@ protected:
 };
 
 template <typename T>
+<<<<<<< HEAD
 struct cancellation_slot_binder_result_type<T,
   typename void_type<typename T::result_type>::type>
+=======
+struct cancellation_slot_binder_result_type<T, void_t<typename T::result_type>>
+>>>>>>> 142038d (add asio new version)
 {
   typedef typename T::result_type result_type;
 protected:
@@ -100,7 +117,11 @@ struct cancellation_slot_binder_argument_type {};
 
 template <typename T>
 struct cancellation_slot_binder_argument_type<T,
+<<<<<<< HEAD
   typename void_type<typename T::argument_type>::type>
+=======
+    void_t<typename T::argument_type>>
+>>>>>>> 142038d (add asio new version)
 {
   typedef typename T::argument_type argument_type;
 };
@@ -125,7 +146,11 @@ struct cancellation_slot_binder_argument_types {};
 
 template <typename T>
 struct cancellation_slot_binder_argument_types<T,
+<<<<<<< HEAD
   typename void_type<typename T::first_argument_type>::type>
+=======
+    void_t<typename T::first_argument_type>>
+>>>>>>> 142038d (add asio new version)
 {
   typedef typename T::first_argument_type first_argument_type;
   typedef typename T::second_argument_type second_argument_type;
@@ -145,6 +170,7 @@ struct cancellation_slot_binder_argument_type<R(&)(A1, A2)>
   typedef A2 second_argument_type;
 };
 
+<<<<<<< HEAD
 // Helper to enable SFINAE on zero-argument operator() below.
 
 template <typename T, typename = void>
@@ -160,6 +186,8 @@ struct cancellation_slot_binder_result_of0<T,
   typedef typename result_of<T()>::type type;
 };
 
+=======
+>>>>>>> 142038d (add asio new version)
 } // namespace detail
 
 /// A call wrapper type to bind a cancellation slot of type @c CancellationSlot
@@ -247,10 +275,16 @@ public:
    * @c U.
    */
   template <typename U>
+<<<<<<< HEAD
   cancellation_slot_binder(const cancellation_slot_type& s,
       ASIO_MOVE_ARG(U) u)
     : slot_(s),
       target_(ASIO_MOVE_CAST(U)(u))
+=======
+  cancellation_slot_binder(const cancellation_slot_type& s, U&& u)
+    : slot_(s),
+      target_(static_cast<U&&>(u))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -277,7 +311,14 @@ public:
    */
   template <typename U, typename OtherCancellationSlot>
   cancellation_slot_binder(
+<<<<<<< HEAD
       const cancellation_slot_binder<U, OtherCancellationSlot>& other)
+=======
+      const cancellation_slot_binder<U, OtherCancellationSlot>& other,
+      constraint_t<is_constructible<CancellationSlot,
+        OtherCancellationSlot>::value> = 0,
+      constraint_t<is_constructible<T, U>::value> = 0)
+>>>>>>> 142038d (add asio new version)
     : slot_(other.get_cancellation_slot()),
       target_(other.get())
   {
@@ -291,12 +332,18 @@ public:
    */
   template <typename U, typename OtherCancellationSlot>
   cancellation_slot_binder(const cancellation_slot_type& s,
+<<<<<<< HEAD
       const cancellation_slot_binder<U, OtherCancellationSlot>& other)
+=======
+      const cancellation_slot_binder<U, OtherCancellationSlot>& other,
+      constraint_t<is_constructible<T, U>::value> = 0)
+>>>>>>> 142038d (add asio new version)
     : slot_(s),
       target_(other.get())
   {
   }
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
   /// Move constructor.
@@ -304,6 +351,13 @@ public:
     : slot_(ASIO_MOVE_CAST(cancellation_slot_type)(
           other.get_cancellation_slot())),
       target_(ASIO_MOVE_CAST(T)(other.get()))
+=======
+  /// Move constructor.
+  cancellation_slot_binder(cancellation_slot_binder&& other)
+    : slot_(static_cast<cancellation_slot_type&&>(
+          other.get_cancellation_slot())),
+      target_(static_cast<T&&>(other.get()))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -312,17 +366,31 @@ public:
   cancellation_slot_binder(const cancellation_slot_type& s,
       cancellation_slot_binder&& other)
     : slot_(s),
+<<<<<<< HEAD
       target_(ASIO_MOVE_CAST(T)(other.get()))
+=======
+      target_(static_cast<T&&>(other.get()))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Move construct from a different cancellation slot wrapper type.
   template <typename U, typename OtherCancellationSlot>
   cancellation_slot_binder(
+<<<<<<< HEAD
       cancellation_slot_binder<U, OtherCancellationSlot>&& other)
     : slot_(ASIO_MOVE_CAST(OtherCancellationSlot)(
           other.get_cancellation_slot())),
       target_(ASIO_MOVE_CAST(U)(other.get()))
+=======
+      cancellation_slot_binder<U, OtherCancellationSlot>&& other,
+      constraint_t<is_constructible<CancellationSlot,
+        OtherCancellationSlot>::value> = 0,
+      constraint_t<is_constructible<T, U>::value> = 0)
+    : slot_(static_cast<OtherCancellationSlot&&>(
+          other.get_cancellation_slot())),
+      target_(static_cast<U&&>(other.get()))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -330,6 +398,7 @@ public:
   /// specify a different cancellation slot.
   template <typename U, typename OtherCancellationSlot>
   cancellation_slot_binder(const cancellation_slot_type& s,
+<<<<<<< HEAD
       cancellation_slot_binder<U, OtherCancellationSlot>&& other)
     : slot_(s),
       target_(ASIO_MOVE_CAST(U)(other.get()))
@@ -338,29 +407,51 @@ public:
 
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
+=======
+      cancellation_slot_binder<U, OtherCancellationSlot>&& other,
+      constraint_t<is_constructible<T, U>::value> = 0)
+    : slot_(s),
+      target_(static_cast<U&&>(other.get()))
+  {
+  }
+
+>>>>>>> 142038d (add asio new version)
   /// Destructor.
   ~cancellation_slot_binder()
   {
   }
 
   /// Obtain a reference to the target object.
+<<<<<<< HEAD
   target_type& get() ASIO_NOEXCEPT
+=======
+  target_type& get() noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return target_;
   }
 
   /// Obtain a reference to the target object.
+<<<<<<< HEAD
   const target_type& get() const ASIO_NOEXCEPT
+=======
+  const target_type& get() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return target_;
   }
 
   /// Obtain the associated cancellation slot.
+<<<<<<< HEAD
   cancellation_slot_type get_cancellation_slot() const ASIO_NOEXCEPT
+=======
+  cancellation_slot_type get_cancellation_slot() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return slot_;
   }
 
+<<<<<<< HEAD
 #if defined(GENERATING_DOCUMENTATION)
 
   template <typename... Args> auto operator()(Args&& ...);
@@ -374,10 +465,18 @@ public:
       ASIO_MOVE_ARG(Args)... args)
   {
     return target_(ASIO_MOVE_CAST(Args)(args)...);
+=======
+  /// Forwarding function call operator.
+  template <typename... Args>
+  result_of_t<T(Args...)> operator()(Args&&... args)
+  {
+    return target_(static_cast<Args&&>(args)...);
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Forwarding function call operator.
   template <typename... Args>
+<<<<<<< HEAD
   typename result_of<T(Args...)>::type operator()(
       ASIO_MOVE_ARG(Args)... args) const
   {
@@ -450,21 +549,79 @@ public:
 
 #endif // defined(ASIO_HAS_STD_TYPE_TRAITS) && !defined(_MSC_VER)
 
+=======
+  result_of_t<T(Args...)> operator()(Args&&... args) const
+  {
+    return target_(static_cast<Args&&>(args)...);
+  }
+
+>>>>>>> 142038d (add asio new version)
 private:
   CancellationSlot slot_;
   T target_;
 };
 
+<<<<<<< HEAD
+=======
+/// A function object type that adapts a @ref completion_token to specify that
+/// the completion handler should have the supplied cancellation slot as its
+/// associated cancellation slot.
+/**
+ * May also be used directly as a completion token, in which case it adapts the
+ * asynchronous operation's default completion token (or asio::deferred
+ * if no default is available).
+ */
+template <typename CancellationSlot>
+struct partial_cancellation_slot_binder
+{
+  /// Constructor that specifies associated cancellation slot.
+  explicit partial_cancellation_slot_binder(const CancellationSlot& ex)
+    : cancellation_slot_(ex)
+  {
+  }
+
+  /// Adapt a @ref completion_token to specify that the completion handler
+  /// should have the cancellation slot as its associated cancellation slot.
+  template <typename CompletionToken>
+  ASIO_NODISCARD inline
+  constexpr cancellation_slot_binder<decay_t<CompletionToken>, CancellationSlot>
+  operator()(CompletionToken&& completion_token) const
+  {
+    return cancellation_slot_binder<decay_t<CompletionToken>, CancellationSlot>(
+        static_cast<CompletionToken&&>(completion_token), cancellation_slot_);
+  }
+
+//private:
+  CancellationSlot cancellation_slot_;
+};
+
+/// Create a partial completion token that associates a cancellation slot.
+template <typename CancellationSlot>
+ASIO_NODISCARD inline partial_cancellation_slot_binder<CancellationSlot>
+bind_cancellation_slot(const CancellationSlot& ex)
+{
+  return partial_cancellation_slot_binder<CancellationSlot>(ex);
+}
+
+>>>>>>> 142038d (add asio new version)
 /// Associate an object of type @c T with a cancellation slot of type
 /// @c CancellationSlot.
 template <typename CancellationSlot, typename T>
 ASIO_NODISCARD inline
+<<<<<<< HEAD
 cancellation_slot_binder<typename decay<T>::type, CancellationSlot>
 bind_cancellation_slot(const CancellationSlot& s, ASIO_MOVE_ARG(T) t)
 {
   return cancellation_slot_binder<
     typename decay<T>::type, CancellationSlot>(
       s, ASIO_MOVE_CAST(T)(t));
+=======
+cancellation_slot_binder<decay_t<T>, CancellationSlot>
+bind_cancellation_slot(const CancellationSlot& s, T&& t)
+{
+  return cancellation_slot_binder<decay_t<T>, CancellationSlot>(
+      s, static_cast<T&&>(t));
+>>>>>>> 142038d (add asio new version)
 }
 
 #if !defined(GENERATING_DOCUMENTATION)
@@ -472,6 +629,7 @@ bind_cancellation_slot(const CancellationSlot& s, ASIO_MOVE_ARG(T) t)
 namespace detail {
 
 template <typename TargetAsyncResult,
+<<<<<<< HEAD
   typename CancellationSlot, typename = void>
 struct cancellation_slot_binder_async_result_completion_handler_type
 {
@@ -487,6 +645,41 @@ struct cancellation_slot_binder_async_result_completion_handler_type<
   typedef cancellation_slot_binder<
     typename TargetAsyncResult::completion_handler_type, CancellationSlot>
       completion_handler_type;
+=======
+    typename CancellationSlot, typename = void>
+class cancellation_slot_binder_completion_handler_async_result
+{
+public:
+  template <typename T>
+  explicit cancellation_slot_binder_completion_handler_async_result(T&)
+  {
+  }
+};
+
+template <typename TargetAsyncResult, typename CancellationSlot>
+class cancellation_slot_binder_completion_handler_async_result<
+    TargetAsyncResult, CancellationSlot,
+    void_t<typename TargetAsyncResult::completion_handler_type>>
+{
+private:
+  TargetAsyncResult target_;
+
+public:
+  typedef cancellation_slot_binder<
+    typename TargetAsyncResult::completion_handler_type, CancellationSlot>
+      completion_handler_type;
+
+  explicit cancellation_slot_binder_completion_handler_async_result(
+      typename TargetAsyncResult::completion_handler_type& handler)
+    : target_(handler)
+  {
+  }
+
+  auto get() -> decltype(target_.get())
+  {
+    return target_.get();
+  }
+>>>>>>> 142038d (add asio new version)
 };
 
 template <typename TargetAsyncResult, typename = void>
@@ -496,10 +689,14 @@ struct cancellation_slot_binder_async_result_return_type
 
 template <typename TargetAsyncResult>
 struct cancellation_slot_binder_async_result_return_type<
+<<<<<<< HEAD
   TargetAsyncResult,
   typename void_type<
     typename TargetAsyncResult::return_type
   >::type>
+=======
+    TargetAsyncResult, void_t<typename TargetAsyncResult::return_type>>
+>>>>>>> 142038d (add asio new version)
 {
   typedef typename TargetAsyncResult::return_type return_type;
 };
@@ -508,6 +705,7 @@ struct cancellation_slot_binder_async_result_return_type<
 
 template <typename T, typename CancellationSlot, typename Signature>
 class async_result<cancellation_slot_binder<T, CancellationSlot>, Signature> :
+<<<<<<< HEAD
   public detail::cancellation_slot_binder_async_result_completion_handler_type<
     async_result<T, Signature>, CancellationSlot>,
   public detail::cancellation_slot_binder_async_result_return_type<
@@ -682,20 +880,128 @@ public:
 private:
   async_result(const async_result&) ASIO_DELETED;
   async_result& operator=(const async_result&) ASIO_DELETED;
+=======
+  public detail::cancellation_slot_binder_completion_handler_async_result<
+      async_result<T, Signature>, CancellationSlot>,
+  public detail::cancellation_slot_binder_async_result_return_type<
+      async_result<T, Signature>>
+{
+public:
+  explicit async_result(cancellation_slot_binder<T, CancellationSlot>& b)
+    : detail::cancellation_slot_binder_completion_handler_async_result<
+        async_result<T, Signature>, CancellationSlot>(b.get())
+  {
+  }
+
+  template <typename Initiation>
+  struct init_wrapper : detail::initiation_base<Initiation>
+  {
+    using detail::initiation_base<Initiation>::initiation_base;
+
+    template <typename Handler, typename... Args>
+    void operator()(Handler&& handler,
+        const CancellationSlot& slot, Args&&... args) &&
+    {
+      static_cast<Initiation&&>(*this)(
+          cancellation_slot_binder<decay_t<Handler>, CancellationSlot>(
+              slot, static_cast<Handler&&>(handler)),
+          static_cast<Args&&>(args)...);
+    }
+
+    template <typename Handler, typename... Args>
+    void operator()(Handler&& handler,
+        const CancellationSlot& slot, Args&&... args) const &
+    {
+      static_cast<const Initiation&>(*this)(
+          cancellation_slot_binder<decay_t<Handler>, CancellationSlot>(
+              slot, static_cast<Handler&&>(handler)),
+          static_cast<Args&&>(args)...);
+    }
+  };
+
+  template <typename Initiation, typename RawCompletionToken, typename... Args>
+  static auto initiate(Initiation&& initiation,
+      RawCompletionToken&& token, Args&&... args)
+    -> decltype(
+      async_initiate<
+        conditional_t<
+          is_const<remove_reference_t<RawCompletionToken>>::value, const T, T>,
+        Signature>(
+        declval<init_wrapper<decay_t<Initiation>>>(),
+        token.get(), token.get_cancellation_slot(),
+        static_cast<Args&&>(args)...))
+  {
+    return async_initiate<
+      conditional_t<
+        is_const<remove_reference_t<RawCompletionToken>>::value, const T, T>,
+      Signature>(
+        init_wrapper<decay_t<Initiation>>(
+          static_cast<Initiation&&>(initiation)),
+        token.get(), token.get_cancellation_slot(),
+        static_cast<Args&&>(args)...);
+  }
+
+private:
+  async_result(const async_result&) = delete;
+  async_result& operator=(const async_result&) = delete;
+>>>>>>> 142038d (add asio new version)
 
   async_result<T, Signature> target_;
 };
 
+<<<<<<< HEAD
+=======
+template <typename CancellationSlot, typename... Signatures>
+struct async_result<partial_cancellation_slot_binder<CancellationSlot>,
+    Signatures...>
+{
+  template <typename Initiation, typename RawCompletionToken, typename... Args>
+  static auto initiate(Initiation&& initiation,
+      RawCompletionToken&& token, Args&&... args)
+    -> decltype(
+      async_initiate<Signatures...>(
+        static_cast<Initiation&&>(initiation),
+        cancellation_slot_binder<
+          default_completion_token_t<associated_executor_t<Initiation>>,
+          CancellationSlot>(token.cancellation_slot_,
+            default_completion_token_t<associated_executor_t<Initiation>>{}),
+        static_cast<Args&&>(args)...))
+  {
+    return async_initiate<Signatures...>(
+        static_cast<Initiation&&>(initiation),
+        cancellation_slot_binder<
+          default_completion_token_t<associated_executor_t<Initiation>>,
+          CancellationSlot>(token.cancellation_slot_,
+            default_completion_token_t<associated_executor_t<Initiation>>{}),
+        static_cast<Args&&>(args)...);
+  }
+};
+
+>>>>>>> 142038d (add asio new version)
 template <template <typename, typename> class Associator,
     typename T, typename CancellationSlot, typename DefaultCandidate>
 struct associator<Associator,
     cancellation_slot_binder<T, CancellationSlot>,
     DefaultCandidate>
+<<<<<<< HEAD
 {
   typedef typename Associator<T, DefaultCandidate>::type type;
 
   static type get(const cancellation_slot_binder<T, CancellationSlot>& b,
       const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
+=======
+  : Associator<T, DefaultCandidate>
+{
+  static typename Associator<T, DefaultCandidate>::type get(
+      const cancellation_slot_binder<T, CancellationSlot>& b) noexcept
+  {
+    return Associator<T, DefaultCandidate>::get(b.get());
+  }
+
+  static auto get(const cancellation_slot_binder<T, CancellationSlot>& b,
+      const DefaultCandidate& c) noexcept
+    -> decltype(Associator<T, DefaultCandidate>::get(b.get(), c))
+>>>>>>> 142038d (add asio new version)
   {
     return Associator<T, DefaultCandidate>::get(b.get(), c);
   }
@@ -708,8 +1014,14 @@ struct associated_cancellation_slot<
 {
   typedef CancellationSlot type;
 
+<<<<<<< HEAD
   static type get(const cancellation_slot_binder<T, CancellationSlot>& b,
       const CancellationSlot1& = CancellationSlot1()) ASIO_NOEXCEPT
+=======
+  static auto get(const cancellation_slot_binder<T, CancellationSlot>& b,
+      const CancellationSlot1& = CancellationSlot1()) noexcept
+    -> decltype(b.get_cancellation_slot())
+>>>>>>> 142038d (add asio new version)
   {
     return b.get_cancellation_slot();
   }

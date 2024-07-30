@@ -2,7 +2,11 @@
 // ssl/detail/handshake_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,7 +32,7 @@ namespace detail {
 class handshake_op
 {
 public:
-  static ASIO_CONSTEXPR const char* tracking_name()
+  static constexpr const char* tracking_name()
   {
     return "ssl::stream<>::async_handshake";
   }
@@ -51,7 +55,11 @@ public:
       const asio::error_code& ec,
       const std::size_t&) const
   {
+<<<<<<< HEAD
     ASIO_MOVE_OR_LVALUE(Handler)(handler)(ec);
+=======
+    static_cast<Handler&&>(handler)(ec);
+>>>>>>> 142038d (add asio new version)
   }
 
 private:

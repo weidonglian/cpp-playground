@@ -2,7 +2,11 @@
 // system_context.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -43,13 +47,13 @@ public:
   ASIO_DECL ~system_context();
 
   /// Obtain an executor for the context.
-  executor_type get_executor() ASIO_NOEXCEPT;
+  executor_type get_executor() noexcept;
 
   /// Signal all threads in the system thread pool to stop.
   ASIO_DECL void stop();
 
   /// Determine whether the system thread pool has been stopped.
-  ASIO_DECL bool stopped() const ASIO_NOEXCEPT;
+  ASIO_DECL bool stopped() const noexcept;
 
   /// Join all threads in the system thread pool.
   ASIO_DECL void join();

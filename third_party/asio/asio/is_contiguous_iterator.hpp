@@ -2,7 +2,11 @@
 // is_contiguous_iterator.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,7 +33,11 @@ template <typename T>
 struct is_contiguous_iterator :
 #if defined(ASIO_HAS_STD_CONCEPTS) \
   || defined(GENERATING_DOCUMENTATION)
+<<<<<<< HEAD
   integral_constant<bool, std::contiguous_iterator<T> >
+=======
+  integral_constant<bool, std::contiguous_iterator<T>>
+>>>>>>> 142038d (add asio new version)
 #else // defined(ASIO_HAS_STD_CONCEPTS)
       //   || defined(GENERATING_DOCUMENTATION)
   is_pointer<T>

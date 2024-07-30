@@ -2,7 +2,11 @@
 // associated_executor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -38,8 +42,12 @@ struct has_executor_type : false_type
 };
 
 template <typename T>
+<<<<<<< HEAD
 struct has_executor_type<T,
   typename void_type<typename T::executor_type>::type>
+=======
+struct has_executor_type<T, void_t<typename T::executor_type>>
+>>>>>>> 142038d (add asio new version)
     : true_type
 {
 };
@@ -51,22 +59,44 @@ struct associated_executor_impl
 
   typedef E type;
 
-  static type get(const T&, const E& e = E()) ASIO_NOEXCEPT
+  static type get(const T&) noexcept
+  {
+    return type();
+  }
+
+  static const type& get(const T&, const E& e) noexcept
   {
     return e;
   }
 };
 
 template <typename T, typename E>
-struct associated_executor_impl<T, E,
-  typename void_type<typename T::executor_type>::type>
+struct associated_executor_impl<T, E, void_t<typename T::executor_type>>
 {
   typedef typename T::executor_type type;
 
-  static type get(const T& t, const E& = E()) ASIO_NOEXCEPT
+  static auto get(const T& t) noexcept
+    -> decltype(t.get_executor())
   {
     return t.get_executor();
   }
+
+  static auto get(const T& t, const E&) noexcept
+    -> decltype(t.get_executor())
+  {
+    return t.get_executor();
+  }
+};
+
+template <typename T, typename E>
+struct associated_executor_impl<T, E,
+  enable_if_t<
+    !has_executor_type<T>::value
+  >,
+  void_t<
+    typename associator<associated_executor, T, E>::type
+  >> : associator<associated_executor, T, E>
+{
 };
 
 template <typename T, typename E>
@@ -96,10 +126,12 @@ struct associated_executor_impl<T, E,
  * Executor requirements.
  *
  * @li Provide a noexcept static member function named @c get, callable as @c
- * get(t) and with return type @c type.
+ * get(t) and with return type @c type or a (possibly const) reference to @c
+ * type.
  *
  * @li Provide a noexcept static member function named @c get, callable as @c
- * get(t,e) and with return type @c type.
+ * get(t,e) and with return type @c type or a (possibly const) reference to @c
+ * type.
  */
 template <typename T, typename Executor = system_executor>
 struct associated_executor
@@ -113,9 +145,12 @@ struct associated_executor
   typedef see_below type;
 
   /// If @c T has a nested type @c executor_type, returns
+  /// <tt>t.get_executor()</tt>. Otherwise returns @c type().
+  static decltype(auto) get(const T& t) noexcept;
+
+  /// If @c T has a nested type @c executor_type, returns
   /// <tt>t.get_executor()</tt>. Otherwise returns @c ex.
-  static type get(const T& t,
-      const Executor& ex = Executor()) ASIO_NOEXCEPT;
+  static decltype(auto) get(const T& t, const Executor& ex) noexcept;
 #endif // defined(GENERATING_DOCUMENTATION)
 };
 
@@ -125,7 +160,11 @@ struct associated_executor
  */
 template <typename T>
 ASIO_NODISCARD inline typename associated_executor<T>::type
+<<<<<<< HEAD
 get_associated_executor(const T& t) ASIO_NOEXCEPT
+=======
+get_associated_executor(const T& t) noexcept
+>>>>>>> 142038d (add asio new version)
 {
   return associated_executor<T>::get(t);
 }
@@ -135,11 +174,20 @@ get_associated_executor(const T& t) ASIO_NOEXCEPT
  * @returns <tt>associated_executor<T, Executor>::get(t, ex)</tt>
  */
 template <typename T, typename Executor>
+<<<<<<< HEAD
 ASIO_NODISCARD inline typename associated_executor<T, Executor>::type
 get_associated_executor(const T& t, const Executor& ex,
     typename constraint<
       is_executor<Executor>::value || execution::is_executor<Executor>::value
     >::type = 0) ASIO_NOEXCEPT
+=======
+ASIO_NODISCARD inline auto get_associated_executor(
+    const T& t, const Executor& ex,
+    constraint_t<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    > = 0) noexcept
+  -> decltype(associated_executor<T, Executor>::get(t, ex))
+>>>>>>> 142038d (add asio new version)
 {
   return associated_executor<T, Executor>::get(t, ex);
 }
@@ -151,21 +199,24 @@ get_associated_executor(const T& t, const Executor& ex,
  */
 template <typename T, typename ExecutionContext>
 ASIO_NODISCARD inline typename associated_executor<T,
+<<<<<<< HEAD
   typename ExecutionContext::executor_type>::type
 get_associated_executor(const T& t, ExecutionContext& ctx,
     typename constraint<is_convertible<ExecutionContext&,
       execution_context&>::value>::type = 0) ASIO_NOEXCEPT
+=======
+    typename ExecutionContext::executor_type>::type
+get_associated_executor(const T& t, ExecutionContext& ctx,
+    constraint_t<is_convertible<ExecutionContext&,
+      execution_context&>::value> = 0) noexcept
+>>>>>>> 142038d (add asio new version)
 {
   return associated_executor<T,
     typename ExecutionContext::executor_type>::get(t, ctx.get_executor());
 }
 
-#if defined(ASIO_HAS_ALIAS_TEMPLATES)
-
 template <typename T, typename Executor = system_executor>
 using associated_executor_t = typename associated_executor<T, Executor>::type;
-
-#endif // defined(ASIO_HAS_ALIAS_TEMPLATES)
 
 namespace detail {
 
@@ -176,22 +227,25 @@ struct associated_executor_forwarding_base
 
 template <typename T, typename E>
 struct associated_executor_forwarding_base<T, E,
-    typename enable_if<
+    enable_if_t<
       is_same<
         typename associated_executor<T,
           E>::asio_associated_executor_is_unspecialised,
         void
       >::value
-    >::type>
+    >>
 {
   typedef void asio_associated_executor_is_unspecialised;
 };
 
 } // namespace detail
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_STD_REFERENCE_WRAPPER) \
   || defined(GENERATING_DOCUMENTATION)
 
+=======
+>>>>>>> 142038d (add asio new version)
 /// Specialisation of associated_executor for @c std::reference_wrapper.
 template <typename T, typename Executor>
 struct associated_executor<reference_wrapper<T>, Executor>
@@ -205,16 +259,31 @@ struct associated_executor<reference_wrapper<T>, Executor>
 
   /// Forwards the request to get the executor to the associator specialisation
   /// for the unwrapped type @c T.
+<<<<<<< HEAD
   static type get(reference_wrapper<T> t,
       const Executor& ex = Executor()) ASIO_NOEXCEPT
+=======
+  static type get(reference_wrapper<T> t) noexcept
+  {
+    return associated_executor<T, Executor>::get(t.get());
+  }
+
+  /// Forwards the request to get the executor to the associator specialisation
+  /// for the unwrapped type @c T.
+  static auto get(reference_wrapper<T> t, const Executor& ex) noexcept
+    -> decltype(associated_executor<T, Executor>::get(t.get(), ex))
+>>>>>>> 142038d (add asio new version)
   {
     return associated_executor<T, Executor>::get(t.get(), ex);
   }
 };
 
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_STD_REFERENCE_WRAPPER)
        //   || defined(GENERATING_DOCUMENTATION)
 
+=======
+>>>>>>> 142038d (add asio new version)
 } // namespace asio
 
 #include "asio/detail/pop_options.hpp"

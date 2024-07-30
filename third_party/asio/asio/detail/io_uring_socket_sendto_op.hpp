@@ -2,7 +2,11 @@
 // detail/io_uring_socket_sendto_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -60,6 +64,10 @@ public:
 
   static void do_prepare(io_uring_operation* base, ::io_uring_sqe* sqe)
   {
+<<<<<<< HEAD
+=======
+    ASIO_ASSUME(base != 0);
+>>>>>>> 142038d (add asio new version)
     io_uring_socket_sendto_op_base* o(
         static_cast<io_uring_socket_sendto_op_base*>(base));
 
@@ -75,6 +83,10 @@ public:
 
   static bool do_perform(io_uring_operation* base, bool after_completion)
   {
+<<<<<<< HEAD
+=======
+    ASIO_ASSUME(base != 0);
+>>>>>>> 142038d (add asio new version)
     io_uring_socket_sendto_op_base* o(
         static_cast<io_uring_socket_sendto_op_base*>(base));
 
@@ -132,7 +144,11 @@ public:
     : io_uring_socket_sendto_op_base<ConstBufferSequence, Endpoint>(
         success_ec, socket, state, buffers, endpoint, flags,
         &io_uring_socket_sendto_op::do_complete),
+<<<<<<< HEAD
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
+=======
+      handler_(static_cast<Handler&&>(handler)),
+>>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }
@@ -142,6 +158,10 @@ public:
       std::size_t /*bytes_transferred*/)
   {
     // Take ownership of the handler object.
+<<<<<<< HEAD
+=======
+    ASIO_ASSUME(base != 0);
+>>>>>>> 142038d (add asio new version)
     io_uring_socket_sendto_op* o
       (static_cast<io_uring_socket_sendto_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
@@ -150,7 +170,11 @@ public:
 
     // Take ownership of the operation's outstanding work.
     handler_work<Handler, IoExecutor> w(
+<<<<<<< HEAD
         ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
+=======
+        static_cast<handler_work<Handler, IoExecutor>&&>(
+>>>>>>> 142038d (add asio new version)
           o->work_));
 
     ASIO_ERROR_LOCATION(o->ec_);

@@ -2,7 +2,11 @@
 // ts/netfwd.hpp
 // ~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,10 +20,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-
-#if defined(ASIO_HAS_CHRONO)
-# include "asio/detail/chrono.hpp"
-#endif // defined(ASIO_HAS_CHRONO)
+#include "asio/detail/chrono.hpp"
 
 #if defined(ASIO_HAS_BOOST_DATE_TIME)
 # include "asio/detail/date_time_fwd.hpp"
@@ -66,19 +67,8 @@ namespace execution {
 #if !defined(ASIO_EXECUTION_ANY_EXECUTOR_FWD_DECL)
 #define ASIO_EXECUTION_ANY_EXECUTOR_FWD_DECL
 
-#if defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
 template <typename... SupportableProperties>
 class any_executor;
-
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-template <typename = void, typename = void, typename = void,
-    typename = void, typename = void, typename = void,
-    typename = void, typename = void, typename = void>
-class any_executor;
-
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
 
 #endif // !defined(ASIO_EXECUTION_ANY_EXECUTOR_FWD_DECL)
 
@@ -119,16 +109,12 @@ class basic_waitable_timer;
 
 #endif // !defined(ASIO_BASIC_WAITABLE_TIMER_FWD_DECL)
 
-#if defined(ASIO_HAS_CHRONO)
-
 typedef basic_waitable_timer<chrono::system_clock> system_timer;
 
 typedef basic_waitable_timer<chrono::steady_clock> steady_timer;
 
 typedef basic_waitable_timer<chrono::high_resolution_clock>
   high_resolution_timer;
-
-#endif // defined(ASIO_HAS_CHRONO)
 
 #if !defined(ASIO_BASIC_SOCKET_FWD_DECL)
 #define ASIO_BASIC_SOCKET_FWD_DECL
@@ -171,10 +157,10 @@ template <typename Protocol,
 #if defined(ASIO_HAS_BOOST_DATE_TIME) \
   || defined(GENERATING_DOCUMENTATION)
     typename Clock = boost::posix_time::ptime,
-    typename WaitTraits = time_traits<Clock> >
+    typename WaitTraits = time_traits<Clock>>
 #else
     typename Clock = chrono::steady_clock,
-    typename WaitTraits = wait_traits<Clock> >
+    typename WaitTraits = wait_traits<Clock>>
 #endif
 class basic_socket_streambuf;
 
@@ -188,10 +174,10 @@ template <typename Protocol,
 #if defined(ASIO_HAS_BOOST_DATE_TIME) \
   || defined(GENERATING_DOCUMENTATION)
     typename Clock = boost::posix_time::ptime,
-    typename WaitTraits = time_traits<Clock> >
+    typename WaitTraits = time_traits<Clock>>
 #else
     typename Clock = chrono::steady_clock,
-    typename WaitTraits = wait_traits<Clock> >
+    typename WaitTraits = wait_traits<Clock>>
 #endif
 class basic_socket_iostream;
 

@@ -2,7 +2,11 @@
 // compose.hpp
 // ~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +20,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+<<<<<<< HEAD
 #include "asio/associated_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/base_from_cancellation_state.hpp"
@@ -29,6 +34,9 @@
 #include "asio/executor_work_guard.hpp"
 #include "asio/is_executor.hpp"
 #include "asio/system_executor.hpp"
+=======
+#include "asio/composed.hpp"
+>>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/push_options.hpp"
 
@@ -593,9 +601,6 @@ struct associator<Associator,
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-#if defined(ASIO_HAS_VARIADIC_TEMPLATES) \
-  || defined(GENERATING_DOCUMENTATION)
-
 /// Launch an asynchronous operation with a stateful implementation.
 /**
  * The async_compose function simplifies the implementation of composed
@@ -608,11 +613,18 @@ struct associator<Associator,
  * handler. The remaining arguments are any arguments that originate from the
  * completion handlers of any asynchronous operations performed by the
  * implementation.
-
+ *
  * @param token The completion token.
  *
  * @param io_objects_or_executors Zero or more I/O objects or I/O executors for
  * which outstanding work must be maintained.
+ *
+ * @par Per-Operation Cancellation
+ * By default, terminal per-operation cancellation is enabled for
+ * composed operations that are implemented using @c async_compose. To
+ * disable cancellation for the composed operation, or to alter its
+ * supported cancellation types, call the @c self object's @c
+ * reset_cancellation_state function.
  *
  * @par Example:
  *
@@ -657,8 +669,13 @@ struct associator<Associator,
  * template <typename CompletionToken>
  * auto async_echo(tcp::socket& socket,
  *     asio::mutable_buffer buffer,
+<<<<<<< HEAD
  *     CompletionToken&& token) ->
  *   decltype(
+=======
+ *     CompletionToken&& token)
+ *   -> decltype(
+>>>>>>> 142038d (add asio new version)
  *     asio::async_compose<CompletionToken,
  *       void(asio::error_code, std::size_t)>(
  *         std::declval<async_echo_implementation>(),
@@ -673,6 +690,7 @@ struct associator<Associator,
  */
 template <typename CompletionToken, typename Signature,
     typename Implementation, typename... IoObjectsOrExecutors>
+<<<<<<< HEAD
 ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken, Signature)
 async_compose(ASIO_MOVE_ARG(Implementation) implementation,
     ASIO_NONDEDUCED_MOVE_ARG(CompletionToken) token,
@@ -798,6 +816,22 @@ async_compose(ASIO_MOVE_ARG(Implementation) implementation,
 
 #endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
        //   || defined(GENERATING_DOCUMENTATION)
+=======
+inline auto async_compose(Implementation&& implementation,
+    type_identity_t<CompletionToken>& token,
+    IoObjectsOrExecutors&&... io_objects_or_executors)
+  -> decltype(
+    async_initiate<CompletionToken, Signature>(
+      composed<Signature>(static_cast<Implementation&&>(implementation),
+        static_cast<IoObjectsOrExecutors&&>(io_objects_or_executors)...),
+      token))
+{
+  return async_initiate<CompletionToken, Signature>(
+      composed<Signature>(static_cast<Implementation&&>(implementation),
+        static_cast<IoObjectsOrExecutors&&>(io_objects_or_executors)...),
+      token);
+}
+>>>>>>> 142038d (add asio new version)
 
 } // namespace asio
 

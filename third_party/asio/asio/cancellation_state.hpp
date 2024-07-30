@@ -2,7 +2,11 @@
 // cancellation_state.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,7 +36,11 @@ struct cancellation_filter
 {
   /// Returns <tt>type & Mask</tt>.
   cancellation_type_t operator()(
+<<<<<<< HEAD
       cancellation_type_t type) const ASIO_NOEXCEPT
+=======
+      cancellation_type_t type) const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return type & Mask;
   }
@@ -80,7 +88,11 @@ class cancellation_state
 {
 public:
   /// Construct a disconnected cancellation state.
+<<<<<<< HEAD
   ASIO_CONSTEXPR cancellation_state() ASIO_NOEXCEPT
+=======
+  constexpr cancellation_state() noexcept
+>>>>>>> 142038d (add asio new version)
     : impl_(0)
   {
   }
@@ -95,8 +107,13 @@ public:
    * attached.
    */
   template <typename CancellationSlot>
+<<<<<<< HEAD
   ASIO_CONSTEXPR explicit cancellation_state(CancellationSlot slot)
     : impl_(slot.is_connected() ? &slot.template emplace<impl<> >() : 0)
+=======
+  constexpr explicit cancellation_state(CancellationSlot slot)
+    : impl_(slot.is_connected() ? &slot.template emplace<impl<>>() : 0)
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -119,9 +136,15 @@ public:
    * @li asio::enable_total_cancellation
    */
   template <typename CancellationSlot, typename Filter>
+<<<<<<< HEAD
   ASIO_CONSTEXPR cancellation_state(CancellationSlot slot, Filter filter)
     : impl_(slot.is_connected()
         ? &slot.template emplace<impl<Filter, Filter> >(filter, filter)
+=======
+  constexpr cancellation_state(CancellationSlot slot, Filter filter)
+    : impl_(slot.is_connected()
+        ? &slot.template emplace<impl<Filter, Filter>>(filter, filter)
+>>>>>>> 142038d (add asio new version)
         : 0)
   {
   }
@@ -151,12 +174,21 @@ public:
    * @li asio::enable_total_cancellation
    */
   template <typename CancellationSlot, typename InFilter, typename OutFilter>
+<<<<<<< HEAD
   ASIO_CONSTEXPR cancellation_state(CancellationSlot slot,
       InFilter in_filter, OutFilter out_filter)
     : impl_(slot.is_connected()
         ? &slot.template emplace<impl<InFilter, OutFilter> >(
             ASIO_MOVE_CAST(InFilter)(in_filter),
             ASIO_MOVE_CAST(OutFilter)(out_filter))
+=======
+  constexpr cancellation_state(CancellationSlot slot,
+      InFilter in_filter, OutFilter out_filter)
+    : impl_(slot.is_connected()
+        ? &slot.template emplace<impl<InFilter, OutFilter>>(
+            static_cast<InFilter&&>(in_filter),
+            static_cast<OutFilter&&>(out_filter))
+>>>>>>> 142038d (add asio new version)
         : 0)
   {
   }
@@ -165,20 +197,32 @@ public:
   /**
    * This sub-slot is used with the operations that are being composed.
    */
+<<<<<<< HEAD
   ASIO_CONSTEXPR cancellation_slot slot() const ASIO_NOEXCEPT
+=======
+  constexpr cancellation_slot slot() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return impl_ ? impl_->signal_.slot() : cancellation_slot();
   }
 
   /// Returns the cancellation types that have been triggered.
+<<<<<<< HEAD
   cancellation_type_t cancelled() const ASIO_NOEXCEPT
+=======
+  cancellation_type_t cancelled() const noexcept
+>>>>>>> 142038d (add asio new version)
   {
     return impl_ ? impl_->cancelled_ : cancellation_type_t();
   }
 
   /// Clears the specified cancellation types, if they have been triggered.
   void clear(cancellation_type_t mask = cancellation_type::all)
+<<<<<<< HEAD
     ASIO_NOEXCEPT
+=======
+    noexcept
+>>>>>>> 142038d (add asio new version)
   {
     if (impl_)
       impl_->cancelled_ &= ~mask;
@@ -208,8 +252,13 @@ private:
     }
 
     impl(InFilter in_filter, OutFilter out_filter)
+<<<<<<< HEAD
       : in_filter_(ASIO_MOVE_CAST(InFilter)(in_filter)),
         out_filter_(ASIO_MOVE_CAST(OutFilter)(out_filter))
+=======
+      : in_filter_(static_cast<InFilter&&>(in_filter)),
+        out_filter_(static_cast<OutFilter&&>(out_filter))
+>>>>>>> 142038d (add asio new version)
     {
     }
 

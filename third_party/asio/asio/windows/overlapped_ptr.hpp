@@ -2,7 +2,11 @@
 // windows/overlapped_ptr.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -51,23 +55,40 @@ public:
   /// Construct an overlapped_ptr to contain the specified handler.
   template <typename ExecutionContext, typename Handler>
   explicit overlapped_ptr(ExecutionContext& context,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(Handler) handler,
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
       >::type = 0)
     : impl_(context.get_executor(), ASIO_MOVE_CAST(Handler)(handler))
+=======
+      Handler&& handler,
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value
+      > = 0)
+    : impl_(context.get_executor(), static_cast<Handler&&>(handler))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Construct an overlapped_ptr to contain the specified handler.
   template <typename Executor, typename Handler>
   explicit overlapped_ptr(const Executor& ex,
+<<<<<<< HEAD
       ASIO_MOVE_ARG(Handler) handler,
       typename constraint<
         execution::is_executor<Executor>::value
           || is_executor<Executor>::value
       >::type = 0)
     : impl_(ex, ASIO_MOVE_CAST(Handler)(handler))
+=======
+      Handler&& handler,
+      constraint_t<
+        execution::is_executor<Executor>::value
+          || is_executor<Executor>::value
+      > = 0)
+    : impl_(ex, static_cast<Handler&&>(handler))
+>>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -85,24 +106,39 @@ public:
   /// Reset to contain the specified handler, freeing any current OVERLAPPED
   /// object.
   template <typename ExecutionContext, typename Handler>
+<<<<<<< HEAD
   void reset(ExecutionContext& context, ASIO_MOVE_ARG(Handler) handler,
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
       >::type = 0)
+=======
+  void reset(ExecutionContext& context, Handler&& handler,
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
   {
-    impl_.reset(context.get_executor(), ASIO_MOVE_CAST(Handler)(handler));
+    impl_.reset(context.get_executor(), static_cast<Handler&&>(handler));
   }
 
   /// Reset to contain the specified handler, freeing any current OVERLAPPED
   /// object.
   template <typename Executor, typename Handler>
+<<<<<<< HEAD
   void reset(const Executor& ex, ASIO_MOVE_ARG(Handler) handler,
       typename constraint<
         execution::is_executor<Executor>::value
           || is_executor<Executor>::value
       >::type = 0)
+=======
+  void reset(const Executor& ex, Handler&& handler,
+      constraint_t<
+        execution::is_executor<Executor>::value
+          || is_executor<Executor>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
   {
-    impl_.reset(ex, ASIO_MOVE_CAST(Handler)(handler));
+    impl_.reset(ex, static_cast<Handler&&>(handler));
   }
 
   /// Get the contained OVERLAPPED object.

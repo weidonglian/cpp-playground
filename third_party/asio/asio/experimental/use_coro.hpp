@@ -2,7 +2,11 @@
 // experimental/use_coro.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2021-2022 Klemens D. Morgenstern
+=======
+// Copyright (c) 2021-2023 Klemens D. Morgenstern
+>>>>>>> 142038d (add asio new version)
 //                         (klemens dot morgenstern at gmx dot net)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -17,11 +21,17 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+<<<<<<< HEAD
 #include <optional>
 #include "asio/bind_cancellation_slot.hpp"
 #include "asio/bind_executor.hpp"
 #include "asio/error_code.hpp"
 #include "asio/experimental/detail/partial_promise.hpp"
+=======
+#include <memory>
+#include "asio/deferred.hpp"
+#include "asio/detail/source_location.hpp"
+>>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/push_options.hpp"
 
@@ -31,8 +41,12 @@ class any_io_executor;
 
 namespace experimental {
 
+<<<<<<< HEAD
 /// A @ref completion_token that represents the currently executing resumable
 /// coroutine.
+=======
+/// A @ref completion_token that creates another coro for the task completion.
+>>>>>>> 142038d (add asio new version)
 /**
  * The @c use_coro_t class, with its value @c use_coro, is used to represent an
  * operation that can be awaited by the current resumable coroutine. This
@@ -49,6 +63,7 @@ namespace experimental {
  * above example) suspends the current coroutine. The coroutine is resumed when
  * the asynchronous operation completes, and the result of the operation is
  * returned.
+<<<<<<< HEAD
  */
 template <typename Executor = any_io_executor>
 struct use_coro_t
@@ -58,10 +73,32 @@ struct use_coro_t
 #if defined(ASIO_ENABLE_HANDLER_TRACKING)
 # if defined(ASIO_HAS_SOURCE_LOCATION)
       asio::detail::source_location location =
+=======
+ *
+ * Note that this token is not the most efficient (use the default completion
+ * token @c asio::deferred for that) but does provide type erasure, as it
+ * will always return a @c coro.
+ */
+template <typename Allocator = std::allocator<void>>
+struct use_coro_t
+{
+
+  /// The allocator type. The allocator is used when constructing the
+  /// @c std::promise object for a given asynchronous operation.
+  typedef Allocator allocator_type;
+
+  /// Default constructor.
+  constexpr use_coro_t(
+      allocator_type allocator = allocator_type{}
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+      , asio::detail::source_location location =
+>>>>>>> 142038d (add asio new version)
         asio::detail::source_location::current()
 # endif // defined(ASIO_HAS_SOURCE_LOCATION)
 #endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
     )
+<<<<<<< HEAD
 #if defined(ASIO_ENABLE_HANDLER_TRACKING)
 # if defined(ASIO_HAS_SOURCE_LOCATION)
     : file_name_(location.file_name()),
@@ -69,6 +106,16 @@ struct use_coro_t
       function_name_(location.function_name())
 # else // defined(ASIO_HAS_SOURCE_LOCATION)
     : file_name_(0),
+=======
+    : allocator_(allocator)
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+    , file_name_(location.file_name()),
+      line_(location.line()),
+      function_name_(location.function_name())
+# else // defined(ASIO_HAS_SOURCE_LOCATION)
+    , file_name_(0),
+>>>>>>> 142038d (add asio new version)
       line_(0),
       function_name_(0)
 # endif // defined(ASIO_HAS_SOURCE_LOCATION)
@@ -76,6 +123,7 @@ struct use_coro_t
   {
   }
 
+<<<<<<< HEAD
   /// Constructor used to specify file name, line, and function name.
   ASIO_CONSTEXPR use_coro_t(const char* file_name,
       int line, const char* function_name)
@@ -84,6 +132,31 @@ struct use_coro_t
       line_(line),
       function_name_(function_name)
 #endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+=======
+  /// Specify an alternate allocator.
+  template <typename OtherAllocator>
+  use_coro_t<OtherAllocator> rebind(const OtherAllocator& allocator) const
+  {
+    return use_future_t<OtherAllocator>(allocator);
+  }
+
+  /// Obtain allocator.
+  allocator_type get_allocator() const
+  {
+    return allocator_;
+  }
+
+  /// Constructor used to specify file name, line, and function name.
+  constexpr use_coro_t(const char* file_name,
+      int line, const char* function_name,
+      allocator_type allocator = allocator_type{}) :
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+      file_name_(file_name),
+      line_(line),
+      function_name_(function_name),
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+      allocator_(allocator)
+>>>>>>> 142038d (add asio new version)
   {
 #if !defined(ASIO_ENABLE_HANDLER_TRACKING)
     (void)file_name;
@@ -103,6 +176,7 @@ struct use_coro_t
     /// Construct the adapted executor from the inner executor type.
     template <typename InnerExecutor1>
     executor_with_default(const InnerExecutor1& ex,
+<<<<<<< HEAD
         typename constraint<
           conditional<
             !is_same<InnerExecutor1, executor_with_default>::value,
@@ -110,6 +184,15 @@ struct use_coro_t
             false_type
           >::type::value
         >::type = 0) ASIO_NOEXCEPT
+=======
+        constraint_t<
+          conditional_t<
+            !is_same<InnerExecutor1, executor_with_default>::value,
+            is_convertible<InnerExecutor1, InnerExecutor>,
+            false_type
+          >::value
+        > = 0) noexcept
+>>>>>>> 142038d (add asio new version)
       : InnerExecutor(ex)
     {
     }
@@ -117,6 +200,7 @@ struct use_coro_t
 
   /// Type alias to adapt an I/O object to use @c use_coro_t as its
   /// default completion token type.
+<<<<<<< HEAD
 #if defined(ASIO_HAS_ALIAS_TEMPLATES) \
   || defined(GENERATING_DOCUMENTATION)
   template <typename T>
@@ -124,10 +208,16 @@ struct use_coro_t
       executor_with_default<typename T::executor_type> >::other;
 #endif // defined(ASIO_HAS_ALIAS_TEMPLATES)
        //   || defined(GENERATING_DOCUMENTATION)
+=======
+  template <typename T>
+  using as_default_on_t = typename T::template rebind_executor<
+      executor_with_default<typename T::executor_type>>::other;
+>>>>>>> 142038d (add asio new version)
 
   /// Function helper to adapt an I/O object to use @c use_coro_t as its
   /// default completion token type.
   template <typename T>
+<<<<<<< HEAD
   static typename decay<T>::type::template rebind_executor<
       executor_with_default<typename decay<T>::type::executor_type>
     >::other
@@ -136,6 +226,16 @@ struct use_coro_t
     return typename decay<T>::type::template rebind_executor<
         executor_with_default<typename decay<T>::type::executor_type>
       >::other(ASIO_MOVE_CAST(T)(object));
+=======
+  static typename decay_t<T>::template rebind_executor<
+      executor_with_default<typename decay_t<T>::executor_type>
+    >::other
+  as_default_on(T&& object)
+  {
+    return typename decay_t<T>::template rebind_executor<
+        executor_with_default<typename decay_t<T>::executor_type>
+      >::other(static_cast<T&&>(object));
+>>>>>>> 142038d (add asio new version)
   }
 
 #if defined(ASIO_ENABLE_HANDLER_TRACKING)
@@ -143,6 +243,12 @@ struct use_coro_t
   int line_;
   const char* function_name_;
 #endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+<<<<<<< HEAD
+=======
+
+private:
+  Allocator allocator_;
+>>>>>>> 142038d (add asio new version)
 };
 
 /// A @ref completion_token object that represents the currently executing
@@ -152,10 +258,15 @@ struct use_coro_t
  */
 #if defined(GENERATING_DOCUMENTATION)
 constexpr use_coro_t<> use_coro;
+<<<<<<< HEAD
 #elif defined(ASIO_HAS_CONSTEXPR)
 constexpr use_coro_t<> use_coro(0, 0, 0);
 #elif defined(ASIO_MSVC)
 __declspec(selectany) use_coro_t<> use_coro(0, 0, 0);
+=======
+#else
+constexpr use_coro_t<> use_coro(0, 0, 0);
+>>>>>>> 142038d (add asio new version)
 #endif
 
 } // namespace experimental

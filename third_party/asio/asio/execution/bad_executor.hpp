@@ -2,7 +2,11 @@
 // execution/bad_executor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,11 +32,10 @@ class bad_executor
 {
 public:
   /// Constructor.
-  ASIO_DECL bad_executor() ASIO_NOEXCEPT;
+  ASIO_DECL bad_executor() noexcept;
 
   /// Obtain message associated with exception.
-  ASIO_DECL virtual const char* what() const
-    ASIO_NOEXCEPT_OR_NOTHROW;
+  ASIO_DECL virtual const char* what() const noexcept;
 };
 
 } // namespace execution

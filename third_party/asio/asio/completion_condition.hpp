@@ -2,7 +2,11 @@
 // completion_condition.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +21,8 @@
 
 #include "asio/detail/config.hpp"
 #include <cstddef>
+#include "asio/detail/type_traits.hpp"
+#include "asio/error_code.hpp"
 
 #include "asio/detail/push_options.hpp"
 
@@ -97,7 +103,54 @@ private:
   std::size_t size_;
 };
 
+template <typename T, typename = void>
+struct is_completion_condition_helper : false_type
+{
+};
+
+template <typename T>
+struct is_completion_condition_helper<T,
+    enable_if_t<
+      is_same<
+        result_of_t<T(asio::error_code, std::size_t)>,
+        bool
+      >::value
+    >
+  > : true_type
+{
+};
+
+template <typename T>
+struct is_completion_condition_helper<T,
+    enable_if_t<
+      is_same<
+        result_of_t<T(asio::error_code, std::size_t)>,
+        std::size_t
+      >::value
+    >
+  > : true_type
+{
+};
+
 } // namespace detail
+
+#if defined(GENERATING_DOCUMENTATION)
+
+/// Trait for determining whether a function object is a completion condition.
+template <typename T>
+struct is_completion_condition
+{
+  static constexpr bool value = automatically_determined;
+};
+
+#else // defined(GENERATING_DOCUMENTATION)
+
+template <typename T>
+struct is_completion_condition : detail::is_completion_condition_helper<T>
+{
+};
+
+#endif // defined(GENERATING_DOCUMENTATION)
 
 /**
  * @defgroup completion_condition Completion Condition Function Objects

@@ -2,7 +2,11 @@
 // impl/any_io_executor.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,21 +29,34 @@
 
 namespace asio {
 
+<<<<<<< HEAD
 any_io_executor::any_io_executor() ASIO_NOEXCEPT
+=======
+any_io_executor::any_io_executor() noexcept
+>>>>>>> 142038d (add asio new version)
   : base_type()
 {
 }
 
+<<<<<<< HEAD
 any_io_executor::any_io_executor(nullptr_t) ASIO_NOEXCEPT
+=======
+any_io_executor::any_io_executor(nullptr_t) noexcept
+>>>>>>> 142038d (add asio new version)
   : base_type(nullptr_t())
 {
 }
 
+<<<<<<< HEAD
 any_io_executor::any_io_executor(const any_io_executor& e) ASIO_NOEXCEPT
+=======
+any_io_executor::any_io_executor(const any_io_executor& e) noexcept
+>>>>>>> 142038d (add asio new version)
   : base_type(static_cast<const base_type&>(e))
 {
 }
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE)
 any_io_executor::any_io_executor(any_io_executor&& e) ASIO_NOEXCEPT
   : base_type(static_cast<base_type&&>(e))
@@ -49,19 +66,45 @@ any_io_executor::any_io_executor(any_io_executor&& e) ASIO_NOEXCEPT
 
 any_io_executor& any_io_executor::operator=(
     const any_io_executor& e) ASIO_NOEXCEPT
+=======
+any_io_executor::any_io_executor(std::nothrow_t,
+    const any_io_executor& e) noexcept
+  : base_type(static_cast<const base_type&>(e))
+{
+}
+
+any_io_executor::any_io_executor(any_io_executor&& e) noexcept
+  : base_type(static_cast<base_type&&>(e))
+{
+}
+
+any_io_executor::any_io_executor(std::nothrow_t, any_io_executor&& e) noexcept
+  : base_type(static_cast<base_type&&>(e))
+{
+}
+
+any_io_executor& any_io_executor::operator=(const any_io_executor& e) noexcept
+>>>>>>> 142038d (add asio new version)
 {
   base_type::operator=(static_cast<const base_type&>(e));
   return *this;
 }
 
+<<<<<<< HEAD
 #if defined(ASIO_HAS_MOVE)
 any_io_executor& any_io_executor::operator=(
     any_io_executor&& e) ASIO_NOEXCEPT
+=======
+any_io_executor& any_io_executor::operator=(any_io_executor&& e) noexcept
+>>>>>>> 142038d (add asio new version)
 {
   base_type::operator=(static_cast<base_type&&>(e));
   return *this;
 }
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_MOVE)
+=======
+>>>>>>> 142038d (add asio new version)
 
 any_io_executor& any_io_executor::operator=(nullptr_t)
 {
@@ -73,7 +116,11 @@ any_io_executor::~any_io_executor()
 {
 }
 
+<<<<<<< HEAD
 void any_io_executor::swap(any_io_executor& other) ASIO_NOEXCEPT
+=======
+void any_io_executor::swap(any_io_executor& other) noexcept
+>>>>>>> 142038d (add asio new version)
 {
   static_cast<base_type&>(*this).swap(static_cast<base_type&>(other));
 }

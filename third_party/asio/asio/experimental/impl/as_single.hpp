@@ -2,7 +2,11 @@
 // experimental/impl/as_single.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,16 +20,16 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-
 #include <tuple>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 142038d (add asio new version)
 #include "asio/associator.hpp"
 #include "asio/async_result.hpp"
-#include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_cont_helpers.hpp"
-#include "asio/detail/handler_invoke_helpers.hpp"
+#include "asio/detail/initiation_base.hpp"
 #include "asio/detail/type_traits.hpp"
-#include "asio/detail/variadic_templates.hpp"
 
 #include "asio/detail/push_options.hpp"
 
@@ -42,33 +46,46 @@ public:
 
   template <typename CompletionToken>
   as_single_handler(as_single_t<CompletionToken> e)
-    : handler_(ASIO_MOVE_CAST(CompletionToken)(e.token_))
+    : handler_(static_cast<CompletionToken&&>(e.token_))
   {
   }
 
   template <typename RedirectedHandler>
-  as_single_handler(ASIO_MOVE_ARG(RedirectedHandler) h)
-    : handler_(ASIO_MOVE_CAST(RedirectedHandler)(h))
+  as_single_handler(RedirectedHandler&& h)
+    : handler_(static_cast<RedirectedHandler&&>(h))
   {
   }
 
   void operator()()
   {
+<<<<<<< HEAD
     ASIO_MOVE_OR_LVALUE(Handler)(handler_)();
+=======
+    static_cast<Handler&&>(handler_)();
+>>>>>>> 142038d (add asio new version)
   }
 
   template <typename Arg>
-  void operator()(ASIO_MOVE_ARG(Arg) arg)
+  void operator()(Arg&& arg)
   {
+<<<<<<< HEAD
     ASIO_MOVE_OR_LVALUE(Handler)(handler_)(
         ASIO_MOVE_CAST(Arg)(arg));
+=======
+    static_cast<Handler&&>(handler_)(static_cast<Arg&&>(arg));
+>>>>>>> 142038d (add asio new version)
   }
 
   template <typename... Args>
-  void operator()(ASIO_MOVE_ARG(Args)... args)
+  void operator()(Args&&... args)
   {
+<<<<<<< HEAD
     ASIO_MOVE_OR_LVALUE(Handler)(handler_)(
         std::make_tuple(ASIO_MOVE_CAST(Args)(args)...));
+=======
+    static_cast<Handler&&>(handler_)(
+        std::make_tuple(static_cast<Args&&>(args)...));
+>>>>>>> 142038d (add asio new version)
   }
 
 //private:
@@ -76,6 +93,7 @@ public:
 };
 
 template <typename Handler>
+<<<<<<< HEAD
 inline asio_handler_allocate_is_deprecated
 asio_handler_allocate(std::size_t size,
     as_single_handler<Handler>* this_handler)
@@ -102,6 +120,8 @@ asio_handler_deallocate(void* pointer, std::size_t size,
 }
 
 template <typename Handler>
+=======
+>>>>>>> 142038d (add asio new version)
 inline bool asio_handler_is_continuation(
     as_single_handler<Handler>* this_handler)
 {
@@ -109,6 +129,7 @@ inline bool asio_handler_is_continuation(
         this_handler->handler_);
 }
 
+<<<<<<< HEAD
 template <typename Function, typename Handler>
 inline asio_handler_invoke_is_deprecated
 asio_handler_invoke(Function& function,
@@ -133,6 +154,8 @@ asio_handler_invoke(const Function& function,
 #endif // defined(ASIO_NO_DEPRECATED)
 }
 
+=======
+>>>>>>> 142038d (add asio new version)
 template <typename Signature>
 struct as_single_signature
 {
@@ -154,7 +177,7 @@ struct as_single_signature<R(Arg)>
 template <typename R, typename... Args>
 struct as_single_signature<R(Args...)>
 {
-  typedef R type(std::tuple<typename decay<Args>::type...>);
+  typedef R type(std::tuple<decay_t<Args>...>);
 };
 
 } // namespace detail
@@ -165,44 +188,45 @@ struct as_single_signature<R(Args...)>
 template <typename CompletionToken, typename Signature>
 struct async_result<experimental::as_single_t<CompletionToken>, Signature>
 {
-  typedef typename async_result<CompletionToken,
-    typename experimental::detail::as_single_signature<Signature>::type>
-      ::return_type return_type;
-
   template <typename Initiation>
-  struct init_wrapper
+  struct init_wrapper : detail::initiation_base<Initiation>
   {
-    init_wrapper(Initiation init)
-      : initiation_(ASIO_MOVE_CAST(Initiation)(init))
+    using detail::initiation_base<Initiation>::initiation_base;
+
+    template <typename Handler, typename... Args>
+    void operator()(Handler&& handler, Args&&... args) &&
     {
+      static_cast<Initiation&&>(*this)(
+          experimental::detail::as_single_handler<decay_t<Handler>>(
+            static_cast<Handler&&>(handler)),
+          static_cast<Args&&>(args)...);
     }
 
     template <typename Handler, typename... Args>
-    void operator()(
-        ASIO_MOVE_ARG(Handler) handler,
-        ASIO_MOVE_ARG(Args)... args)
+    void operator()(Handler&& handler, Args&&... args) const &
     {
-      ASIO_MOVE_CAST(Initiation)(initiation_)(
-          experimental::detail::as_single_handler<
-            typename decay<Handler>::type>(
-              ASIO_MOVE_CAST(Handler)(handler)),
-          ASIO_MOVE_CAST(Args)(args)...);
+      static_cast<const Initiation&>(*this)(
+          experimental::detail::as_single_handler<decay_t<Handler>>(
+            static_cast<Handler&&>(handler)),
+          static_cast<Args&&>(args)...);
     }
-
-    Initiation initiation_;
   };
 
   template <typename Initiation, typename RawCompletionToken, typename... Args>
-  static return_type initiate(
-      ASIO_MOVE_ARG(Initiation) initiation,
-      ASIO_MOVE_ARG(RawCompletionToken) token,
-      ASIO_MOVE_ARG(Args)... args)
+  static auto initiate(Initiation&& initiation,
+      RawCompletionToken&& token, Args&&... args)
+    -> decltype(
+      async_initiate<CompletionToken,
+        typename experimental::detail::as_single_signature<Signature>::type>(
+          init_wrapper<decay_t<Initiation>>(
+            static_cast<Initiation&&>(initiation)),
+          token.token_, static_cast<Args&&>(args)...))
   {
     return async_initiate<CompletionToken,
       typename experimental::detail::as_single_signature<Signature>::type>(
-        init_wrapper<typename decay<Initiation>::type>(
-          ASIO_MOVE_CAST(Initiation)(initiation)),
-        token.token_, ASIO_MOVE_CAST(Args)(args)...);
+        init_wrapper<decay_t<Initiation>>(
+          static_cast<Initiation&&>(initiation)),
+        token.token_, static_cast<Args&&>(args)...);
   }
 };
 
@@ -213,9 +237,21 @@ struct associator<Associator,
   : Associator<Handler, DefaultCandidate>
 {
   static typename Associator<Handler, DefaultCandidate>::type get(
+<<<<<<< HEAD
       const experimental::detail::as_single_handler<Handler>& h,
       const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
   {
+=======
+      const experimental::detail::as_single_handler<Handler>& h) noexcept
+  {
+    return Associator<Handler, DefaultCandidate>::get(h.handler_);
+  }
+
+  static auto get(const experimental::detail::as_single_handler<Handler>& h,
+      const DefaultCandidate& c) noexcept
+    -> decltype(Associator<Handler, DefaultCandidate>::get(h.handler_, c))
+  {
+>>>>>>> 142038d (add asio new version)
     return Associator<Handler, DefaultCandidate>::get(h.handler_, c);
   }
 };

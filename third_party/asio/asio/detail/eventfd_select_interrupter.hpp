@@ -2,7 +2,11 @@
 // detail/eventfd_select_interrupter.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 // Copyright (c) 2008 Roelof Naude (roelof.naude at gmail dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying

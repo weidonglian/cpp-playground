@@ -2,7 +2,11 @@
 // asio.hpp
 // ~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,11 +19,22 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
+<<<<<<< HEAD
+=======
+#include "asio/any_completion_executor.hpp"
+#include "asio/any_completion_handler.hpp"
+#include "asio/any_io_executor.hpp"
+>>>>>>> 142038d (add asio new version)
 #include "asio/append.hpp"
 #include "asio/as_tuple.hpp"
 #include "asio/associated_allocator.hpp"
-#include "asio/associated_executor.hpp"
 #include "asio/associated_cancellation_slot.hpp"
+#include "asio/associated_executor.hpp"
+<<<<<<< HEAD
+#include "asio/associated_cancellation_slot.hpp"
+=======
+#include "asio/associated_immediate_executor.hpp"
+>>>>>>> 142038d (add asio new version)
 #include "asio/associator.hpp"
 #include "asio/async_result.hpp"
 #include "asio/awaitable.hpp"
@@ -45,6 +60,7 @@
 #include "asio/bind_allocator.hpp"
 #include "asio/bind_cancellation_slot.hpp"
 #include "asio/bind_executor.hpp"
+#include "asio/bind_immediate_executor.hpp"
 #include "asio/buffer.hpp"
 #include "asio/buffer_registration.hpp"
 #include "asio/buffered_read_stream_fwd.hpp"
@@ -54,18 +70,36 @@
 #include "asio/buffered_write_stream_fwd.hpp"
 #include "asio/buffered_write_stream.hpp"
 #include "asio/buffers_iterator.hpp"
+<<<<<<< HEAD
 #include "asio/cancellation_signal.hpp"
 #include "asio/cancellation_state.hpp"
 #include "asio/cancellation_type.hpp"
+=======
+#include "asio/cancel_after.hpp"
+#include "asio/cancel_at.hpp"
+#include "asio/cancellation_signal.hpp"
+#include "asio/cancellation_state.hpp"
+#include "asio/cancellation_type.hpp"
+#include "asio/co_composed.hpp"
+>>>>>>> 142038d (add asio new version)
 #include "asio/co_spawn.hpp"
 #include "asio/completion_condition.hpp"
 #include "asio/compose.hpp"
+#include "asio/composed.hpp"
 #include "asio/connect.hpp"
 #include "asio/connect_pipe.hpp"
+<<<<<<< HEAD
+=======
+#include "asio/consign.hpp"
+>>>>>>> 142038d (add asio new version)
 #include "asio/coroutine.hpp"
 #include "asio/deadline_timer.hpp"
 #include "asio/defer.hpp"
 #include "asio/deferred.hpp"
+<<<<<<< HEAD
+=======
+#include "asio/default_completion_token.hpp"
+>>>>>>> 142038d (add asio new version)
 #include "asio/detached.hpp"
 #include "asio/dispatch.hpp"
 #include "asio/error.hpp"
@@ -75,30 +109,15 @@
 #include "asio/execution/any_executor.hpp"
 #include "asio/execution/blocking.hpp"
 #include "asio/execution/blocking_adaptation.hpp"
-#include "asio/execution/bulk_execute.hpp"
-#include "asio/execution/bulk_guarantee.hpp"
-#include "asio/execution/connect.hpp"
 #include "asio/execution/context.hpp"
 #include "asio/execution/context_as.hpp"
-#include "asio/execution/execute.hpp"
 #include "asio/execution/executor.hpp"
 #include "asio/execution/invocable_archetype.hpp"
 #include "asio/execution/mapping.hpp"
 #include "asio/execution/occupancy.hpp"
-#include "asio/execution/operation_state.hpp"
 #include "asio/execution/outstanding_work.hpp"
 #include "asio/execution/prefer_only.hpp"
-#include "asio/execution/receiver.hpp"
-#include "asio/execution/receiver_invocation_error.hpp"
 #include "asio/execution/relationship.hpp"
-#include "asio/execution/schedule.hpp"
-#include "asio/execution/scheduler.hpp"
-#include "asio/execution/sender.hpp"
-#include "asio/execution/set_done.hpp"
-#include "asio/execution/set_error.hpp"
-#include "asio/execution/set_value.hpp"
-#include "asio/execution/start.hpp"
-#include "asio/execution_context.hpp"
 #include "asio/executor.hpp"
 #include "asio/executor_work_guard.hpp"
 #include "asio/file_base.hpp"
@@ -107,10 +126,9 @@
 #include "asio/generic/raw_protocol.hpp"
 #include "asio/generic/seq_packet_protocol.hpp"
 #include "asio/generic/stream_protocol.hpp"
-#include "asio/handler_alloc_hook.hpp"
 #include "asio/handler_continuation_hook.hpp"
-#include "asio/handler_invoke_hook.hpp"
 #include "asio/high_resolution_timer.hpp"
+#include "asio/immediate.hpp"
 #include "asio/io_context.hpp"
 #include "asio/io_context_strand.hpp"
 #include "asio/io_service.hpp"
@@ -147,6 +165,7 @@
 #include "asio/local/basic_endpoint.hpp"
 #include "asio/local/connect_pair.hpp"
 #include "asio/local/datagram_protocol.hpp"
+#include "asio/local/seq_packet_protocol.hpp"
 #include "asio/local/stream_protocol.hpp"
 #include "asio/multiple_exceptions.hpp"
 #include "asio/packaged_task.hpp"
@@ -173,6 +192,7 @@
 #include "asio/serial_port.hpp"
 #include "asio/serial_port_base.hpp"
 #include "asio/signal_set.hpp"
+#include "asio/signal_set_base.hpp"
 #include "asio/socket_base.hpp"
 #include "asio/static_thread_pool.hpp"
 #include "asio/steady_timer.hpp"

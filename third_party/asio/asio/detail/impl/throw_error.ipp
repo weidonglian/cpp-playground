@@ -2,7 +2,11 @@
 // detail/impl/throw_error.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -37,6 +41,7 @@ void do_throw_error(
     const char* location
     ASIO_SOURCE_LOCATION_PARAM)
 {
+<<<<<<< HEAD
   // boostify: non-boost code starts here
 #if defined(ASIO_MSVC) \
   && defined(ASIO_HAS_STD_SYSTEM_ERROR) \
@@ -60,6 +65,10 @@ void do_throw_error(
        //   && defined(ASIO_HAS_STD_SYSTEM_ERROR)
        //   && (_MSC_VER < 1800)
   // boostify: non-boost code ends here
+=======
+  asio::system_error e(err, location);
+  asio::detail::throw_exception(e ASIO_SOURCE_LOCATION_ARG);
+>>>>>>> 142038d (add asio new version)
 }
 
 } // namespace detail

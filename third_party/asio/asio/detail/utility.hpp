@@ -2,7 +2,11 @@
 // detail/utility.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,8 +20,12 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+<<<<<<< HEAD
 
 # include <utility>
+=======
+#include <utility>
+>>>>>>> 142038d (add asio new version)
 
 namespace asio {
 namespace detail {
@@ -28,7 +36,11 @@ using std::index_sequence;
 using std::index_sequence_for;
 using std::make_index_sequence;
 
+<<<<<<< HEAD
 #elif defined(ASIO_HAS_VARIADIC_TEMPLATES)
+=======
+#else // defined(ASIO_HAS_STD_INDEX_SEQUENCE)
+>>>>>>> 142038d (add asio new version)
 
 template <std::size_t...>
 struct index_sequence
@@ -39,7 +51,11 @@ template <typename T, typename U>
 struct join_index_sequences;
 
 template <std::size_t... I, std::size_t... J>
+<<<<<<< HEAD
 struct join_index_sequences<index_sequence<I...>, index_sequence<J...> >
+=======
+struct join_index_sequences<index_sequence<I...>, index_sequence<J...>>
+>>>>>>> 142038d (add asio new version)
 {
   using type = index_sequence<I..., J...>;
 };
@@ -76,7 +92,11 @@ using index_sequence_for = typename index_range<0, sizeof...(T)>::type;
 template <std::size_t N>
 using make_index_sequence = typename index_range<0, N>::type;
 
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
+=======
+#endif // defined(ASIO_HAS_STD_INDEX_SEQUENCE)
+>>>>>>> 142038d (add asio new version)
 
 } // namespace detail
 } // namespace asio

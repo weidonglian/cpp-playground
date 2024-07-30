@@ -2,7 +2,11 @@
 // experimental/coro.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2021-2022 Klemens D. Morgenstern
+=======
+// Copyright (c) 2021-2023 Klemens D. Morgenstern
+>>>>>>> 142038d (add asio new version)
 //                         (klemens dot morgenstern at gmx dot net)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -23,7 +27,10 @@
 #include "asio/experimental/coro_traits.hpp"
 #include "asio/experimental/detail/coro_promise_allocator.hpp"
 #include "asio/experimental/detail/partial_promise.hpp"
+<<<<<<< HEAD
 #include "asio/experimental/use_coro.hpp"
+=======
+>>>>>>> 142038d (add asio new version)
 #include "asio/post.hpp"
 
 #include "asio/detail/push_options.hpp"
@@ -32,6 +39,13 @@ namespace asio {
 namespace experimental {
 namespace detail {
 
+<<<<<<< HEAD
+=======
+template <typename Signature, typename Return,
+    typename Executor, typename Allocator>
+struct coro_promise;
+
+>>>>>>> 142038d (add asio new version)
 template <typename T, typename Coroutine>
 struct coro_with_arg;
 
@@ -44,7 +58,12 @@ struct coro_with_arg;
  * the underlying executor type.
  */
 template <typename Yield = void, typename Return = void,
+<<<<<<< HEAD
     typename Executor = any_io_executor>
+=======
+    typename Executor = any_io_executor,
+    typename Allocator = std::allocator<void>>
+>>>>>>> 142038d (add asio new version)
 struct coro
 {
   /// The traits of the coroutine. See asio::experimental::coro_traits
@@ -78,7 +97,11 @@ struct coro
   using completion_handler = typename traits::completion_handler;
 
   /// The internal promise-type of the coroutine.
+<<<<<<< HEAD
   using promise_type = detail::coro_promise<Yield, Return, Executor>;
+=======
+  using promise_type = detail::coro_promise<Yield, Return, Executor, Allocator>;
+>>>>>>> 142038d (add asio new version)
 
 #if !defined(GENERATING_DOCUMENTATION)
   template <typename T, typename Coroutine>
@@ -88,8 +111,16 @@ struct coro
   /// The executor type.
   using executor_type = Executor;
 
+<<<<<<< HEAD
 #if !defined(GENERATING_DOCUMENTATION)
   friend struct detail::coro_promise<Yield, Return, Executor>;
+=======
+  /// The allocator type.
+  using allocator_type = Allocator;
+
+#if !defined(GENERATING_DOCUMENTATION)
+  friend struct detail::coro_promise<Yield, Return, Executor, Allocator>;
+>>>>>>> 142038d (add asio new version)
 #endif // !defined(GENERATING_DOCUMENTATION)
 
   /// The default constructor, gives an invalid coroutine.
@@ -101,7 +132,11 @@ struct coro
   {
   }
 
+<<<<<<< HEAD
   coro(const coro &) = delete;
+=======
+  coro(const coro&) = delete;
+>>>>>>> 142038d (add asio new version)
 
   /// Move assignment.
   coro& operator=(coro&& lhs) noexcept
@@ -165,6 +200,22 @@ struct coro
       throw std::logic_error("Coroutine has no executor");
   }
 
+<<<<<<< HEAD
+=======
+  /// Get the used allocator.
+  allocator_type get_allocator() const
+  {
+    if (coro_)
+      return coro_->get_allocator();
+
+    if constexpr (std::is_default_constructible_v<Allocator>)
+      return Allocator{};
+    else
+      throw std::logic_error(
+          "Coroutine has no available allocator without a constructed promise");
+  }
+
+>>>>>>> 142038d (add asio new version)
   /// Resume the coroutine.
   /**
    * @param token The completion token of the async resume.
@@ -253,6 +304,19 @@ private:
   promise_type* coro_{nullptr};
 };
 
+<<<<<<< HEAD
+=======
+/// A generator is a coro that returns void and yields value.
+template<typename T, typename Executor = asio::any_io_executor,
+    typename Allocator = std::allocator<void>>
+using generator = coro<T, void, Executor, Allocator>;
+
+/// A task is a coro that does not yield values
+template<typename T, typename Executor = asio::any_io_executor,
+    typename Allocator = std::allocator<void>>
+using task = coro<void(), T, Executor, Allocator>;
+
+>>>>>>> 142038d (add asio new version)
 } // namespace experimental
 } // namespace asio
 

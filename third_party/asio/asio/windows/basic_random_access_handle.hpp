@@ -2,7 +2,11 @@
 // windows/basic_random_access_handle.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -88,10 +92,17 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_random_access_handle(ExecutionContext& context,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : basic_overlapped_handle<Executor>(context)
   {
   }
@@ -131,14 +142,19 @@ public:
   template <typename ExecutionContext>
   basic_random_access_handle(ExecutionContext& context,
       const native_handle_type& handle,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
       >::type = 0)
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
     : basic_overlapped_handle<Executor>(context, handle)
   {
   }
 
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
   /// Move-construct a random-access handle from another.
   /**
    * This constructor moves a random-access handle from one object to another.
@@ -187,10 +203,17 @@ public:
    */
   template<typename Executor1>
   basic_random_access_handle(basic_random_access_handle<Executor1>&& other,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<Executor1, Executor>::value,
         defaulted_constraint
       >::type = defaulted_constraint())
+=======
+      constraint_t<
+        is_convertible<Executor1, Executor>::value,
+        defaulted_constraint
+      > = defaulted_constraint())
+>>>>>>> 142038d (add asio new version)
     : basic_overlapped_handle<Executor>(std::move(other))
   {
   }
@@ -209,15 +232,25 @@ public:
    * constructor.
    */
   template<typename Executor1>
+<<<<<<< HEAD
   typename constraint<
     is_convertible<Executor1, Executor>::value,
     basic_random_access_handle&
   >::type operator=(basic_random_access_handle<Executor1>&& other)
+=======
+  constraint_t<
+    is_convertible<Executor1, Executor>::value,
+    basic_random_access_handle&
+  > operator=(basic_random_access_handle<Executor1>&& other)
+>>>>>>> 142038d (add asio new version)
   {
     basic_overlapped_handle<Executor>::operator=(std::move(other));
     return *this;
   }
+<<<<<<< HEAD
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
+=======
+>>>>>>> 142038d (add asio new version)
 
   /// Write some data to the handle at the specified offset.
   /**
@@ -310,7 +343,14 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+   *
+   * @par Completion Signature
+   * @code void(asio::error_code, std::size_t) @endcode
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -340,6 +380,7 @@ public:
    */
   template <typename ConstBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         std::size_t)) WriteToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
@@ -352,6 +393,15 @@ public:
       async_initiate<WriteToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_write_some_at>(), token, offset, buffers)))
+=======
+        std::size_t)) WriteToken = default_completion_token_t<executor_type>>
+  auto async_write_some_at(uint64_t offset, const ConstBufferSequence& buffers,
+      WriteToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<WriteToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_write_some_at>(), token, offset, buffers))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WriteToken,
       void (asio::error_code, std::size_t)>(
@@ -451,7 +501,14 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+   *
+   * @par Completion Signature
+   * @code void(asio::error_code, std::size_t) @endcode
+>>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -482,6 +539,7 @@ public:
    */
   template <typename MutableBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         std::size_t)) ReadToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
@@ -494,6 +552,15 @@ public:
       async_initiate<ReadToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_read_some_at>(), token, offset, buffers)))
+=======
+        std::size_t)) ReadToken = default_completion_token_t<executor_type>>
+  auto async_read_some_at(uint64_t offset, const MutableBufferSequence& buffers,
+      ReadToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      async_initiate<ReadToken,
+        void (asio::error_code, std::size_t)>(
+          declval<initiate_async_read_some_at>(), token, offset, buffers))
+>>>>>>> 142038d (add asio new version)
   {
     return async_initiate<ReadToken,
       void (asio::error_code, std::size_t)>(
@@ -511,13 +578,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename WriteHandler, typename ConstBufferSequence>
-    void operator()(ASIO_MOVE_ARG(WriteHandler) handler,
+    void operator()(WriteHandler&& handler,
         uint64_t offset, const ConstBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your handler
@@ -544,13 +611,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    const executor_type& get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename ReadHandler, typename MutableBufferSequence>
-    void operator()(ASIO_MOVE_ARG(ReadHandler) handler,
+    void operator()(ReadHandler&& handler,
         uint64_t offset, const MutableBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your handler

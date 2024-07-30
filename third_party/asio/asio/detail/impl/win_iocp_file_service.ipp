@@ -2,7 +2,11 @@
 // detail/impl/win_iocp_file_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -97,6 +101,7 @@ asio::error_code win_iocp_file_service::open(
   HANDLE handle = ::CreateFileA(path, access, share, 0, disposition, flags, 0);
   if (handle != INVALID_HANDLE_VALUE)
   {
+<<<<<<< HEAD
     if (disposition == OPEN_ALWAYS && (open_flags & file_base::truncate) != 0)
     {
       if (!::SetEndOfFile(handle))
@@ -106,6 +111,32 @@ asio::error_code win_iocp_file_service::open(
         ec.assign(last_error, asio::error::get_system_category());
         ASIO_ERROR_LOCATION(ec);
         return ec;
+=======
+    if (disposition == OPEN_ALWAYS)
+    {
+      if ((open_flags & file_base::truncate) != 0)
+      {
+        if (!::SetEndOfFile(handle))
+        {
+          DWORD last_error = ::GetLastError();
+          ::CloseHandle(handle);
+          ec.assign(last_error, asio::error::get_system_category());
+          ASIO_ERROR_LOCATION(ec);
+          return ec;
+        }
+      }
+      else if ((open_flags & file_base::append) != 0)
+      {
+        if (::SetFilePointer(handle, 0, 0, FILE_END)
+            == INVALID_SET_FILE_POINTER)
+        {
+          DWORD last_error = ::GetLastError();
+          ::CloseHandle(handle);
+          ec.assign(last_error, asio::error::get_system_category());
+          ASIO_ERROR_LOCATION(ec);
+          return ec;
+        }
+>>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -225,7 +256,12 @@ uint64_t win_iocp_file_service::seek(
     method = FILE_BEGIN;
     break;
   case file_base::seek_cur:
+<<<<<<< HEAD
     method = FILE_CURRENT;
+=======
+    method = FILE_BEGIN;
+    offset = static_cast<int64_t>(impl.offset_) + offset;
+>>>>>>> 142038d (add asio new version)
     break;
   case file_base::seek_end:
     method = FILE_END;

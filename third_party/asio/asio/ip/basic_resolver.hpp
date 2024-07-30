@@ -2,7 +2,11 @@
 // ip/basic_resolver.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
+<<<<<<< HEAD
 // Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+=======
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+>>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +21,7 @@
 
 #include "asio/detail/config.hpp"
 #include <string>
+#include <utility>
 #include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
@@ -35,10 +40,6 @@
 #else
 # include "asio/detail/resolver_service.hpp"
 #endif
-
-#if defined(ASIO_HAS_MOVE)
-# include <utility>
-#endif // defined(ASIO_HAS_MOVE)
 
 #include "asio/detail/push_options.hpp"
 
@@ -122,14 +123,19 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_resolver(ExecutionContext& context,
+<<<<<<< HEAD
       typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
       >::type = 0)
+=======
+      constraint_t<
+        is_convertible<ExecutionContext&, execution_context&>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
 
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
   /// Move-construct a basic_resolver from another.
   /**
    * This constructor moves a resolver from one object to another.
@@ -161,9 +167,15 @@ public:
    */
   template <typename Executor1>
   basic_resolver(basic_resolver<InternetProtocol, Executor1>&& other,
+<<<<<<< HEAD
       typename constraint<
           is_convertible<Executor1, Executor>::value
       >::type = 0)
+=======
+      constraint_t<
+          is_convertible<Executor1, Executor>::value
+      > = 0)
+>>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -199,16 +211,19 @@ public:
    * constructed using the @c basic_resolver(const executor_type&) constructor.
    */
   template <typename Executor1>
+<<<<<<< HEAD
   typename constraint<
+=======
+  constraint_t<
+>>>>>>> 142038d (add asio new version)
     is_convertible<Executor1, Executor>::value,
     basic_resolver&
-  >::type operator=(basic_resolver<InternetProtocol, Executor1>&& other)
+  > operator=(basic_resolver<InternetProtocol, Executor1>&& other)
   {
     basic_resolver tmp(std::move(other));
     impl_ = std::move(tmp.impl_);
     return *this;
   }
-#endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
   /// Destroys the resolver.
   /**
@@ -221,7 +236,7 @@ public:
   }
 
   /// Get the executor associated with the object.
-  executor_type get_executor() ASIO_NOEXCEPT
+  executor_type get_executor() noexcept
   {
     return impl_.get_executor();
   }
@@ -667,7 +682,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -677,6 +696,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -688,6 +708,15 @@ public:
       asio::async_initiate<ResolveToken,
         void (asio::error_code, results_type)>(
           declval<initiate_async_resolve>(), token, q)))
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(const query& q,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token, q))
+>>>>>>> 142038d (add asio new version)
   {
     return asio::async_initiate<ResolveToken,
       void (asio::error_code, results_type)>(
@@ -723,7 +752,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -744,6 +777,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -760,6 +794,20 @@ public:
   {
     return async_resolve(host, service, resolver_base::flags(),
         ASIO_MOVE_CAST(ResolveToken)(token));
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(ASIO_STRING_VIEW_PARAM host,
+      ASIO_STRING_VIEW_PARAM service,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token,
+          declval<basic_resolver_query<protocol_type>&>()))
+  {
+    return async_resolve(host, service, resolver_base::flags(),
+        static_cast<ResolveToken&&>(token));
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Asynchronously perform forward resolution of a query to a list of entries.
@@ -796,7 +844,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -817,6 +869,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -831,6 +884,17 @@ public:
         void (asio::error_code, results_type)>(
           declval<initiate_async_resolve>(), token,
           declval<basic_resolver_query<protocol_type>&>())))
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(ASIO_STRING_VIEW_PARAM host,
+      ASIO_STRING_VIEW_PARAM service, resolver_base::flags resolve_flags,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token,
+          declval<basic_resolver_query<protocol_type>&>()))
+>>>>>>> 142038d (add asio new version)
   {
     basic_resolver_query<protocol_type> q(static_cast<std::string>(host),
         static_cast<std::string>(service), resolve_flags);
@@ -872,7 +936,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -893,6 +961,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -909,6 +978,20 @@ public:
   {
     return async_resolve(protocol, host, service, resolver_base::flags(),
         ASIO_MOVE_CAST(ResolveToken)(token));
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(const protocol_type& protocol,
+      ASIO_STRING_VIEW_PARAM host, ASIO_STRING_VIEW_PARAM service,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token,
+          declval<basic_resolver_query<protocol_type>&>()))
+  {
+    return async_resolve(protocol, host, service, resolver_base::flags(),
+        static_cast<ResolveToken&&>(token));
+>>>>>>> 142038d (add asio new version)
   }
 
   /// Asynchronously perform forward resolution of a query to a list of entries.
@@ -948,7 +1031,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -969,6 +1056,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -983,6 +1071,18 @@ public:
         void (asio::error_code, results_type)>(
           declval<initiate_async_resolve>(), token,
           declval<basic_resolver_query<protocol_type>&>())))
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(const protocol_type& protocol,
+      ASIO_STRING_VIEW_PARAM host, ASIO_STRING_VIEW_PARAM service,
+      resolver_base::flags resolve_flags,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token,
+          declval<basic_resolver_query<protocol_type>&>()))
+>>>>>>> 142038d (add asio new version)
   {
     basic_resolver_query<protocol_type> q(
         protocol, static_cast<std::string>(host),
@@ -1057,7 +1157,11 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
+<<<<<<< HEAD
    * manner equivalent to using asio::post().
+=======
+   * manner equivalent to using asio::async_immediate().
+>>>>>>> 142038d (add asio new version)
    *
    * A successful resolve operation is guaranteed to pass a non-empty range to
    * the handler.
@@ -1067,6 +1171,7 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
+<<<<<<< HEAD
         results_type)) ResolveToken
           ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
   ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ResolveToken,
@@ -1078,6 +1183,15 @@ public:
       asio::async_initiate<ResolveToken,
         void (asio::error_code, results_type)>(
           declval<initiate_async_resolve>(), token, e)))
+=======
+        results_type)) ResolveToken = default_completion_token_t<executor_type>>
+  auto async_resolve(const endpoint_type& e,
+      ResolveToken&& token = default_completion_token_t<executor_type>())
+    -> decltype(
+      asio::async_initiate<ResolveToken,
+        void (asio::error_code, results_type)>(
+          declval<initiate_async_resolve>(), token, e))
+>>>>>>> 142038d (add asio new version)
   {
     return asio::async_initiate<ResolveToken,
       void (asio::error_code, results_type)>(
@@ -1086,8 +1200,8 @@ public:
 
 private:
   // Disallow copying and assignment.
-  basic_resolver(const basic_resolver&) ASIO_DELETED;
-  basic_resolver& operator=(const basic_resolver&) ASIO_DELETED;
+  basic_resolver(const basic_resolver&) = delete;
+  basic_resolver& operator=(const basic_resolver&) = delete;
 
   class initiate_async_resolve
   {
@@ -1099,13 +1213,13 @@ private:
     {
     }
 
-    executor_type get_executor() const ASIO_NOEXCEPT
+    executor_type get_executor() const noexcept
     {
       return self_->get_executor();
     }
 
     template <typename ResolveHandler, typename Query>
-    void operator()(ASIO_MOVE_ARG(ResolveHandler) handler,
+    void operator()(ResolveHandler&& handler,
         const Query& q) const
     {
       // If you get an error on the following line it means that your handler
