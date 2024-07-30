@@ -1,7 +1,14 @@
 cmake_minimum_required(VERSION 3.5)
 project(cpp-playground)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# enable CTest.  This will set BUILD_TESTING to ON unless otherwise specified
+include(CTest)
+# include the CPM package management
+include(CPM)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/distr)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/distr)
@@ -48,11 +55,12 @@ find_package(OpenMP)
 
 # MSVS compiler settings
 if (MSVC)
-    add_definitions(/W3 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251)
+  add_definitions(/W3 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251)
 endif ()
 
-# Enable test
-enable_testing()
+if(BUILD_TESTING)
+  enable_testing()
+endif()
 
 add_subdirectory(third_party)
 add_subdirectory(logger)
