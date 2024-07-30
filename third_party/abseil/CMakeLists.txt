@@ -1,8 +1,5 @@
 include(FetchContent)
 
-# disable the compiler warning as error
-biosol_disable_warnings_as_errors()
-
 # abseil
 message(STATUS "Fetching abseil and making abseil available and it could take a while to build abseil, take a coffee...")
 
