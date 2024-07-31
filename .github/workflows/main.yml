@@ -11,9 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    #- name: build docker
-    #  run: docker build -t weidonglianlian/cpp-playground .
-    - name: pull docker
-      run: docker pull weidonglian/cpp-playground:latest
     - name: run build and test with docker
-      run: docker run -v $(pwd):/app weidonglian/cpp-playground:latest /bin/sh -c "cd /app && ./run_ci.sh"
+      run: ./run_ci.sh"
