@@ -11,5 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: run build and test with docker
-      run: ./run_ci.sh"
+    - uses: seanmiddleditch/gha-setup-ninja@master
+    - name: Configure
+      run: mkdir build && cd build && cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && ninja
+    - name: Test
+      run: cd build && ctest
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
