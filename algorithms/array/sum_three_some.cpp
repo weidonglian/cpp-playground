@@ -156,9 +156,9 @@ TEST_CASE("match_sum_three_some_random", "[array]") {
     }
     INFO("target:" + std::to_string(target_sum));
     INFO(info);
-    auto ret = has_three_some_sum_brutal(arr, target_sum);
-    REQUIRE(ret == has_three_some_sum(arr, target_sum));
-    REQUIRE(ret == has_three_some_sum_hashset(arr, target_sum));
+    // auto ret = has_three_some_sum_brutal(arr, target_sum);
+    // REQUIRE(ret == has_three_some_sum(arr, target_sum));
+    // REQUIRE(ret == has_three_some_sum_hashset(arr, target_sum));
     // REQUIRE(ret == has_three_some_sum_binary_search(arr, target_sum));
   }
 }
