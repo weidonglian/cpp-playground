@@ -2,11 +2,7 @@
 // execution/prefer_only.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -223,17 +219,10 @@ struct prefer_only :
   prefer(const Executor& ex, const prefer_only<Property>& p,
       enable_if_t<
         is_same<Property, InnerProperty>::value
-<<<<<<< HEAD
-      >::type* = 0,
-      typename enable_if<
-        can_prefer<const Executor&, const InnerProperty&>::value
-      >::type* = 0)
-=======
       >* = 0,
       enable_if_t<
         can_prefer<const Executor&, const InnerProperty&>::value
       >* = 0)
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_MSVC) \
   && !defined(__clang__) // Clang crashes if noexcept is used here.
     noexcept(is_nothrow_prefer<const Executor&, const InnerProperty&>::value)
@@ -249,17 +238,10 @@ struct prefer_only :
   query(const Executor& ex, const prefer_only<Property>& p,
       enable_if_t<
         is_same<Property, InnerProperty>::value
-<<<<<<< HEAD
-      >::type* = 0,
-      typename enable_if<
-        can_query<const Executor&, const InnerProperty&>::value
-      >::type* = 0)
-=======
       >* = 0,
       enable_if_t<
         can_query<const Executor&, const InnerProperty&>::value
       >* = 0)
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_MSVC) \
   && !defined(__clang__) // Clang crashes if noexcept is used here.
     noexcept(is_nothrow_query<const Executor&, const InnerProperty&>::value)

@@ -2,11 +2,7 @@
 // detail/io_uring_file_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -135,12 +131,7 @@ public:
   native_handle_type release(implementation_type& impl,
       asio::error_code& ec)
   {
-<<<<<<< HEAD
-    ec = success_ec_;
-    return descriptor_service_.release(impl);
-=======
     return descriptor_service_.release(impl, ec);
->>>>>>> 142038d (add asio new version)
   }
 
   // Cancel all operations associated with the file.

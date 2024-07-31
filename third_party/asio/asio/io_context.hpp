@@ -2,11 +2,7 @@
 // io_context.hpp
 // ~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -24,10 +20,7 @@
 #include <stdexcept>
 #include <typeinfo>
 #include "asio/async_result.hpp"
-<<<<<<< HEAD
-=======
 #include "asio/detail/chrono.hpp"
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/concurrency_hint.hpp"
 #include "asio/detail/cstdint.hpp"
 #include "asio/detail/wrapped_handler.hpp"
@@ -62,17 +55,10 @@ namespace detail {
 
   struct io_context_bits
   {
-<<<<<<< HEAD
-    ASIO_STATIC_CONSTEXPR(uintptr_t, blocking_never = 1);
-    ASIO_STATIC_CONSTEXPR(uintptr_t, relationship_continuation = 2);
-    ASIO_STATIC_CONSTEXPR(uintptr_t, outstanding_work_tracked = 4);
-    ASIO_STATIC_CONSTEXPR(uintptr_t, runtime_bits = 3);
-=======
     static constexpr uintptr_t blocking_never = 1;
     static constexpr uintptr_t relationship_continuation = 2;
     static constexpr uintptr_t outstanding_work_tracked = 4;
     static constexpr uintptr_t runtime_bits = 3;
->>>>>>> 142038d (add asio new version)
   };
 } // namespace detail
 
@@ -568,18 +554,10 @@ public:
    * throws an exception.
    */
   template <typename LegacyCompletionHandler>
-<<<<<<< HEAD
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
-  dispatch(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<LegacyCompletionHandler, void ()>(
-          declval<initiate_dispatch>(), handler, this)));
-=======
   auto dispatch(LegacyCompletionHandler&& handler)
     -> decltype(
       async_initiate<LegacyCompletionHandler, void ()>(
         declval<initiate_dispatch>(), handler, this));
->>>>>>> 142038d (add asio new version)
 
   /// (Deprecated: Use asio::post().) Request the io_context to invoke
   /// the given handler and return immediately.
@@ -605,18 +583,10 @@ public:
    * throws an exception.
    */
   template <typename LegacyCompletionHandler>
-<<<<<<< HEAD
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
-  post(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<LegacyCompletionHandler, void ()>(
-          declval<initiate_post>(), handler, this)));
-=======
   auto post(LegacyCompletionHandler&& handler)
     -> decltype(
       async_initiate<LegacyCompletionHandler, void ()>(
         declval<initiate_post>(), handler, this));
->>>>>>> 142038d (add asio new version)
 
   /// (Deprecated: Use asio::bind_executor().) Create a new handler that
   /// automatically dispatches the wrapped handler on the io_context.
@@ -650,13 +620,8 @@ public:
 #endif // !defined(ASIO_NO_DEPRECATED)
 
 private:
-<<<<<<< HEAD
-  io_context(const io_context&) ASIO_DELETED;
-  io_context& operator=(const io_context&) ASIO_DELETED;
-=======
   io_context(const io_context&) = delete;
   io_context& operator=(const io_context&) = delete;
->>>>>>> 142038d (add asio new version)
 
   // Helper function to add the implementation.
   ASIO_DECL impl_type& add_impl(impl_type* impl);
@@ -684,12 +649,7 @@ class io_context::basic_executor_type :
 {
 public:
   /// Copy constructor.
-<<<<<<< HEAD
-  basic_executor_type(
-      const basic_executor_type& other) ASIO_NOEXCEPT
-=======
   basic_executor_type(const basic_executor_type& other) noexcept
->>>>>>> 142038d (add asio new version)
     : Allocator(static_cast<const Allocator&>(other)),
       target_(other.target_)
   {
@@ -699,13 +659,8 @@ public:
   }
 
   /// Move constructor.
-<<<<<<< HEAD
-  basic_executor_type(basic_executor_type&& other) ASIO_NOEXCEPT
-    : Allocator(ASIO_MOVE_CAST(Allocator)(other)),
-=======
   basic_executor_type(basic_executor_type&& other) noexcept
     : Allocator(static_cast<Allocator&&>(other)),
->>>>>>> 142038d (add asio new version)
       target_(other.target_)
   {
     if (Bits & outstanding_work_tracked)
@@ -725,12 +680,6 @@ public:
 
   /// Move assignment operator.
   basic_executor_type& operator=(basic_executor_type&& other) noexcept;
-
-#if !defined(GENERATING_DOCUMENTATION)
-private:
-  friend struct asio_require_fn::impl;
-  friend struct asio_prefer_fn::impl;
-#endif // !defined(GENERATING_DOCUMENTATION)
 
 #if !defined(GENERATING_DOCUMENTATION)
 private:
@@ -1030,11 +979,6 @@ public:
       || static_cast<const Allocator&>(a) != static_cast<const Allocator&>(b);
   }
 
-#if !defined(GENERATING_DOCUMENTATION)
-private:
-  friend struct asio_execution_execute_fn::impl;
-#endif // !defined(GENERATING_DOCUMENTATION)
-
   /// Execution function.
   template <typename Function>
   void execute(Function&& f) const;
@@ -1119,11 +1063,7 @@ private:
   template <typename, uintptr_t> friend class basic_executor_type;
 
   // Constructor used by io_context::get_executor().
-<<<<<<< HEAD
-  explicit basic_executor_type(io_context& i) ASIO_NOEXCEPT
-=======
   explicit basic_executor_type(io_context& i) noexcept
->>>>>>> 142038d (add asio new version)
     : Allocator(),
       target_(reinterpret_cast<uintptr_t>(&i))
   {
@@ -1133,11 +1073,7 @@ private:
 
   // Constructor used by require().
   basic_executor_type(io_context* i,
-<<<<<<< HEAD
-      const Allocator& a, uintptr_t bits) ASIO_NOEXCEPT
-=======
       const Allocator& a, uintptr_t bits) noexcept
->>>>>>> 142038d (add asio new version)
     : Allocator(a),
       target_(reinterpret_cast<uintptr_t>(i) | bits)
   {
@@ -1146,20 +1082,12 @@ private:
         context_ptr()->impl_.work_started();
   }
 
-<<<<<<< HEAD
-  io_context* context_ptr() const ASIO_NOEXCEPT
-=======
   io_context* context_ptr() const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return reinterpret_cast<io_context*>(target_ & ~runtime_bits);
   }
 
-<<<<<<< HEAD
-  uintptr_t bits() const ASIO_NOEXCEPT
-=======
   uintptr_t bits() const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return target_ & runtime_bits;
   }

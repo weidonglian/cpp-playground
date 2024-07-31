@@ -2,11 +2,7 @@
 // detail/win_iocp_socket_accept_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -58,11 +54,7 @@ public:
       enable_connection_aborted_(enable_connection_aborted),
       proxy_op_(0),
       cancel_requested_(0),
-<<<<<<< HEAD
-      handler_(ASIO_MOVE_CAST(Handler)(handler)),
-=======
       handler_(static_cast<Handler&&>(handler)),
->>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }
@@ -207,11 +199,7 @@ public:
       enable_connection_aborted_(enable_connection_aborted),
       cancel_requested_(0),
       proxy_op_(0),
-<<<<<<< HEAD
-      handler_(ASIO_MOVE_CAST(Handler)(handler)),
-=======
       handler_(static_cast<Handler&&>(handler)),
->>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }

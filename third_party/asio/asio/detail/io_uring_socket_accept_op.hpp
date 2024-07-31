@@ -2,11 +2,7 @@
 // detail/io_uring_socket_accept_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -26,10 +22,6 @@
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/fenced_block.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
-<<<<<<< HEAD
-#include "asio/detail/handler_invoke_helpers.hpp"
-=======
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/handler_work.hpp"
 #include "asio/detail/io_uring_operation.hpp"
 #include "asio/detail/memory.hpp"
@@ -63,10 +55,7 @@ public:
 
   static void do_prepare(io_uring_operation* base, ::io_uring_sqe* sqe)
   {
-<<<<<<< HEAD
-=======
     ASIO_ASSUME(base != 0);
->>>>>>> 142038d (add asio new version)
     io_uring_socket_accept_op_base* o(
         static_cast<io_uring_socket_accept_op_base*>(base));
 
@@ -84,10 +73,7 @@ public:
 
   static bool do_perform(io_uring_operation* base, bool after_completion)
   {
-<<<<<<< HEAD
-=======
     ASIO_ASSUME(base != 0);
->>>>>>> 142038d (add asio new version)
     io_uring_socket_accept_op_base* o(
         static_cast<io_uring_socket_accept_op_base*>(base));
 
@@ -152,11 +138,7 @@ public:
     : io_uring_socket_accept_op_base<Socket, Protocol>(
         success_ec, socket, state, peer, protocol, peer_endpoint,
         &io_uring_socket_accept_op::do_complete),
-<<<<<<< HEAD
-      handler_(ASIO_MOVE_CAST(Handler)(handler)),
-=======
       handler_(static_cast<Handler&&>(handler)),
->>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }
@@ -166,10 +148,7 @@ public:
       std::size_t /*bytes_transferred*/)
   {
     // Take ownership of the handler object.
-<<<<<<< HEAD
-=======
     ASIO_ASSUME(base != 0);
->>>>>>> 142038d (add asio new version)
     io_uring_socket_accept_op* o(static_cast<io_uring_socket_accept_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
 
@@ -181,11 +160,7 @@ public:
 
     // Take ownership of the operation's outstanding work.
     handler_work<Handler, IoExecutor> w(
-<<<<<<< HEAD
-        ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
-=======
         static_cast<handler_work<Handler, IoExecutor>&&>(
->>>>>>> 142038d (add asio new version)
           o->work_));
 
     ASIO_ERROR_LOCATION(o->ec_);
@@ -216,11 +191,6 @@ private:
   handler_work<Handler, IoExecutor> work_;
 };
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-
-=======
->>>>>>> 142038d (add asio new version)
 template <typename Protocol, typename PeerIoExecutor,
     typename Handler, typename IoExecutor>
 class io_uring_socket_move_accept_op :
@@ -241,11 +211,7 @@ public:
       io_uring_socket_accept_op_base<peer_socket_type, Protocol>(
         success_ec, socket, state, *this, protocol, peer_endpoint,
         &io_uring_socket_move_accept_op::do_complete),
-<<<<<<< HEAD
-      handler_(ASIO_MOVE_CAST(Handler)(handler)),
-=======
       handler_(static_cast<Handler&&>(handler)),
->>>>>>> 142038d (add asio new version)
       work_(handler_, io_ex)
   {
   }
@@ -255,10 +221,7 @@ public:
       std::size_t /*bytes_transferred*/)
   {
     // Take ownership of the handler object.
-<<<<<<< HEAD
-=======
     ASIO_ASSUME(base != 0);
->>>>>>> 142038d (add asio new version)
     io_uring_socket_move_accept_op* o(
         static_cast<io_uring_socket_move_accept_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
@@ -271,11 +234,7 @@ public:
 
     // Take ownership of the operation's outstanding work.
     handler_work<Handler, IoExecutor> w(
-<<<<<<< HEAD
-        ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
-=======
         static_cast<handler_work<Handler, IoExecutor>&&>(
->>>>>>> 142038d (add asio new version)
           o->work_));
 
     ASIO_ERROR_LOCATION(o->ec_);
@@ -288,13 +247,8 @@ public:
     // deallocated the memory here.
     detail::move_binder2<Handler,
       asio::error_code, peer_socket_type>
-<<<<<<< HEAD
-        handler(0, ASIO_MOVE_CAST(Handler)(o->handler_), o->ec_,
-          ASIO_MOVE_CAST(peer_socket_type)(*o));
-=======
         handler(0, static_cast<Handler&&>(o->handler_), o->ec_,
           static_cast<peer_socket_type&&>(*o));
->>>>>>> 142038d (add asio new version)
     p.h = asio::detail::addressof(handler.handler_);
     p.reset();
 
@@ -316,11 +270,6 @@ private:
   handler_work<Handler, IoExecutor> work_;
 };
 
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_MOVE)
-
-=======
->>>>>>> 142038d (add asio new version)
 } // namespace detail
 } // namespace asio
 

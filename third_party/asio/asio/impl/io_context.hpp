@@ -2,11 +2,7 @@
 // impl/io_context.hpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -153,18 +149,10 @@ struct io_context::initiate_dispatch
 };
 
 template <typename LegacyCompletionHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
-io_context::dispatch(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<LegacyCompletionHandler, void ()>(
-        declval<initiate_dispatch>(), handler, this)))
-=======
 auto io_context::dispatch(LegacyCompletionHandler&& handler)
   -> decltype(
     async_initiate<LegacyCompletionHandler, void ()>(
       declval<initiate_dispatch>(), handler, this))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<LegacyCompletionHandler, void ()>(
       initiate_dispatch(), handler, this);
@@ -202,18 +190,10 @@ struct io_context::initiate_post
 };
 
 template <typename LegacyCompletionHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
-io_context::post(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<LegacyCompletionHandler, void ()>(
-        declval<initiate_post>(), handler, this)))
-=======
 auto io_context::post(LegacyCompletionHandler&& handler)
   -> decltype(
     async_initiate<LegacyCompletionHandler, void ()>(
       declval<initiate_post>(), handler, this))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<LegacyCompletionHandler, void ()>(
       initiate_post(), handler, this);
@@ -253,10 +233,6 @@ io_context::basic_executor_type<Allocator, Bits>::operator=(
   return *this;
 }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
 template <typename Allocator, uintptr_t Bits>
 io_context::basic_executor_type<Allocator, Bits>&
 io_context::basic_executor_type<Allocator, Bits>::operator=(
@@ -320,11 +296,7 @@ void io_context::basic_executor_type<Allocator, Bits>::execute(
   typename op::ptr p = {
       detail::addressof(static_cast<const Allocator&>(*this)),
       op::ptr::allocate(static_cast<const Allocator&>(*this)), 0 };
-<<<<<<< HEAD
-  p.p = new (p.v) op(ASIO_MOVE_CAST(Function)(f),
-=======
   p.p = new (p.v) op(static_cast<Function&&>(f),
->>>>>>> 142038d (add asio new version)
       static_cast<const Allocator&>(*this));
 
   ASIO_HANDLER_CREATION((*context_ptr(), *p.p,

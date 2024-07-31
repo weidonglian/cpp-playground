@@ -2,11 +2,7 @@
 // impl/buffered_read_stream.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,10 +16,6 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/associator.hpp"
-<<<<<<< HEAD
-#include "asio/detail/handler_alloc_helpers.hpp"
-=======
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/handler_cont_helpers.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/non_const_lvalue.hpp"
@@ -94,11 +86,7 @@ namespace detail
         const std::size_t bytes_transferred)
     {
       storage_.resize(previous_size_ + bytes_transferred);
-<<<<<<< HEAD
-      ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, bytes_transferred);
-=======
       static_cast<ReadHandler&&>(handler_)(ec, bytes_transferred);
->>>>>>> 142038d (add asio new version)
     }
 
   //private:
@@ -167,11 +155,6 @@ struct associator<Associator,
   : Associator<ReadHandler, DefaultCandidate>
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const detail::buffered_fill_handler<ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const detail::buffered_fill_handler<ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -181,7 +164,6 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
@@ -192,24 +174,12 @@ template <typename Stream>
 template <
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) ReadHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
-    void (asio::error_code, std::size_t))
-buffered_read_stream<Stream>::async_fill(
-    ASIO_MOVE_ARG(ReadHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadHandler,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_buffered_fill<Stream> >(),
-        handler, declval<detail::buffered_stream_storage*>())))
-=======
 inline auto buffered_read_stream<Stream>::async_fill(ReadHandler&& handler)
   -> decltype(
     async_initiate<ReadHandler,
       void (asio::error_code, std::size_t)>(
         declval<detail::initiate_async_buffered_fill<Stream>>(),
         handler, declval<detail::buffered_stream_storage*>()))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<ReadHandler,
     void (asio::error_code, std::size_t)>(
@@ -282,22 +252,14 @@ namespace detail
       if (ec || storage_.empty())
       {
         const std::size_t length = 0;
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, length);
-=======
         static_cast<ReadHandler&&>(handler_)(ec, length);
->>>>>>> 142038d (add asio new version)
       }
       else
       {
         const std::size_t bytes_copied = asio::buffer_copy(
             buffers_, storage_.data(), storage_.size());
         storage_.consume(bytes_copied);
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, bytes_copied);
-=======
         static_cast<ReadHandler&&>(handler_)(ec, bytes_copied);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -379,11 +341,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::buffered_read_some_handler<
-<<<<<<< HEAD
-        MutableBufferSequence, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         MutableBufferSequence, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -395,7 +352,6 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
@@ -406,18 +362,6 @@ template <typename Stream>
 template <typename MutableBufferSequence,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) ReadHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
-    void (asio::error_code, std::size_t))
-buffered_read_stream<Stream>::async_read_some(
-    const MutableBufferSequence& buffers,
-    ASIO_MOVE_ARG(ReadHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadHandler,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_buffered_read_some<Stream> >(),
-        handler, declval<detail::buffered_stream_storage*>(), buffers)))
-=======
 inline auto buffered_read_stream<Stream>::async_read_some(
     const MutableBufferSequence& buffers, ReadHandler&& handler)
   -> decltype(
@@ -425,7 +369,6 @@ inline auto buffered_read_stream<Stream>::async_read_some(
       void (asio::error_code, std::size_t)>(
         declval<detail::initiate_async_buffered_read_some<Stream>>(),
         handler, declval<detail::buffered_stream_storage*>(), buffers))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<ReadHandler,
     void (asio::error_code, std::size_t)>(

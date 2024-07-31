@@ -2,11 +2,7 @@
 // ip/address_v4.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,10 +24,6 @@
 #include "asio/detail/string_view.hpp"
 #include "asio/detail/winsock_init.hpp"
 #include "asio/error_code.hpp"
-
-#if defined(ASIO_HAS_STD_HASH)
-# include <functional>
-#endif // defined(ASIO_HAS_STD_HASH)
 
 #if !defined(ASIO_NO_IOSTREAM)
 # include <iosfwd>
@@ -74,11 +66,7 @@ public:
    * @li <tt>to_bytes()</tt> yields <tt>{0, 0, 0, 0}</tt>; and
    * @li <tt>to_uint() == 0</tt>.
    */
-<<<<<<< HEAD
-  address_v4() ASIO_NOEXCEPT
-=======
   address_v4() noexcept
->>>>>>> 142038d (add asio new version)
   {
     addr_.s_addr = 0;
   }
@@ -173,11 +161,7 @@ public:
    *
    * @returns <tt>(to_uint() & 0xFF000000) == 0x7F000000</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL bool is_loopback() const ASIO_NOEXCEPT;
-=======
   ASIO_DECL bool is_loopback() const noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Determine whether the address is unspecified.
   /**
@@ -186,11 +170,7 @@ public:
    *
    * @returns <tt>to_uint() == 0</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL bool is_unspecified() const ASIO_NOEXCEPT;
-=======
   ASIO_DECL bool is_unspecified() const noexcept;
->>>>>>> 142038d (add asio new version)
 
 #if !defined(ASIO_NO_DEPRECATED)
   /// (Deprecated: Use network_v4 class.) Determine whether the address is a
@@ -214,11 +194,7 @@ public:
    *
    * @returns <tt>(to_uint() & 0xF0000000) == 0xE0000000</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL bool is_multicast() const ASIO_NOEXCEPT;
-=======
   ASIO_DECL bool is_multicast() const noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Compare two addresses for equality.
   friend bool operator==(const address_v4& a1,
@@ -289,11 +265,7 @@ public:
    *
    * @returns A default-constructed @c address_v4 object.
    */
-<<<<<<< HEAD
-  static address_v4 any() ASIO_NOEXCEPT
-=======
   static address_v4 any() noexcept
->>>>>>> 142038d (add asio new version)
   {
     return address_v4();
   }
@@ -305,11 +277,7 @@ public:
    *
    * @returns <tt>address_v4(0x7F000001)</tt>.
    */
-<<<<<<< HEAD
-  static address_v4 loopback() ASIO_NOEXCEPT
-=======
   static address_v4 loopback() noexcept
->>>>>>> 142038d (add asio new version)
   {
     return address_v4(0x7F000001);
   }
@@ -321,11 +289,7 @@ public:
    *
    * @returns <tt>address_v4(0xFFFFFFFF)</tt>.
    */
-<<<<<<< HEAD
-  static address_v4 broadcast() ASIO_NOEXCEPT
-=======
   static address_v4 broadcast() noexcept
->>>>>>> 142038d (add asio new version)
   {
     return address_v4(0xFFFFFFFF);
   }
@@ -433,31 +397,19 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace ip
 } // namespace asio
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_STD_HASH)
-=======
->>>>>>> 142038d (add asio new version)
 namespace std {
 
 template <>
 struct hash<asio::ip::address_v4>
 {
   std::size_t operator()(const asio::ip::address_v4& addr)
-<<<<<<< HEAD
-    const ASIO_NOEXCEPT
-=======
     const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return std::hash<unsigned int>()(addr.to_uint());
   }
 };
 
 } // namespace std
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_STD_HASH)
-=======
->>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/pop_options.hpp"
 

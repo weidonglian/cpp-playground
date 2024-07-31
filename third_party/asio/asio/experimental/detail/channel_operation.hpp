@@ -2,11 +2,7 @@
 // experimental/detail/channel_operation.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -22,15 +18,11 @@
 #include "asio/detail/config.hpp"
 #include "asio/associated_allocator.hpp"
 #include "asio/associated_executor.hpp"
-<<<<<<< HEAD
-#include "asio/detail/op_queue.hpp"
-=======
 #include "asio/associated_immediate_executor.hpp"
 #include "asio/detail/initiate_post.hpp"
 #include "asio/detail/initiate_dispatch.hpp"
 #include "asio/detail/op_queue.hpp"
 #include "asio/detail/type_traits.hpp"
->>>>>>> 142038d (add asio new version)
 #include "asio/execution/executor.hpp"
 #include "asio/execution/outstanding_work.hpp"
 #include "asio/executor_work_guard.hpp"
@@ -47,11 +39,7 @@ namespace detail {
 class channel_operation ASIO_INHERIT_TRACKED_HANDLER
 {
 public:
-<<<<<<< HEAD
-  template <typename Executor, typename = void>
-=======
   template <typename Executor, typename = void, typename = void>
->>>>>>> 142038d (add asio new version)
   class handler_work_base;
 
   template <typename Handler, typename IoExecutor, typename = void>
@@ -66,17 +54,11 @@ protected:
   enum action
   {
     destroy_op = 0,
-<<<<<<< HEAD
-    complete_op = 1,
-    cancel_op = 2,
-    close_op = 3
-=======
     immediate_op = 1,
     post_op = 2,
     dispatch_op = 3,
     cancel_op = 4,
     close_op = 5
->>>>>>> 142038d (add asio new version)
   };
 
   typedef void (*func_type)(channel_operation*, action, void*);
@@ -102,12 +84,6 @@ public:
   void* cancellation_key_;
 };
 
-<<<<<<< HEAD
-template <typename Executor, typename>
-class channel_operation::handler_work_base
-{
-public:
-=======
 template <typename Executor, typename, typename>
 class channel_operation::handler_work_base
 {
@@ -118,33 +94,11 @@ public:
       >
     > executor_type;
 
->>>>>>> 142038d (add asio new version)
   handler_work_base(int, const Executor& ex)
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
 
-<<<<<<< HEAD
-  template <typename Function, typename Handler>
-  void post(Function& function, Handler& handler)
-  {
-    typename associated_allocator<Handler>::type allocator =
-      (get_associated_allocator)(handler);
-
-    execution::execute(
-        asio::prefer(
-          asio::require(executor_, execution::blocking.never),
-          execution::allocator(allocator)),
-        ASIO_MOVE_CAST(Function)(function));
-  }
-
-private:
-  typename decay<
-      typename prefer_result<Executor,
-        execution::outstanding_work_t::tracked_t
-      >::type
-    >::type executor_;
-=======
   const executor_type& get_executor() const noexcept
   {
     return executor_;
@@ -224,20 +178,12 @@ public:
 
 private:
   executor_type executor_;
->>>>>>> 142038d (add asio new version)
 };
 
 #if !defined(ASIO_NO_TS_EXECUTORS)
 
 template <typename Executor>
 class channel_operation::handler_work_base<Executor,
-<<<<<<< HEAD
-    typename enable_if<
-      !execution::is_executor<Executor>::value
-    >::type>
-{
-public:
-=======
     enable_if_t<
       !execution::is_executor<Executor>::value
     >
@@ -246,22 +192,11 @@ public:
 public:
   typedef Executor executor_type;
 
->>>>>>> 142038d (add asio new version)
   handler_work_base(int, const Executor& ex)
     : work_(ex)
   {
   }
 
-<<<<<<< HEAD
-  template <typename Function, typename Handler>
-  void post(Function& function, Handler& handler)
-  {
-    typename associated_allocator<Handler>::type allocator =
-      (get_associated_allocator)(handler);
-
-    work_.get_executor().post(
-        ASIO_MOVE_CAST(Function)(function), allocator);
-=======
   executor_type get_executor() const noexcept
   {
     return work_.get_executor();
@@ -285,7 +220,6 @@ public:
 
     work_.get_executor().dispatch(
         static_cast<Function&&>(function), allocator);
->>>>>>> 142038d (add asio new version)
   }
 
 private:
@@ -298,38 +232,22 @@ template <typename Handler, typename IoExecutor, typename>
 class channel_operation::handler_work :
   channel_operation::handler_work_base<IoExecutor>,
   channel_operation::handler_work_base<
-<<<<<<< HEAD
-      typename associated_executor<Handler, IoExecutor>::type, IoExecutor>
-=======
       associated_executor_t<Handler, IoExecutor>, IoExecutor>
->>>>>>> 142038d (add asio new version)
 {
 public:
   typedef channel_operation::handler_work_base<IoExecutor> base1_type;
 
   typedef channel_operation::handler_work_base<
-<<<<<<< HEAD
-      typename associated_executor<Handler, IoExecutor>::type, IoExecutor>
-    base2_type;
-
-  handler_work(Handler& handler, const IoExecutor& io_ex) ASIO_NOEXCEPT
-=======
       associated_executor_t<Handler, IoExecutor>, IoExecutor>
     base2_type;
 
   handler_work(Handler& handler, const IoExecutor& io_ex) noexcept
->>>>>>> 142038d (add asio new version)
     : base1_type(0, io_ex),
       base2_type(0, (get_associated_executor)(handler, io_ex))
   {
   }
 
   template <typename Function>
-<<<<<<< HEAD
-  void complete(Function& function, Handler& handler)
-  {
-    base2_type::post(function, handler);
-=======
   void post(Function& function, Handler& handler)
   {
     base2_type::post(base1_type::get_executor(), function, handler);
@@ -370,48 +288,30 @@ public:
         typename base1_type::executor_type>(
           base1_type::get_executor()))(
         static_cast<Function&&>(function));
->>>>>>> 142038d (add asio new version)
   }
 };
 
 template <typename Handler, typename IoExecutor>
 class channel_operation::handler_work<
     Handler, IoExecutor,
-<<<<<<< HEAD
-    typename enable_if<
-=======
     enable_if_t<
->>>>>>> 142038d (add asio new version)
       is_same<
         typename associated_executor<Handler,
           IoExecutor>::asio_associated_executor_is_unspecialised,
         void
       >::value
-<<<<<<< HEAD
-    >::type> : handler_work_base<IoExecutor>
-=======
     >
   > : handler_work_base<IoExecutor>
->>>>>>> 142038d (add asio new version)
 {
 public:
   typedef channel_operation::handler_work_base<IoExecutor> base1_type;
 
-<<<<<<< HEAD
-  handler_work(Handler&, const IoExecutor& io_ex) ASIO_NOEXCEPT
-=======
   handler_work(Handler&, const IoExecutor& io_ex) noexcept
->>>>>>> 142038d (add asio new version)
     : base1_type(0, io_ex)
   {
   }
 
   template <typename Function>
-<<<<<<< HEAD
-  void complete(Function& function, Handler& handler)
-  {
-    base1_type::post(function, handler);
-=======
   void post(Function& function, Handler& handler)
   {
     base1_type::post(base1_type::get_executor(), function, handler);
@@ -449,7 +349,6 @@ public:
       >*)
   {
     base1_type::post(base1_type::get_executor(), function, handler);
->>>>>>> 142038d (add asio new version)
   }
 };
 

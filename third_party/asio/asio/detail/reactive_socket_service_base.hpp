@@ -2,11 +2,7 @@
 // detail/reactive_socket_service_base.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -206,11 +202,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -250,12 +242,8 @@ public:
             &reactor_, &impl.reactor_data_, impl.socket_, op_type);
     }
 
-<<<<<<< HEAD
-    start_op(impl, op_type, p.p, is_continuation, false, false);
-=======
     start_op(impl, op_type, p.p, is_continuation,
         false, false, false, &io_ex, 0);
->>>>>>> 142038d (add asio new version)
     p.v = p.p = 0;
   }
 
@@ -302,11 +290,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -343,11 +327,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -416,11 +396,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -462,11 +438,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -535,11 +507,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -580,11 +548,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -701,10 +665,6 @@ protected:
   }
 
   // Start the asynchronous connect operation.
-<<<<<<< HEAD
-  ASIO_DECL void start_connect_op(base_implementation_type& impl,
-      reactor_op* op, bool is_continuation, const void* addr, size_t addrlen);
-=======
   ASIO_DECL void do_start_connect_op(base_implementation_type& impl,
       reactor_op* op, bool is_continuation, const void* addr, size_t addrlen,
       void (*on_immediate)(operation* op, bool, const void*),
@@ -739,18 +699,13 @@ protected:
     return do_start_connect_op(impl, op, is_continuation, addr,
         addrlen, &reactor::call_post_immediate_completion, &reactor_);
   }
->>>>>>> 142038d (add asio new version)
 
   // Helper class used to implement per-operation cancellation
   class reactor_op_cancellation
   {
   public:
     reactor_op_cancellation(reactor* r,
-<<<<<<< HEAD
-        reactor::per_descriptor_data* p, int d, int o)
-=======
         reactor::per_descriptor_data* p, socket_type d, int o)
->>>>>>> 142038d (add asio new version)
       : reactor_(r),
         reactor_data_(p),
         descriptor_(d),
@@ -773,11 +728,7 @@ protected:
   private:
     reactor* reactor_;
     reactor::per_descriptor_data* reactor_data_;
-<<<<<<< HEAD
-    int descriptor_;
-=======
     socket_type descriptor_;
->>>>>>> 142038d (add asio new version)
     int op_type_;
   };
 

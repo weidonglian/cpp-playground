@@ -2,11 +2,7 @@
 // thread_pool.hpp
 // ~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -204,12 +200,6 @@ private:
   friend struct asio_prefer_fn::impl;
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-#if !defined(GENERATING_DOCUMENTATION)
-private:
-  friend struct asio_require_fn::impl;
-  friend struct asio_prefer_fn::impl;
-#endif // !defined(GENERATING_DOCUMENTATION)
-
   /// Obtain an executor with the @c blocking.possibly property.
   /**
    * Do not call this function directly. It is intended for use with the
@@ -375,26 +365,6 @@ private:
   friend struct asio::execution::detail::mapping_t<0>;
   friend struct asio::execution::detail::outstanding_work_t<0>;
 #endif // !defined(GENERATING_DOCUMENTATION)
-<<<<<<< HEAD
-
-  /// Query the current value of the @c bulk_guarantee property.
-  /**
-   * Do not call this function directly. It is intended for use with the
-   * asio::query customisation point.
-   *
-   * For example:
-   * @code auto ex = my_thread_pool.executor();
-   * if (asio::query(ex, asio::execution::bulk_guarantee)
-   *       == asio::execution::bulk_guarantee.parallel)
-   *   ... @endcode
-   */
-  static ASIO_CONSTEXPR execution::bulk_guarantee_t query(
-      execution::bulk_guarantee_t) ASIO_NOEXCEPT
-  {
-    return execution::bulk_guarantee.parallel;
-  }
-=======
->>>>>>> 142038d (add asio new version)
 
   /// Query the current value of the @c mapping property.
   /**
@@ -564,11 +534,6 @@ public:
       || a.bits_ != b.bits_;
   }
 
-#if !defined(GENERATING_DOCUMENTATION)
-private:
-  friend struct asio_execution_execute_fn::impl;
-#endif // !defined(GENERATING_DOCUMENTATION)
-
   /// Execution function.
   template <typename Function>
   void execute(Function&& f) const
@@ -578,49 +543,6 @@ private:
   }
 
 public:
-<<<<<<< HEAD
-  /// Bulk execution function.
-  template <typename Function>
-  void bulk_execute(ASIO_MOVE_ARG(Function) f, std::size_t n) const
-  {
-    this->do_bulk_execute(ASIO_MOVE_CAST(Function)(f), n,
-        integral_constant<bool, (Bits & blocking_always) != 0>());
-  }
-
-  /// Schedule function.
-  /**
-   * Do not call this function directly. It is intended for use with the
-   * execution::schedule customisation point.
-   *
-   * @return An object that satisfies the sender concept.
-   */
-  sender_type schedule() const ASIO_NOEXCEPT
-  {
-    return *this;
-  }
-
-  /// Connect function.
-  /**
-   * Do not call this function directly. It is intended for use with the
-   * execution::connect customisation point.
-   *
-   * @return An object of an unspecified type that satisfies the @c
-   * operation_state concept.
-   */
-  template <ASIO_EXECUTION_RECEIVER_OF_0 Receiver>
-#if defined(GENERATING_DOCUMENTATION)
-  unspecified
-#else // defined(GENERATING_DOCUMENTATION)
-  execution::detail::as_operation<basic_executor_type, Receiver>
-#endif // defined(GENERATING_DOCUMENTATION)
-  connect(ASIO_MOVE_ARG(Receiver) r) const
-  {
-    return execution::detail::as_operation<basic_executor_type, Receiver>(
-        *this, ASIO_MOVE_CAST(Receiver)(r));
-  }
-
-=======
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_TS_EXECUTORS)
   /// Obtain the underlying execution context.
   thread_pool& context() const noexcept;

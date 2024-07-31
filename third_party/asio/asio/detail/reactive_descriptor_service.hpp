@@ -2,11 +2,7 @@
 // detail/reactive_descriptor_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -27,10 +23,7 @@
   && !defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 
 #include "asio/associated_cancellation_slot.hpp"
-<<<<<<< HEAD
-=======
 #include "asio/associated_immediate_executor.hpp"
->>>>>>> 142038d (add asio new version)
 #include "asio/buffer.hpp"
 #include "asio/cancellation_type.hpp"
 #include "asio/execution_context.hpp"
@@ -219,11 +212,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -263,12 +252,8 @@ public:
             &reactor_, &impl.reactor_data_, impl.descriptor_, op_type);
     }
 
-<<<<<<< HEAD
-    start_op(impl, op_type, p.p, is_continuation, false, false);
-=======
     start_op(impl, op_type, p.p, is_continuation,
         false, false, false, &io_ex, 0);
->>>>>>> 142038d (add asio new version)
     p.v = p.p = 0;
   }
 
@@ -319,11 +304,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -358,11 +339,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -436,11 +413,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -475,11 +448,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -544,38 +513,6 @@ private:
         allow_speculative, noop, needs_non_blocking,
         &reactor::call_post_immediate_completion, &reactor_);
   }
-
-  // Helper class used to implement per-operation cancellation
-  class reactor_op_cancellation
-  {
-  public:
-    reactor_op_cancellation(reactor* r,
-        reactor::per_descriptor_data* p, int d, int o)
-      : reactor_(r),
-        reactor_data_(p),
-        descriptor_(d),
-        op_type_(o)
-    {
-    }
-
-    void operator()(cancellation_type_t type)
-    {
-      if (!!(type &
-            (cancellation_type::terminal
-              | cancellation_type::partial
-              | cancellation_type::total)))
-      {
-        reactor_->cancel_ops_by_key(descriptor_,
-            *reactor_data_, op_type_, this);
-      }
-    }
-
-  private:
-    reactor* reactor_;
-    reactor::per_descriptor_data* reactor_data_;
-    int descriptor_;
-    int op_type_;
-  };
 
   // Helper class used to implement per-operation cancellation
   class reactor_op_cancellation

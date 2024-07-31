@@ -2,11 +2,7 @@
 // basic_writable_pipe.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,10 +21,7 @@
   || defined(GENERATING_DOCUMENTATION)
 
 #include <string>
-<<<<<<< HEAD
-=======
 #include <utility>
->>>>>>> 142038d (add asio new version)
 #include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
@@ -46,13 +39,6 @@
 # include "asio/detail/reactive_descriptor_service.hpp"
 #endif
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-# include <utility>
-#endif // defined(ASIO_HAS_MOVE)
-
-=======
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/push_options.hpp"
 
 namespace asio {
@@ -123,17 +109,10 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_writable_pipe(ExecutionContext& context,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -177,15 +156,9 @@ public:
   template <typename ExecutionContext>
   basic_writable_pipe(ExecutionContext& context,
       const native_handle_type& native_pipe,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -194,10 +167,6 @@ public:
     asio::detail::throw_error(ec, "assign");
   }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-=======
->>>>>>> 142038d (add asio new version)
   /// Move-construct a basic_writable_pipe from another.
   /**
    * This constructor moves a pipe from one object to another.
@@ -248,17 +217,10 @@ public:
    */
   template <typename Executor1>
   basic_writable_pipe(basic_writable_pipe<Executor1>&& other,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<Executor1, Executor>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<Executor1, Executor>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -275,26 +237,15 @@ public:
    * constructor.
    */
   template <typename Executor1>
-<<<<<<< HEAD
-  typename constraint<
-    is_convertible<Executor1, Executor>::value,
-    basic_writable_pipe&
-  >::type operator=(basic_writable_pipe<Executor1>&& other)
-=======
   constraint_t<
     is_convertible<Executor1, Executor>::value,
     basic_writable_pipe&
   > operator=(basic_writable_pipe<Executor1>&& other)
->>>>>>> 142038d (add asio new version)
   {
     basic_writable_pipe tmp(std::move(other));
     impl_ = std::move(tmp.impl_);
     return *this;
   }
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-=======
->>>>>>> 142038d (add asio new version)
 
   /// Destroys the pipe.
   /**
@@ -307,11 +258,7 @@ public:
   }
 
   /// Get the executor associated with the object.
-<<<<<<< HEAD
-  executor_type get_executor() ASIO_NOEXCEPT
-=======
   const executor_type& get_executor() noexcept
->>>>>>> 142038d (add asio new version)
   {
     return impl_.get_executor();
   }
@@ -585,11 +532,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, std::size_t) @endcode
@@ -609,19 +552,6 @@ public:
    */
   template <typename ConstBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-        std::size_t)) WriteToken
-          ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
-      void (asio::error_code, std::size_t))
-  async_write_some(const ConstBufferSequence& buffers,
-      ASIO_MOVE_ARG(WriteToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<WriteToken,
-        void (asio::error_code, std::size_t)>(
-          declval<initiate_async_write_some>(), token, buffers)))
-=======
         std::size_t)) WriteToken = default_completion_token_t<executor_type>>
   auto async_write_some(const ConstBufferSequence& buffers,
       WriteToken&& token = default_completion_token_t<executor_type>())
@@ -629,7 +559,6 @@ public:
       async_initiate<WriteToken,
         void (asio::error_code, std::size_t)>(
           declval<initiate_async_write_some>(), token, buffers))
->>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WriteToken,
       void (asio::error_code, std::size_t)>(
@@ -638,13 +567,8 @@ public:
 
 private:
   // Disallow copying and assignment.
-<<<<<<< HEAD
-  basic_writable_pipe(const basic_writable_pipe&) ASIO_DELETED;
-  basic_writable_pipe& operator=(const basic_writable_pipe&) ASIO_DELETED;
-=======
   basic_writable_pipe(const basic_writable_pipe&) = delete;
   basic_writable_pipe& operator=(const basic_writable_pipe&) = delete;
->>>>>>> 142038d (add asio new version)
 
   class initiate_async_write_some
   {
@@ -656,21 +580,13 @@ private:
     {
     }
 
-<<<<<<< HEAD
-    executor_type get_executor() const ASIO_NOEXCEPT
-=======
     const executor_type& get_executor() const noexcept
->>>>>>> 142038d (add asio new version)
     {
       return self_->get_executor();
     }
 
     template <typename WriteHandler, typename ConstBufferSequence>
-<<<<<<< HEAD
-    void operator()(ASIO_MOVE_ARG(WriteHandler) handler,
-=======
     void operator()(WriteHandler&& handler,
->>>>>>> 142038d (add asio new version)
         const ConstBufferSequence& buffers) const
     {
       // If you get an error on the following line it means that your handler

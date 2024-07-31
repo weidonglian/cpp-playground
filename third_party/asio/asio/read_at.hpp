@@ -2,11 +2,7 @@
 // read_at.hpp
 // ~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -469,14 +465,7 @@ std::size_t read_at(SyncRandomAccessReadDevice& d,
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the completion handler will not be invoked from within this function.
  * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
- * manner equivalent to using asio::post().
-=======
  * manner equivalent to using asio::async_immediate().
- *
- * @par Completion Signature
- * @code void(asio::error_code, std::size_t) @endcode
->>>>>>> 142038d (add asio new version)
  *
  * @par Completion Signature
  * @code void(asio::error_code, std::size_t) @endcode
@@ -509,23 +498,6 @@ std::size_t read_at(SyncRandomAccessReadDevice& d,
  */
 template <typename AsyncRandomAccessReadDevice, typename MutableBufferSequence,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-      std::size_t)) ReadToken
-        ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
-          typename AsyncRandomAccessReadDevice::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_at(AsyncRandomAccessReadDevice& d, uint64_t offset,
-    const MutableBufferSequence& buffers,
-    ASIO_MOVE_ARG(ReadToken) token
-      ASIO_DEFAULT_COMPLETION_TOKEN(
-        typename AsyncRandomAccessReadDevice::executor_type))
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_at<AsyncRandomAccessReadDevice> >(),
-        token, offset, buffers, transfer_all())));
-=======
       std::size_t)) ReadToken = default_completion_token_t<
         typename AsyncRandomAccessReadDevice::executor_type>>
 inline auto async_read_at(AsyncRandomAccessReadDevice& d,
@@ -546,7 +518,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
       detail::initiate_async_read_at<AsyncRandomAccessReadDevice>(d),
       token, offset, buffers, transfer_all());
 }
->>>>>>> 142038d (add asio new version)
 
 /// Start an asynchronous operation to read a certain amount of data at the
 /// specified offset.
@@ -604,14 +575,7 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the completion handler will not be invoked from within this function.
  * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
- * manner equivalent to using asio::post().
-=======
  * manner equivalent to using asio::async_immediate().
- *
- * @par Completion Signature
- * @code void(asio::error_code, std::size_t) @endcode
->>>>>>> 142038d (add asio new version)
  *
  * @par Completion Signature
  * @code void(asio::error_code, std::size_t) @endcode
@@ -640,25 +604,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
 template <typename AsyncRandomAccessReadDevice,
     typename MutableBufferSequence, typename CompletionCondition,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-      std::size_t)) ReadToken
-        ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
-          typename AsyncRandomAccessReadDevice::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_at(AsyncRandomAccessReadDevice& d,
-    uint64_t offset, const MutableBufferSequence& buffers,
-    CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(ReadToken) token
-      ASIO_DEFAULT_COMPLETION_TOKEN(
-        typename AsyncRandomAccessReadDevice::executor_type))
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_at<AsyncRandomAccessReadDevice> >(),
-        token, offset, buffers,
-        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))));
-=======
       std::size_t)) ReadToken = default_completion_token_t<
         typename AsyncRandomAccessReadDevice::executor_type>>
 inline auto async_read_at(AsyncRandomAccessReadDevice& d,
@@ -682,7 +627,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
       token, offset, buffers,
       static_cast<CompletionCondition&&>(completion_condition));
 }
->>>>>>> 142038d (add asio new version)
 
 #if !defined(ASIO_NO_EXTENSIONS)
 #if !defined(ASIO_NO_IOSTREAM)
@@ -727,14 +671,7 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the completion handler will not be invoked from within this function.
  * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
- * manner equivalent to using asio::post().
-=======
  * manner equivalent to using asio::async_immediate().
- *
- * @par Completion Signature
- * @code void(asio::error_code, std::size_t) @endcode
->>>>>>> 142038d (add asio new version)
  *
  * @par Completion Signature
  * @code void(asio::error_code, std::size_t) @endcode
@@ -758,24 +695,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
  */
 template <typename AsyncRandomAccessReadDevice, typename Allocator,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-      std::size_t)) ReadToken
-        ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
-          typename AsyncRandomAccessReadDevice::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_at(AsyncRandomAccessReadDevice& d,
-    uint64_t offset, basic_streambuf<Allocator>& b,
-    ASIO_MOVE_ARG(ReadToken) token
-      ASIO_DEFAULT_COMPLETION_TOKEN(
-        typename AsyncRandomAccessReadDevice::executor_type))
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_at_streambuf<
-          AsyncRandomAccessReadDevice> >(),
-        token, offset, &b, transfer_all())));
-=======
       std::size_t)) ReadToken = default_completion_token_t<
         typename AsyncRandomAccessReadDevice::executor_type>>
 inline auto async_read_at(AsyncRandomAccessReadDevice& d,
@@ -797,7 +716,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
       detail::initiate_async_read_at_streambuf<AsyncRandomAccessReadDevice>(d),
       token, offset, &b, transfer_all());
 }
->>>>>>> 142038d (add asio new version)
 
 /// Start an asynchronous operation to read a certain amount of data at the
 /// specified offset.
@@ -853,11 +771,7 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the completion handler will not be invoked from within this function.
  * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
- * manner equivalent to using asio::post().
-=======
  * manner equivalent to using asio::async_immediate().
->>>>>>> 142038d (add asio new version)
  *
  * @par Completion Signature
  * @code void(asio::error_code, std::size_t) @endcode
@@ -876,26 +790,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d,
 template <typename AsyncRandomAccessReadDevice,
     typename Allocator, typename CompletionCondition,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-      std::size_t)) ReadToken
-        ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
-          typename AsyncRandomAccessReadDevice::executor_type)>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_at(AsyncRandomAccessReadDevice& d,
-    uint64_t offset, basic_streambuf<Allocator>& b,
-    CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(ReadToken) token
-      ASIO_DEFAULT_COMPLETION_TOKEN(
-        typename AsyncRandomAccessReadDevice::executor_type))
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_at_streambuf<
-          AsyncRandomAccessReadDevice> >(),
-        token, offset, &b,
-        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))));
-=======
       std::size_t)) ReadToken = default_completion_token_t<
         typename AsyncRandomAccessReadDevice::executor_type>>
 inline auto async_read_at(AsyncRandomAccessReadDevice& d, uint64_t offset,
@@ -919,7 +813,6 @@ inline auto async_read_at(AsyncRandomAccessReadDevice& d, uint64_t offset,
       token, offset, &b,
       static_cast<CompletionCondition&&>(completion_condition));
 }
->>>>>>> 142038d (add asio new version)
 
 #endif // !defined(ASIO_NO_IOSTREAM)
 #endif // !defined(ASIO_NO_EXTENSIONS)

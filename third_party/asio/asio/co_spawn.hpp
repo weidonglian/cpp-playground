@@ -2,11 +2,7 @@
 // co_spawn.hpp
 // ~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -117,17 +113,10 @@ inline ASIO_INITFN_AUTO_RESULT_TYPE(
 co_spawn(const Executor& ex, awaitable<T, AwaitableExecutor> a,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
-<<<<<<< HEAD
-    typename constraint<
-      (is_executor<Executor>::value || execution::is_executor<Executor>::value)
-        && is_convertible<Executor, AwaitableExecutor>::value
-    >::type = 0);
-=======
     constraint_t<
       (is_executor<Executor>::value || execution::is_executor<Executor>::value)
         && is_convertible<Executor, AwaitableExecutor>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 /// Spawn a new coroutined-based thread of execution.
 /**
@@ -188,17 +177,10 @@ inline ASIO_INITFN_AUTO_RESULT_TYPE(
 co_spawn(const Executor& ex, awaitable<void, AwaitableExecutor> a,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
-<<<<<<< HEAD
-    typename constraint<
-      (is_executor<Executor>::value || execution::is_executor<Executor>::value)
-        && is_convertible<Executor, AwaitableExecutor>::value
-    >::type = 0);
-=======
     constraint_t<
       (is_executor<Executor>::value || execution::is_executor<Executor>::value)
         && is_convertible<Executor, AwaitableExecutor>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 /// Spawn a new coroutined-based thread of execution.
 /**
@@ -269,19 +251,11 @@ co_spawn(ExecutionContext& ctx, awaitable<T, AwaitableExecutor> a,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(
         typename ExecutionContext::executor_type),
-<<<<<<< HEAD
-    typename constraint<
-      is_convertible<ExecutionContext&, execution_context&>::value
-        && is_convertible<typename ExecutionContext::executor_type,
-          AwaitableExecutor>::value
-    >::type = 0);
-=======
     constraint_t<
       is_convertible<ExecutionContext&, execution_context&>::value
         && is_convertible<typename ExecutionContext::executor_type,
           AwaitableExecutor>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 /// Spawn a new coroutined-based thread of execution.
 /**
@@ -344,19 +318,11 @@ co_spawn(ExecutionContext& ctx, awaitable<void, AwaitableExecutor> a,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(
         typename ExecutionContext::executor_type),
-<<<<<<< HEAD
-    typename constraint<
-      is_convertible<ExecutionContext&, execution_context&>::value
-        && is_convertible<typename ExecutionContext::executor_type,
-          AwaitableExecutor>::value
-    >::type = 0);
-=======
     constraint_t<
       is_convertible<ExecutionContext&, execution_context&>::value
         && is_convertible<typename ExecutionContext::executor_type,
           AwaitableExecutor>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 /// Spawn a new coroutined-based thread of execution.
 /**
@@ -447,15 +413,9 @@ ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken,
 co_spawn(const Executor& ex, F&& f,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
-<<<<<<< HEAD
-    typename constraint<
-      is_executor<Executor>::value || execution::is_executor<Executor>::value
-    >::type = 0);
-=======
     constraint_t<
       is_executor<Executor>::value || execution::is_executor<Executor>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 /// Spawn a new coroutined-based thread of execution.
 /**
@@ -548,15 +508,9 @@ co_spawn(ExecutionContext& ctx, F&& f,
     CompletionToken&& token
       ASIO_DEFAULT_COMPLETION_TOKEN(
         typename ExecutionContext::executor_type),
-<<<<<<< HEAD
-    typename constraint<
-      is_convertible<ExecutionContext&, execution_context&>::value
-    >::type = 0);
-=======
     constraint_t<
       is_convertible<ExecutionContext&, execution_context&>::value
     > = 0);
->>>>>>> 142038d (add asio new version)
 
 } // namespace asio
 

@@ -2,11 +2,7 @@
 // experimental/as_single.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -84,15 +80,9 @@ public:
     /// that to construct the adapted executor.
     template <typename OtherExecutor>
     executor_with_default(const OtherExecutor& ex,
-<<<<<<< HEAD
-        typename constraint<
-          is_convertible<OtherExecutor, InnerExecutor>::value
-        >::type = 0) ASIO_NOEXCEPT
-=======
         constraint_t<
           is_convertible<OtherExecutor, InnerExecutor>::value
         > = 0) noexcept
->>>>>>> 142038d (add asio new version)
       : InnerExecutor(ex)
     {
     }
@@ -125,13 +115,8 @@ public:
 /// arguments should be combined into a single argument.
 template <typename CompletionToken>
 ASIO_NODISCARD inline
-<<<<<<< HEAD
-ASIO_CONSTEXPR as_single_t<typename decay<CompletionToken>::type>
-as_single(ASIO_MOVE_ARG(CompletionToken) completion_token)
-=======
 constexpr as_single_t<decay_t<CompletionToken>>
 as_single(CompletionToken&& completion_token)
->>>>>>> 142038d (add asio new version)
 {
   return as_single_t<decay_t<CompletionToken>>(
       static_cast<CompletionToken&&>(completion_token));

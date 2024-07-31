@@ -2,11 +2,7 @@
 // require.hpp
 // ~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -111,13 +107,8 @@ struct require_result
 
 namespace asio_require_fn {
 
-<<<<<<< HEAD
-using asio::conditional;
-using asio::decay;
-=======
 using asio::conditional_t;
 using asio::decay_t;
->>>>>>> 142038d (add asio new version)
 using asio::declval;
 using asio::enable_if_t;
 using asio::is_applicable_property;
@@ -148,20 +139,6 @@ struct call_traits
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable
-  >::type,
-  typename enable_if<
-    static_require<T, Property>::is_valid
-  >::type>
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -174,7 +151,6 @@ struct call_traits<Impl, T, void(Property),
   enable_if_t<
     static_require<T, Property>::is_valid
   >>
->>>>>>> 142038d (add asio new version)
 {
   static constexpr overload_type overload = identity;
   static constexpr bool is_noexcept = true;
@@ -184,23 +160,6 @@ struct call_traits<Impl, T, void(Property),
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable
-  >::type,
-  typename enable_if<
-    !static_require<T, Property>::is_valid
-  >::type,
-  typename enable_if<
-    require_member<typename Impl::template proxy<T>::type, Property>::is_valid
-  >::type> :
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -216,7 +175,6 @@ struct call_traits<Impl, T, void(Property),
   enable_if_t<
     require_member<typename Impl::template proxy<T>::type, Property>::is_valid
   >> :
->>>>>>> 142038d (add asio new version)
   require_member<typename Impl::template proxy<T>::type, Property>
 {
   static constexpr overload_type overload = call_member;
@@ -224,26 +182,6 @@ struct call_traits<Impl, T, void(Property),
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable
-  >::type,
-  typename enable_if<
-    !static_require<T, Property>::is_valid
-  >::type,
-  typename enable_if<
-    !require_member<typename Impl::template proxy<T>::type, Property>::is_valid
-  >::type,
-  typename enable_if<
-    require_free<T, Property>::is_valid
-  >::type> :
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -262,7 +200,6 @@ struct call_traits<Impl, T, void(Property),
   enable_if_t<
     require_free<T, Property>::is_valid
   >> :
->>>>>>> 142038d (add asio new version)
   require_free<T, Property>
 {
   static constexpr overload_type overload = call_free;
@@ -270,17 +207,10 @@ struct call_traits<Impl, T, void(Property),
 
 template <typename Impl, typename T, typename P0, typename P1>
 struct call_traits<Impl, T, void(P0, P1),
-<<<<<<< HEAD
-  typename enable_if<
-    call_traits<Impl, T, void(P0)>::overload != ill_formed
-  >::type,
-  typename enable_if<
-=======
   enable_if_t<
     call_traits<Impl, T, void(P0)>::overload != ill_formed
   >,
   enable_if_t<
->>>>>>> 142038d (add asio new version)
     call_traits<
       Impl,
       typename call_traits<Impl, T, void(P0)>::result_type,
@@ -311,18 +241,6 @@ struct call_traits<Impl, T, void(P0, P1),
 };
 
 template <typename Impl, typename T, typename P0,
-<<<<<<< HEAD
-    typename P1, typename ASIO_ELLIPSIS PN>
-struct call_traits<Impl, T, void(P0, P1, PN ASIO_ELLIPSIS),
-  typename enable_if<
-    call_traits<Impl, T, void(P0)>::overload != ill_formed
-  >::type,
-  typename enable_if<
-    call_traits<
-      Impl,
-      typename call_traits<Impl, T, void(P0)>::result_type,
-      void(P1, PN ASIO_ELLIPSIS)
-=======
     typename P1, typename... PN>
 struct call_traits<Impl, T, void(P0, P1, PN...),
   enable_if_t<
@@ -333,7 +251,6 @@ struct call_traits<Impl, T, void(P0, P1, PN...),
       Impl,
       typename call_traits<Impl, T, void(P0)>::result_type,
       void(P1, PN...)
->>>>>>> 142038d (add asio new version)
     >::overload != ill_formed
   >>
 {
@@ -346,11 +263,7 @@ struct call_traits<Impl, T, void(P0, P1, PN...),
       call_traits<
         Impl,
         typename call_traits<Impl, T, void(P0)>::result_type,
-<<<<<<< HEAD
-        void(P1, PN ASIO_ELLIPSIS)
-=======
         void(P1, PN...)
->>>>>>> 142038d (add asio new version)
       >::is_noexcept
     );
 
@@ -358,11 +271,7 @@ struct call_traits<Impl, T, void(P0, P1, PN...),
     typename call_traits<
       Impl,
       typename call_traits<Impl, T, void(P0)>::result_type,
-<<<<<<< HEAD
-      void(P1, PN ASIO_ELLIPSIS)
-=======
       void(P1, PN...)
->>>>>>> 142038d (add asio new version)
     >::result_type
   > result_type;
 };
@@ -371,41 +280,6 @@ struct impl
 {
   template <typename T>
   struct proxy
-<<<<<<< HEAD
-  {
-#if defined(ASIO_HAS_DEDUCED_REQUIRE_MEMBER_TRAIT)
-    struct type
-    {
-      template <typename P>
-      auto require(ASIO_MOVE_ARG(P) p)
-        noexcept(
-          noexcept(
-            declval<typename conditional<true, T, P>::type>().require(
-              ASIO_MOVE_CAST(P)(p))
-          )
-        )
-        -> decltype(
-          declval<typename conditional<true, T, P>::type>().require(
-            ASIO_MOVE_CAST(P)(p))
-        );
-    };
-#else // defined(ASIO_HAS_DEDUCED_REQUIRE_MEMBER_TRAIT)
-    typedef T type;
-#endif // defined(ASIO_HAS_DEDUCED_REQUIRE_MEMBER_TRAIT)
-  };
-
-  template <typename T, typename Property>
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == identity,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property)) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
->>>>>>> 142038d (add asio new version)
   {
 #if defined(ASIO_HAS_DEDUCED_REQUIRE_MEMBER_TRAIT)
     struct type
@@ -438,71 +312,34 @@ struct impl
   }
 
   template <typename T, typename Property>
-<<<<<<< HEAD
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == call_member,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property) p) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(Property)>::overload == call_member,
     typename call_traits<impl, T, void(Property)>::result_type
   >
   operator()(T&& t, Property&& p) const
     noexcept(call_traits<impl, T, void(Property)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return static_cast<T&&>(t).require(static_cast<Property&&>(p));
   }
 
   template <typename T, typename Property>
-<<<<<<< HEAD
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == call_free,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property) p) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(Property)>::overload == call_free,
     typename call_traits<impl, T, void(Property)>::result_type
   >
   operator()(T&& t, Property&& p) const
     noexcept(call_traits<impl, T, void(Property)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return require(static_cast<T&&>(t), static_cast<Property&&>(p));
   }
 
   template <typename T, typename P0, typename P1>
-<<<<<<< HEAD
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(P0, P1)>::overload == two_props,
-    typename call_traits<impl, T, void(P0, P1)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(P0) p0,
-      ASIO_MOVE_ARG(P1) p1) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(P0, P1)>::is_noexcept))
-=======
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(P0, P1)>::overload == two_props,
     typename call_traits<impl, T, void(P0, P1)>::result_type
   >
   operator()(T&& t, P0&& p0, P1&& p1) const
     noexcept(call_traits<impl, T, void(P0, P1)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return (*this)(
         (*this)(static_cast<T&&>(t), static_cast<P0&&>(p0)),
@@ -510,22 +347,6 @@ struct impl
   }
 
   template <typename T, typename P0, typename P1,
-<<<<<<< HEAD
-    typename ASIO_ELLIPSIS PN>
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T,
-      void(P0, P1, PN ASIO_ELLIPSIS)>::overload == n_props,
-    typename call_traits<impl, T,
-      void(P0, P1, PN ASIO_ELLIPSIS)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(P0) p0,
-      ASIO_MOVE_ARG(P1) p1,
-      ASIO_MOVE_ARG(PN) ASIO_ELLIPSIS pn) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(P0, P1, PN ASIO_ELLIPSIS)>::is_noexcept))
-=======
     typename... PN>
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(P0, P1, PN...)>::overload == n_props,
@@ -533,7 +354,6 @@ struct impl
   >
   operator()(T&& t, P0&& p0, P1&& p1, PN&&... pn) const
     noexcept(call_traits<impl, T, void(P0, P1, PN...)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return (*this)(
         (*this)(static_cast<T&&>(t), static_cast<P0&&>(p0)),
@@ -560,11 +380,6 @@ static constexpr const asio_require_fn::impl&
 } // namespace
 
 typedef asio_require_fn::impl require_t;
-<<<<<<< HEAD
-
-#if defined(ASIO_HAS_VARIADIC_TEMPLATES)
-=======
->>>>>>> 142038d (add asio new version)
 
 template <typename T, typename... Properties>
 struct can_require :
@@ -575,44 +390,6 @@ struct can_require :
 {
 };
 
-<<<<<<< HEAD
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-template <typename T, typename P0 = void,
-    typename P1 = void, typename P2 = void>
-struct can_require :
-  integral_constant<bool,
-    asio_require_fn::call_traits<require_t, T, void(P0, P1, P2)>::overload
-      != asio_require_fn::ill_formed>
-{
-};
-
-template <typename T, typename P0, typename P1>
-struct can_require<T, P0, P1> :
-  integral_constant<bool,
-    asio_require_fn::call_traits<require_t, T, void(P0, P1)>::overload
-      != asio_require_fn::ill_formed>
-{
-};
-
-template <typename T, typename P0>
-struct can_require<T, P0> :
-  integral_constant<bool,
-    asio_require_fn::call_traits<require_t, T, void(P0)>::overload
-      != asio_require_fn::ill_formed>
-{
-};
-
-template <typename T>
-struct can_require<T> :
-  false_type
-{
-};
-
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-=======
->>>>>>> 142038d (add asio new version)
 #if defined(ASIO_HAS_VARIABLE_TEMPLATES)
 
 template <typename T, typename... Properties>
@@ -629,44 +406,6 @@ struct is_nothrow_require :
 {
 };
 
-<<<<<<< HEAD
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-template <typename T, typename P0 = void,
-    typename P1 = void, typename P2 = void>
-struct is_nothrow_require :
-  integral_constant<bool,
-    asio_require_fn::call_traits<
-      require_t, T, void(P0, P1, P2)>::is_noexcept>
-{
-};
-
-template <typename T, typename P0, typename P1>
-struct is_nothrow_require<T, P0, P1> :
-  integral_constant<bool,
-    asio_require_fn::call_traits<
-      require_t, T, void(P0, P1)>::is_noexcept>
-{
-};
-
-template <typename T, typename P0>
-struct is_nothrow_require<T, P0> :
-  integral_constant<bool,
-    asio_require_fn::call_traits<
-      require_t, T, void(P0)>::is_noexcept>
-{
-};
-
-template <typename T>
-struct is_nothrow_require<T> :
-  false_type
-{
-};
-
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-=======
->>>>>>> 142038d (add asio new version)
 #if defined(ASIO_HAS_VARIABLE_TEMPLATES)
 
 template <typename T, typename... Properties>
@@ -682,41 +421,8 @@ struct require_result
       require_t, T, void(Properties...)>::result_type type;
 };
 
-<<<<<<< HEAD
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-
-template <typename T, typename P0 = void,
-    typename P1 = void, typename P2 = void>
-struct require_result
-{
-  typedef typename asio_require_fn::call_traits<
-      require_t, T, void(P0, P1, P2)>::result_type type;
-};
-
-template <typename T, typename P0, typename P1>
-struct require_result<T, P0, P1>
-{
-  typedef typename asio_require_fn::call_traits<
-      require_t, T, void(P0, P1)>::result_type type;
-};
-
-template <typename T, typename P0>
-struct require_result<T, P0>
-{
-  typedef typename asio_require_fn::call_traits<
-      require_t, T, void(P0)>::result_type type;
-};
-
-template <typename T>
-struct require_result<T>
-{
-};
-
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-=======
 template <typename T, typename... Properties>
 using require_result_t = typename require_result<T, Properties...>::type;
->>>>>>> 142038d (add asio new version)
 
 } // namespace asio
 

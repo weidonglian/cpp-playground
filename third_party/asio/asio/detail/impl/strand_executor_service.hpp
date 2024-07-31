@@ -2,11 +2,7 @@
 // detail/impl/strand_executor_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -105,22 +101,12 @@ public:
       {
         recycling_allocator<void> allocator;
         executor_type ex = this_->executor_;
-<<<<<<< HEAD
-        execution::execute(
-            asio::prefer(
-              asio::require(
-                ASIO_MOVE_CAST(executor_type)(ex),
-                execution::blocking.never),
-            execution::allocator(allocator)),
-            ASIO_MOVE_CAST(invoker)(*this_));
-=======
         asio::prefer(
             asio::require(
               static_cast<executor_type&&>(ex),
               execution::blocking.never),
             execution::allocator(allocator)
           ).execute(static_cast<invoker&&>(*this_));
->>>>>>> 142038d (add asio new version)
       }
     }
   };

@@ -2,11 +2,7 @@
 // associated_allocator.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -40,21 +36,11 @@ struct has_allocator_type : false_type
 };
 
 template <typename T>
-<<<<<<< HEAD
-struct has_allocator_type<T,
-  typename void_type<typename T::allocator_type>::type>
-    : true_type
-{
-};
-
-template <typename T, typename E, typename = void, typename = void>
-=======
 struct has_allocator_type<T, void_t<typename T::allocator_type>> : true_type
 {
 };
 
 template <typename T, typename A, typename = void, typename = void>
->>>>>>> 142038d (add asio new version)
 struct associated_allocator_impl
 {
   typedef void asio_associated_allocator_is_unspecialised;
@@ -98,17 +84,6 @@ struct associated_allocator_impl<T, A,
   void_t<
     typename associator<associated_allocator, T, A>::type
   >> : associator<associated_allocator, T, A>
-{
-};
-
-template <typename T, typename E>
-struct associated_allocator_impl<T, E,
-  typename enable_if<
-    !has_allocator_type<T>::value
-  >::type,
-  typename void_type<
-    typename associator<associated_allocator, T, E>::type
-  >::type> : associator<associated_allocator, T, E>
 {
 };
 
@@ -162,11 +137,7 @@ struct associated_allocator
  */
 template <typename T>
 ASIO_NODISCARD inline typename associated_allocator<T>::type
-<<<<<<< HEAD
-get_associated_allocator(const T& t) ASIO_NOEXCEPT
-=======
 get_associated_allocator(const T& t) noexcept
->>>>>>> 142038d (add asio new version)
 {
   return associated_allocator<T>::get(t);
 }
@@ -176,14 +147,9 @@ get_associated_allocator(const T& t) noexcept
  * @returns <tt>associated_allocator<T, Allocator>::get(t, a)</tt>
  */
 template <typename T, typename Allocator>
-<<<<<<< HEAD
-ASIO_NODISCARD inline typename associated_allocator<T, Allocator>::type
-get_associated_allocator(const T& t, const Allocator& a) ASIO_NOEXCEPT
-=======
 ASIO_NODISCARD inline auto get_associated_allocator(
     const T& t, const Allocator& a) noexcept
   -> decltype(associated_allocator<T, Allocator>::get(t, a))
->>>>>>> 142038d (add asio new version)
 {
   return associated_allocator<T, Allocator>::get(t, a);
 }
@@ -240,29 +206,6 @@ struct associated_allocator<reference_wrapper<T>, Allocator>
     return associated_allocator<T, Allocator>::get(t.get(), a);
   }
 };
-
-#if defined(ASIO_HAS_STD_REFERENCE_WRAPPER) \
-  || defined(GENERATING_DOCUMENTATION)
-
-/// Specialisation of associated_allocator for @c std::reference_wrapper.
-template <typename T, typename Allocator>
-struct associated_allocator<reference_wrapper<T>, Allocator>
-{
-  /// Forwards @c type to the associator specialisation for the unwrapped type
-  /// @c T.
-  typedef typename associated_allocator<T, Allocator>::type type;
-
-  /// Forwards the request to get the allocator to the associator specialisation
-  /// for the unwrapped type @c T.
-  static type get(reference_wrapper<T> t,
-      const Allocator& a = Allocator()) ASIO_NOEXCEPT
-  {
-    return associated_allocator<T, Allocator>::get(t.get(), a);
-  }
-};
-
-#endif // defined(ASIO_HAS_STD_REFERENCE_WRAPPER)
-       //   || defined(GENERATING_DOCUMENTATION)
 
 } // namespace asio
 

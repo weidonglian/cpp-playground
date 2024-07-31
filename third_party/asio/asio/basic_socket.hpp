@@ -2,11 +2,7 @@
 // basic_socket.hpp
 // ~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -135,15 +131,9 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_socket(ExecutionContext& context,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -181,17 +171,10 @@ public:
    */
   template <typename ExecutionContext>
   basic_socket(ExecutionContext& context, const protocol_type& protocol,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -243,15 +226,9 @@ public:
    */
   template <typename ExecutionContext>
   basic_socket(ExecutionContext& context, const endpoint_type& endpoint,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -302,15 +279,9 @@ public:
   template <typename ExecutionContext>
   basic_socket(ExecutionContext& context, const protocol_type& protocol,
       const native_handle_type& native_socket,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -366,17 +337,10 @@ public:
    */
   template <typename Protocol1, typename Executor1>
   basic_socket(basic_socket<Protocol1, Executor1>&& other,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<Protocol1, Protocol>::value
-          && is_convertible<Executor1, Executor>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<Protocol1, Protocol>::value
           && is_convertible<Executor1, Executor>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -392,19 +356,11 @@ public:
    * constructed using the @c basic_socket(const executor_type&) constructor.
    */
   template <typename Protocol1, typename Executor1>
-<<<<<<< HEAD
-  typename constraint<
-    is_convertible<Protocol1, Protocol>::value
-      && is_convertible<Executor1, Executor>::value,
-    basic_socket&
-  >::type operator=(basic_socket<Protocol1, Executor1>&& other)
-=======
   constraint_t<
     is_convertible<Protocol1, Protocol>::value
       && is_convertible<Executor1, Executor>::value,
     basic_socket&
   > operator=(basic_socket<Protocol1, Executor1>&& other)
->>>>>>> 142038d (add asio new version)
   {
     basic_socket tmp(std::move(other));
     impl_ = std::move(tmp.impl_);
@@ -971,14 +927,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
-   *
-   * @par Completion Signature
-   * @code void(asio::error_code) @endcode
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -1013,18 +962,6 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
-<<<<<<< HEAD
-        ConnectToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ConnectToken,
-      void (asio::error_code))
-  async_connect(const endpoint_type& peer_endpoint,
-      ASIO_MOVE_ARG(ConnectToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<ConnectToken, void (asio::error_code)>(
-          declval<initiate_async_connect>(), token,
-          peer_endpoint, declval<asio::error_code&>())))
-=======
         ConnectToken = default_completion_token_t<executor_type>>
   auto async_connect(const endpoint_type& peer_endpoint,
       ConnectToken&& token = default_completion_token_t<executor_type>())
@@ -1032,7 +969,6 @@ public:
       async_initiate<ConnectToken, void (asio::error_code)>(
         declval<initiate_async_connect>(), token,
         peer_endpoint, declval<asio::error_code&>()))
->>>>>>> 142038d (add asio new version)
   {
     asio::error_code open_ec;
     if (!is_open())
@@ -1843,14 +1779,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
-   *
-   * @par Completion Signature
-   * @code void(asio::error_code) @endcode
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -1884,24 +1813,12 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
-<<<<<<< HEAD
-        WaitToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WaitToken,
-      void (asio::error_code))
-  async_wait(wait_type w,
-      ASIO_MOVE_ARG(WaitToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<WaitToken, void (asio::error_code)>(
-          declval<initiate_async_wait>(), token, w)))
-=======
         WaitToken = default_completion_token_t<executor_type>>
   auto async_wait(wait_type w,
       WaitToken&& token = default_completion_token_t<executor_type>())
     -> decltype(
       async_initiate<WaitToken, void (asio::error_code)>(
           declval<initiate_async_wait>(), token, w))
->>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WaitToken, void (asio::error_code)>(
         initiate_async_wait(this), token, w);

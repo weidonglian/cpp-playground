@@ -2,11 +2,7 @@
 // detail/reactive_socket_service_base.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -280,13 +276,9 @@ void reactive_socket_service_base::do_start_accept_op(
 
 void reactive_socket_service_base::do_start_connect_op(
     reactive_socket_service_base::base_implementation_type& impl,
-<<<<<<< HEAD
-    reactor_op* op, bool is_continuation, const void* addr, size_t addrlen)
-=======
     reactor_op* op, bool is_continuation, const void* addr, size_t addrlen,
     void (*on_immediate)(operation* op, bool, const void*),
     const void* immediate_arg)
->>>>>>> 142038d (add asio new version)
 {
   if ((impl.state_ & socket_ops::non_blocking)
       || socket_ops::set_internal_non_blocking(

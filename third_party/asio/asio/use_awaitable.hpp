@@ -2,11 +2,7 @@
 // use_awaitable.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -105,15 +101,6 @@ struct use_awaitable_t
     /// Construct the adapted executor from the inner executor type.
     template <typename InnerExecutor1>
     executor_with_default(const InnerExecutor1& ex,
-<<<<<<< HEAD
-        typename constraint<
-          conditional<
-            !is_same<InnerExecutor1, executor_with_default>::value,
-            is_convertible<InnerExecutor1, InnerExecutor>,
-            false_type
-          >::type::value
-        >::type = 0) ASIO_NOEXCEPT
-=======
         constraint_t<
           conditional_t<
             !is_same<InnerExecutor1, executor_with_default>::value,
@@ -121,7 +108,6 @@ struct use_awaitable_t
             false_type
           >::value
         > = 0) noexcept
->>>>>>> 142038d (add asio new version)
       : InnerExecutor(ex)
     {
     }

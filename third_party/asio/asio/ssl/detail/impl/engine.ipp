@@ -2,11 +2,7 @@
 // ssl/detail/impl/engine.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -77,12 +73,7 @@ engine::engine(SSL* ssl_impl)
   ::SSL_set_bio(ssl_, int_bio, int_bio);
 }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-engine::engine(engine&& other) ASIO_NOEXCEPT
-=======
 engine::engine(engine&& other) noexcept
->>>>>>> 142038d (add asio new version)
   : ssl_(other.ssl_),
     ext_bio_(other.ext_bio_)
 {
@@ -105,12 +96,7 @@ engine::~engine()
     ::SSL_free(ssl_);
 }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-engine& engine::operator=(engine&& other) ASIO_NOEXCEPT
-=======
 engine& engine::operator=(engine&& other) noexcept
->>>>>>> 142038d (add asio new version)
 {
   if (this != &other)
   {
@@ -121,10 +107,6 @@ engine& engine::operator=(engine&& other) noexcept
   }
   return *this;
 }
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
 
 SSL* engine::native_handle()
 {

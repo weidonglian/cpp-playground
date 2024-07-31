@@ -2,11 +2,7 @@
 // detail/impl/kqueue_reactor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 // Copyright (c) 2005 Stefan Arentz (stefan at soze dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -32,11 +28,7 @@ namespace asio {
 namespace detail {
 
 inline void kqueue_reactor::post_immediate_completion(
-<<<<<<< HEAD
-    operation* op, bool is_continuation)
-=======
     operation* op, bool is_continuation) const
->>>>>>> 142038d (add asio new version)
 {
   scheduler_.post_immediate_completion(op, is_continuation);
 }

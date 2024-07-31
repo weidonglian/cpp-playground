@@ -2,11 +2,7 @@
 // experimental/detail/channel_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -22,19 +18,12 @@
 #include "asio/detail/config.hpp"
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/cancellation_type.hpp"
-<<<<<<< HEAD
-#include "asio/detail/mutex.hpp"
-#include "asio/detail/op_queue.hpp"
-#include "asio/execution_context.hpp"
-#include "asio/experimental/detail/channel_message.hpp"
-=======
 #include "asio/detail/completion_message.hpp"
 #include "asio/detail/completion_payload.hpp"
 #include "asio/detail/completion_payload_handler.hpp"
 #include "asio/detail/mutex.hpp"
 #include "asio/detail/op_queue.hpp"
 #include "asio/execution_context.hpp"
->>>>>>> 142038d (add asio new version)
 #include "asio/experimental/detail/channel_receive_op.hpp"
 #include "asio/experimental/detail/channel_send_op.hpp"
 #include "asio/experimental/detail/has_signature.hpp"
@@ -48,11 +37,7 @@ namespace detail {
 template <typename Mutex>
 class channel_service
   : public asio::detail::execution_context_service_base<
-<<<<<<< HEAD
-      channel_service<Mutex> >
-=======
       channel_service<Mutex>>
->>>>>>> 142038d (add asio new version)
 {
 public:
   // Possible states for a channel end.
@@ -100,11 +85,7 @@ public:
   struct implementation_type;
 
   // Constructor.
-<<<<<<< HEAD
-  channel_service(execution_context& ctx);
-=======
   channel_service(asio::execution_context& ctx);
->>>>>>> 142038d (add asio new version)
 
   // Destroy all user-defined handler objects owned by the service.
   void shutdown();
@@ -129,17 +110,10 @@ public:
 
   // Get the capacity of the channel.
   std::size_t capacity(
-<<<<<<< HEAD
-      const base_implementation_type& impl) const ASIO_NOEXCEPT;
-
-  // Determine whether the channel is open.
-  bool is_open(const base_implementation_type& impl) const ASIO_NOEXCEPT;
-=======
       const base_implementation_type& impl) const noexcept;
 
   // Determine whether the channel is open.
   bool is_open(const base_implementation_type& impl) const noexcept;
->>>>>>> 142038d (add asio new version)
 
   // Reset the channel to its initial state.
   template <typename Traits, typename... Signatures>
@@ -159,49 +133,29 @@ public:
       void* cancellation_key);
 
   // Determine whether a value can be read from the channel without blocking.
-<<<<<<< HEAD
-  bool ready(const base_implementation_type& impl) const ASIO_NOEXCEPT;
-=======
   bool ready(const base_implementation_type& impl) const noexcept;
->>>>>>> 142038d (add asio new version)
 
   // Synchronously send a new value into the channel.
   template <typename Message, typename Traits,
       typename... Signatures, typename... Args>
   bool try_send(implementation_type<Traits, Signatures...>& impl,
-<<<<<<< HEAD
-      ASIO_MOVE_ARG(Args)... args);
-=======
       bool via_dispatch, Args&&... args);
->>>>>>> 142038d (add asio new version)
 
   // Synchronously send a number of new values into the channel.
   template <typename Message, typename Traits,
       typename... Signatures, typename... Args>
   std::size_t try_send_n(implementation_type<Traits, Signatures...>& impl,
-<<<<<<< HEAD
-      std::size_t count, ASIO_MOVE_ARG(Args)... args);
-=======
       std::size_t count, bool via_dispatch, Args&&... args);
->>>>>>> 142038d (add asio new version)
 
   // Asynchronously send a new value into the channel.
   template <typename Traits, typename... Signatures,
       typename Handler, typename IoExecutor>
   void async_send(implementation_type<Traits, Signatures...>& impl,
-<<<<<<< HEAD
-      ASIO_MOVE_ARG2(typename implementation_type<
-        Traits, Signatures...>::payload_type) payload,
-      Handler& handler, const IoExecutor& io_ex)
-  {
-    typename associated_cancellation_slot<Handler>::type slot
-=======
       typename implementation_type<Traits,
         Signatures...>::payload_type&& payload,
       Handler& handler, const IoExecutor& io_ex)
   {
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -210,23 +164,14 @@ public:
         Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-<<<<<<< HEAD
-    p.p = new (p.v) op(ASIO_MOVE_CAST2(typename implementation_type<
-          Traits, Signatures...>::payload_type)(payload), handler, io_ex);
-=======
     p.p = new (p.v) op(static_cast<typename implementation_type<
           Traits, Signatures...>::payload_type&&>(payload), handler, io_ex);
->>>>>>> 142038d (add asio new version)
 
     // Optionally register for per-operation cancellation.
     if (slot.is_connected())
     {
       p.p->cancellation_key_ =
-<<<<<<< HEAD
-        &slot.template emplace<op_cancellation<Traits, Signatures...> >(
-=======
         &slot.template emplace<op_cancellation<Traits, Signatures...>>(
->>>>>>> 142038d (add asio new version)
             this, &impl);
     }
 
@@ -240,25 +185,15 @@ public:
   // Synchronously receive a value from the channel.
   template <typename Traits, typename... Signatures, typename Handler>
   bool try_receive(implementation_type<Traits, Signatures...>& impl,
-<<<<<<< HEAD
-      ASIO_MOVE_ARG(Handler) handler);
-
-  // Asynchronously send a new value into the channel.
-=======
       Handler&& handler);
 
->>>>>>> 142038d (add asio new version)
   // Asynchronously receive a value from the channel.
   template <typename Traits, typename... Signatures,
       typename Handler, typename IoExecutor>
   void async_receive(implementation_type<Traits, Signatures...>& impl,
       Handler& handler, const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -273,11 +208,7 @@ public:
     if (slot.is_connected())
     {
       p.p->cancellation_key_ =
-<<<<<<< HEAD
-        &slot.template emplace<op_cancellation<Traits, Signatures...> >(
-=======
         &slot.template emplace<op_cancellation<Traits, Signatures...>>(
->>>>>>> 142038d (add asio new version)
             this, &impl);
     }
 
@@ -291,33 +222,19 @@ public:
 private:
   // Helper function object to handle a closed notification.
   template <typename Payload, typename Signature>
-<<<<<<< HEAD
-  struct complete_receive
-  {
-    explicit complete_receive(channel_receive<Payload>* op)
-=======
   struct post_receive
   {
     explicit post_receive(channel_receive<Payload>* op)
->>>>>>> 142038d (add asio new version)
       : op_(op)
     {
     }
 
     template <typename... Args>
-<<<<<<< HEAD
-    void operator()(ASIO_MOVE_ARG(Args)... args)
-    {
-      op_->complete(
-          channel_message<Signature>(0,
-            ASIO_MOVE_CAST(Args)(args)...));
-=======
     void operator()(Args&&... args)
     {
       op_->post(
           asio::detail::completion_message<Signature>(0,
             static_cast<Args&&>(args)...));
->>>>>>> 142038d (add asio new version)
     }
 
     channel_receive<Payload>* op_;
@@ -382,33 +299,16 @@ struct channel_service<Mutex>::implementation_type : base_implementation_type
   typedef typename Traits::template rebind<Signatures...>::other traits_type;
 
   // Type of an element stored in the buffer.
-<<<<<<< HEAD
-  typedef typename conditional<
-=======
   typedef conditional_t<
->>>>>>> 142038d (add asio new version)
       has_signature<
         typename traits_type::receive_cancelled_signature,
         Signatures...
       >::value,
-<<<<<<< HEAD
-      typename conditional<
-=======
       conditional_t<
->>>>>>> 142038d (add asio new version)
         has_signature<
           typename traits_type::receive_closed_signature,
           Signatures...
         >::value,
-<<<<<<< HEAD
-        channel_payload<Signatures...>,
-        channel_payload<
-          Signatures...,
-          typename traits_type::receive_closed_signature
-        >
-      >::type,
-      typename conditional<
-=======
         asio::detail::completion_payload<Signatures...>,
         asio::detail::completion_payload<
           Signatures...,
@@ -416,49 +316,29 @@ struct channel_service<Mutex>::implementation_type : base_implementation_type
         >
       >,
       conditional_t<
->>>>>>> 142038d (add asio new version)
         has_signature<
           typename traits_type::receive_closed_signature,
           Signatures...,
           typename traits_type::receive_cancelled_signature
         >::value,
-<<<<<<< HEAD
-        channel_payload<
-          Signatures...,
-          typename traits_type::receive_cancelled_signature
-        >,
-        channel_payload<
-=======
         asio::detail::completion_payload<
           Signatures...,
           typename traits_type::receive_cancelled_signature
         >,
         asio::detail::completion_payload<
->>>>>>> 142038d (add asio new version)
           Signatures...,
           typename traits_type::receive_cancelled_signature,
           typename traits_type::receive_closed_signature
         >
-<<<<<<< HEAD
-      >::type
-    >::type payload_type;
-=======
       >
     > payload_type;
->>>>>>> 142038d (add asio new version)
 
   // Move from another buffer.
   void buffer_move_from(implementation_type& other)
   {
-<<<<<<< HEAD
-    buffer_ = ASIO_MOVE_CAST(
-        typename traits_type::template container<
-          payload_type>::type)(other.buffer_);
-=======
     buffer_ = static_cast<
         typename traits_type::template container<payload_type>::type&&>(
           other.buffer_);
->>>>>>> 142038d (add asio new version)
     other.buffer_clear();
   }
 
@@ -471,11 +351,7 @@ struct channel_service<Mutex>::implementation_type : base_implementation_type
   // Push a new value to the back of the buffer.
   void buffer_push(payload_type payload)
   {
-<<<<<<< HEAD
-    buffer_.push_back(ASIO_MOVE_CAST(payload_type)(payload));
-=======
     buffer_.push_back(static_cast<payload_type&&>(payload));
->>>>>>> 142038d (add asio new version)
   }
 
   // Push new values to the back of the buffer.
@@ -490,11 +366,7 @@ struct channel_service<Mutex>::implementation_type : base_implementation_type
   // Get the element at the front of the buffer.
   payload_type buffer_front()
   {
-<<<<<<< HEAD
-    return ASIO_MOVE_CAST(payload_type)(buffer_.front());
-=======
     return static_cast<payload_type&&>(buffer_.front());
->>>>>>> 142038d (add asio new version)
   }
 
   // Pop a value from the front of the buffer.
@@ -524,33 +396,16 @@ struct channel_service<Mutex>::implementation_type<Traits, R()>
   typedef typename Traits::template rebind<R()>::other traits_type;
 
   // Type of an element stored in the buffer.
-<<<<<<< HEAD
-  typedef typename conditional<
-=======
   typedef conditional_t<
->>>>>>> 142038d (add asio new version)
       has_signature<
         typename traits_type::receive_cancelled_signature,
         R()
       >::value,
-<<<<<<< HEAD
-      typename conditional<
-=======
       conditional_t<
->>>>>>> 142038d (add asio new version)
         has_signature<
           typename traits_type::receive_closed_signature,
           R()
         >::value,
-<<<<<<< HEAD
-        channel_payload<R()>,
-        channel_payload<
-          R(),
-          typename traits_type::receive_closed_signature
-        >
-      >::type,
-      typename conditional<
-=======
         asio::detail::completion_payload<R()>,
         asio::detail::completion_payload<
           R(),
@@ -558,36 +413,22 @@ struct channel_service<Mutex>::implementation_type<Traits, R()>
         >
       >,
       conditional_t<
->>>>>>> 142038d (add asio new version)
         has_signature<
           typename traits_type::receive_closed_signature,
           R(),
           typename traits_type::receive_cancelled_signature
         >::value,
-<<<<<<< HEAD
-        channel_payload<
-          R(),
-          typename traits_type::receive_cancelled_signature
-        >,
-        channel_payload<
-=======
         asio::detail::completion_payload<
           R(),
           typename traits_type::receive_cancelled_signature
         >,
         asio::detail::completion_payload<
->>>>>>> 142038d (add asio new version)
           R(),
           typename traits_type::receive_cancelled_signature,
           typename traits_type::receive_closed_signature
         >
-<<<<<<< HEAD
-      >::type
-    >::type payload_type;
-=======
       >
     > payload_type;
->>>>>>> 142038d (add asio new version)
 
   // Construct with empty buffer.
   implementation_type()
@@ -626,11 +467,7 @@ struct channel_service<Mutex>::implementation_type<Traits, R()>
   // Get the element at the front of the buffer.
   payload_type buffer_front()
   {
-<<<<<<< HEAD
-    return payload_type(channel_message<R()>(0));
-=======
     return payload_type(asio::detail::completion_message<R()>(0));
->>>>>>> 142038d (add asio new version)
   }
 
   // Pop a value from the front of the buffer.
@@ -650,8 +487,6 @@ private:
   std::size_t buffer_;
 };
 
-<<<<<<< HEAD
-=======
 // The implementation for an error_code signature.
 template <typename Mutex>
 template <typename Traits, typename R>
@@ -833,7 +668,6 @@ private:
   typename traits_type::template container<buffered_value>::type rest_;
 };
 
->>>>>>> 142038d (add asio new version)
 } // namespace detail
 } // namespace experimental
 } // namespace asio

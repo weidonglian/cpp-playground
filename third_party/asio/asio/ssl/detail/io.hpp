@@ -2,11 +2,7 @@
 // ssl/detail/io.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -130,14 +126,8 @@ public:
 
   io_op(io_op&& other)
     : asio::detail::base_from_cancellation_state<Handler>(
-<<<<<<< HEAD
-        ASIO_MOVE_CAST(
-          asio::detail::base_from_cancellation_state<Handler>)(
-            other)),
-=======
         static_cast<
           asio::detail::base_from_cancellation_state<Handler>&&>(other)),
->>>>>>> 142038d (add asio new version)
       next_layer_(other.next_layer_),
       core_(other.core_),
       op_(static_cast<Operation&&>(other.op_)),
@@ -366,11 +356,6 @@ struct associator<Associator,
   : Associator<Handler, DefaultCandidate>
 {
   static typename Associator<Handler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const ssl::detail::io_op<Stream, Operation, Handler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const ssl::detail::io_op<Stream, Operation, Handler>& h) noexcept
   {
     return Associator<Handler, DefaultCandidate>::get(h.handler_);
@@ -380,7 +365,6 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<Handler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<Handler, DefaultCandidate>::get(h.handler_, c);
   }
 };

@@ -2,11 +2,7 @@
 // basic_signal_set.hpp
 // ~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -138,17 +134,10 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_signal_set(ExecutionContext& context,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -191,17 +180,10 @@ public:
    */
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -257,17 +239,10 @@ public:
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
       int signal_number_2,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -333,17 +308,10 @@ public:
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
       int signal_number_2, int signal_number_3,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -605,11 +573,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code, int) @endcode
@@ -626,24 +590,12 @@ public:
    */
   template <
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code, int))
-<<<<<<< HEAD
-      SignalToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(SignalToken,
-      void (asio::error_code, int))
-  async_wait(
-      ASIO_MOVE_ARG(SignalToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<SignalToken, void (asio::error_code, int)>(
-          declval<initiate_async_wait>(), token)))
-=======
       SignalToken = default_completion_token_t<executor_type>>
   auto async_wait(
       SignalToken&& token = default_completion_token_t<executor_type>())
     -> decltype(
       async_initiate<SignalToken, void (asio::error_code, int)>(
         declval<initiate_async_wait>(), token))
->>>>>>> 142038d (add asio new version)
   {
     return async_initiate<SignalToken, void (asio::error_code, int)>(
         initiate_async_wait(this), token);

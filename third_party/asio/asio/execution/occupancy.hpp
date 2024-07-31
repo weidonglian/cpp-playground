@@ -2,11 +2,7 @@
 // execution/occupancy.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -67,23 +63,7 @@ struct occupancy_t
 {
 #if defined(ASIO_HAS_VARIABLE_TEMPLATES)
   template <typename T>
-<<<<<<< HEAD
-  ASIO_STATIC_CONSTEXPR(bool,
-    is_applicable_property_v = (
-      is_executor<T>::value
-        || conditional<
-            is_executor<T>::value,
-            false_type,
-            is_sender<T>
-          >::type::value
-        || conditional<
-            is_executor<T>::value,
-            false_type,
-            is_scheduler<T>
-          >::type::value));
-=======
   static constexpr bool is_applicable_property_v = is_executor<T>::value;
->>>>>>> 142038d (add asio new version)
 #endif // defined(ASIO_HAS_VARIABLE_TEMPLATES)
 
   static constexpr bool is_requirable = false;
@@ -101,19 +81,6 @@ struct occupancy_t
     struct type
     {
       template <typename P>
-<<<<<<< HEAD
-      static constexpr auto query(ASIO_MOVE_ARG(P) p)
-        noexcept(
-          noexcept(
-            conditional<true, T, P>::type::query(ASIO_MOVE_CAST(P)(p))
-          )
-        )
-        -> decltype(
-          conditional<true, T, P>::type::query(ASIO_MOVE_CAST(P)(p))
-        )
-      {
-        return T::query(ASIO_MOVE_CAST(P)(p));
-=======
       static constexpr auto query(P&& p)
         noexcept(
           noexcept(
@@ -125,7 +92,6 @@ struct occupancy_t
         )
       {
         return T::query(static_cast<P&&>(p));
->>>>>>> 142038d (add asio new version)
       }
     };
 #else // defined(ASIO_HAS_DEDUCED_QUERY_STATIC_CONSTEXPR_MEMBER_TRAIT)
@@ -141,17 +107,9 @@ struct occupancy_t
 #if defined(ASIO_HAS_DEDUCED_STATIC_QUERY_TRAIT) \
   && defined(ASIO_HAS_SFINAE_VARIABLE_TEMPLATES)
   template <typename T>
-<<<<<<< HEAD
-  static ASIO_CONSTEXPR
-  typename query_static_constexpr_member<T>::result_type
-  static_query()
-    ASIO_NOEXCEPT_IF((
-      query_static_constexpr_member<T>::is_noexcept))
-=======
   static constexpr typename query_static_constexpr_member<T>::result_type
   static_query()
     noexcept(query_static_constexpr_member<T>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return query_static_constexpr_member<T>::value();
   }
@@ -181,22 +139,7 @@ constexpr occupancy_t occupancy;
 
 template <typename T>
 struct is_applicable_property<T, execution::occupancy_t>
-<<<<<<< HEAD
-  : integral_constant<bool,
-      execution::is_executor<T>::value
-        || conditional<
-            execution::is_executor<T>::value,
-            false_type,
-            execution::is_sender<T>
-          >::type::value
-        || conditional<
-            execution::is_executor<T>::value,
-            false_type,
-            execution::is_scheduler<T>
-          >::type::value>
-=======
   : integral_constant<bool, execution::is_executor<T>::value>
->>>>>>> 142038d (add asio new version)
 {
 };
 
@@ -209,17 +152,10 @@ namespace traits {
 
 template <typename T>
 struct static_query<T, execution::occupancy_t,
-<<<<<<< HEAD
-  typename enable_if<
-    execution::detail::occupancy_t<0>::
-      query_static_constexpr_member<T>::is_valid
-  >::type>
-=======
   enable_if_t<
     execution::detail::occupancy_t<0>::
       query_static_constexpr_member<T>::is_valid
   >>
->>>>>>> 142038d (add asio new version)
 {
   static constexpr bool is_valid = true;
   static constexpr bool is_noexcept = true;

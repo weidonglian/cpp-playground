@@ -2,11 +2,7 @@
 // execution/executor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -46,41 +42,6 @@ struct is_executor_of_impl : false_type
 
 template <typename T, typename F>
 struct is_executor_of_impl<T, F,
-<<<<<<< HEAD
-  typename enable_if<
-    can_execute<typename add_const<T>::type, F>::value
-  >::type,
-  typename void_type<
-    typename result_of<typename decay<F>::type&()>::type
-  >::type,
-  typename enable_if<
-    is_constructible<typename decay<F>::type, F>::value
-  >::type,
-  typename enable_if<
-    is_move_constructible<typename decay<F>::type>::value
-  >::type,
-#if defined(ASIO_HAS_NOEXCEPT)
-  typename enable_if<
-    is_nothrow_copy_constructible<T>::value
-  >::type,
-  typename enable_if<
-    is_nothrow_destructible<T>::value
-  >::type,
-#else // defined(ASIO_HAS_NOEXCEPT)
-  typename enable_if<
-    is_copy_constructible<T>::value
-  >::type,
-  typename enable_if<
-    is_destructible<T>::value
-  >::type,
-#endif // defined(ASIO_HAS_NOEXCEPT)
-  typename enable_if<
-    traits::equality_comparable<T>::is_valid
-  >::type,
-  typename enable_if<
-    traits::equality_comparable<T>::is_noexcept
-  >::type> : true_type
-=======
   enable_if_t<
     traits::execute_member<add_const_t<T>, F>::is_valid
   >,
@@ -105,7 +66,6 @@ struct is_executor_of_impl<T, F,
   enable_if_t<
     traits::equality_comparable<T>::is_noexcept
   >> : true_type
->>>>>>> 142038d (add asio new version)
 {
 };
 

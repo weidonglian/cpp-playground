@@ -2,11 +2,7 @@
 // basic_deadline_timer.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -182,15 +178,9 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_deadline_timer(ExecutionContext& context,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -226,15 +216,9 @@ public:
    */
   template <typename ExecutionContext>
   basic_deadline_timer(ExecutionContext& context, const time_type& expiry_time,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -276,15 +260,9 @@ public:
   template <typename ExecutionContext>
   basic_deadline_timer(ExecutionContext& context,
       const duration_type& expiry_time,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -652,11 +630,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -673,24 +647,12 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
-<<<<<<< HEAD
-        WaitToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WaitToken,
-      void (asio::error_code))
-  async_wait(
-      ASIO_MOVE_ARG(WaitToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<WaitToken, void (asio::error_code)>(
-          declval<initiate_async_wait>(), token)))
-=======
         WaitToken = default_completion_token_t<executor_type>>
   auto async_wait(
       WaitToken&& token = default_completion_token_t<executor_type>())
     -> decltype(
       async_initiate<WaitToken, void (asio::error_code)>(
         declval<initiate_async_wait>(), token))
->>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WaitToken, void (asio::error_code)>(
         initiate_async_wait(this), token);

@@ -2,11 +2,7 @@
 // experimental/impl/parallel_group.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,10 +17,7 @@
 
 #include "asio/detail/config.hpp"
 #include <atomic>
-<<<<<<< HEAD
-=======
 #include <deque>
->>>>>>> 142038d (add asio new version)
 #include <memory>
 #include <new>
 #include <tuple>
@@ -91,21 +84,12 @@ private:
 template <typename Handler, typename... Ops>
 struct parallel_group_completion_handler
 {
-<<<<<<< HEAD
-  typedef typename decay<
-      typename prefer_result<
-        typename associated_executor<Handler>::type,
-        execution::outstanding_work_t::tracked_t
-      >::type
-    >::type executor_type;
-=======
   typedef decay_t<
       prefer_result_t<
         associated_executor_t<Handler>,
         execution::outstanding_work_t::tracked_t
       >
     > executor_type;
->>>>>>> 142038d (add asio new version)
 
   parallel_group_completion_handler(Handler&& h)
     : handler_(std::move(h)),
@@ -152,11 +136,7 @@ struct parallel_group_completion_handler
   std::tuple<
       parallel_group_op_result<
         typename parallel_op_signature_as_tuple<
-<<<<<<< HEAD
-          typename completion_signature_of<Ops>::type
-=======
           completion_signature_of_t<Ops>
->>>>>>> 142038d (add asio new version)
         >::type
       >...
     > args_{};
@@ -209,11 +189,7 @@ struct parallel_group_op_handler
   typedef asio::cancellation_slot cancellation_slot_type;
 
   parallel_group_op_handler(
-<<<<<<< HEAD
-    std::shared_ptr<parallel_group_state<Condition, Handler, Ops...> > state)
-=======
     std::shared_ptr<parallel_group_state<Condition, Handler, Ops...>> state)
->>>>>>> 142038d (add asio new version)
     : state_(std::move(state))
   {
   }
@@ -254,11 +230,7 @@ struct parallel_group_op_handler
       asio::dispatch(std::move(state_->handler_));
   }
 
-<<<<<<< HEAD
-  std::shared_ptr<parallel_group_state<Condition, Handler, Ops...> > state_;
-=======
   std::shared_ptr<parallel_group_state<Condition, Handler, Ops...>> state_;
->>>>>>> 142038d (add asio new version)
 };
 
 // Handler for an individual operation within the parallel group that has an
@@ -273,11 +245,7 @@ struct parallel_group_op_handler_with_executor :
   typedef Executor executor_type;
 
   parallel_group_op_handler_with_executor(
-<<<<<<< HEAD
-      std::shared_ptr<parallel_group_state<Condition, Handler, Ops...> > state,
-=======
       std::shared_ptr<parallel_group_state<Condition, Handler, Ops...>> state,
->>>>>>> 142038d (add asio new version)
       executor_type ex)
     : parallel_group_op_handler<I, Condition, Handler, Ops...>(std::move(state))
   {
@@ -301,11 +269,7 @@ struct parallel_group_op_handler_with_executor :
   {
     cancel_proxy(
         std::shared_ptr<parallel_group_state<
-<<<<<<< HEAD
-          Condition, Handler, Ops...> > state,
-=======
           Condition, Handler, Ops...>> state,
->>>>>>> 142038d (add asio new version)
         executor_type ex)
       : state_(std::move(state)),
         executor_(std::move(ex))
@@ -322,11 +286,7 @@ struct parallel_group_op_handler_with_executor :
       }
     }
 
-<<<<<<< HEAD
-    std::weak_ptr<parallel_group_state<Condition, Handler, Ops...> > state_;
-=======
     std::weak_ptr<parallel_group_state<Condition, Handler, Ops...>> state_;
->>>>>>> 142038d (add asio new version)
     asio::cancellation_signal signal_;
     executor_type executor_;
   };
@@ -341,15 +301,9 @@ struct parallel_group_op_launcher
   template <typename Condition, typename Handler, typename... Ops>
   static void launch(Op& op,
     const std::shared_ptr<parallel_group_state<
-<<<<<<< HEAD
-      Condition, Handler, Ops...> >& state)
-  {
-    typedef typename associated_executor<Op>::type ex_type;
-=======
       Condition, Handler, Ops...>>& state)
   {
     typedef associated_executor_t<Op> ex_type;
->>>>>>> 142038d (add asio new version)
     ex_type ex = asio::get_associated_executor(op);
     std::move(op)(
         parallel_group_op_handler_with_executor<ex_type, I,
@@ -360,30 +314,18 @@ struct parallel_group_op_launcher
 // Specialised launcher for operations that specify no executor.
 template <std::size_t I, typename Op>
 struct parallel_group_op_launcher<I, Op,
-<<<<<<< HEAD
-    typename enable_if<
-=======
     enable_if_t<
->>>>>>> 142038d (add asio new version)
       is_same<
         typename associated_executor<
           Op>::asio_associated_executor_is_unspecialised,
         void
       >::value
-<<<<<<< HEAD
-    >::type>
-=======
     >>
->>>>>>> 142038d (add asio new version)
 {
   template <typename Condition, typename Handler, typename... Ops>
   static void launch(Op& op,
     const std::shared_ptr<parallel_group_state<
-<<<<<<< HEAD
-      Condition, Handler, Ops...> >& state)
-=======
       Condition, Handler, Ops...>>& state)
->>>>>>> 142038d (add asio new version)
   {
     std::move(op)(
         parallel_group_op_handler<I, Condition, Handler, Ops...>(state));
@@ -394,11 +336,7 @@ template <typename Condition, typename Handler, typename... Ops>
 struct parallel_group_cancellation_handler
 {
   parallel_group_cancellation_handler(
-<<<<<<< HEAD
-    std::shared_ptr<parallel_group_state<Condition, Handler, Ops...> > state)
-=======
     std::shared_ptr<parallel_group_state<Condition, Handler, Ops...>> state)
->>>>>>> 142038d (add asio new version)
     : state_(std::move(state))
   {
   }
@@ -415,11 +353,7 @@ struct parallel_group_cancellation_handler
             state->cancellation_signals_[i].emit(cancel_type);
   }
 
-<<<<<<< HEAD
-  std::weak_ptr<parallel_group_state<Condition, Handler, Ops...> > state_;
-=======
   std::weak_ptr<parallel_group_state<Condition, Handler, Ops...>> state_;
->>>>>>> 142038d (add asio new version)
 };
 
 template <typename Condition, typename Handler,
@@ -429,11 +363,7 @@ void parallel_group_launch(Condition cancellation_condition, Handler handler,
 {
   // Get the user's completion handler's cancellation slot, so that we can allow
   // cancellation of the entire group.
-<<<<<<< HEAD
-  typename associated_cancellation_slot<Handler>::type slot
-=======
   associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
     = asio::get_associated_cancellation_slot(handler);
 
   // Create the shared state for the operation.
@@ -460,9 +390,6 @@ void parallel_group_launch(Condition cancellation_condition, Handler handler,
   if (slot.is_connected())
     slot.template emplace<
       parallel_group_cancellation_handler<
-<<<<<<< HEAD
-        Condition, Handler, Ops...> >(state);
-=======
         Condition, Handler, Ops...>>(state);
 }
 
@@ -800,7 +727,6 @@ void ranged_parallel_group_launch(Condition cancellation_condition,
     slot.template emplace<
       ranged_parallel_group_cancellation_handler<
         Condition, Handler, op_type, Allocator>>(state);
->>>>>>> 142038d (add asio new version)
 }
 
 } // namespace detail
@@ -815,10 +741,6 @@ struct associator<Associator,
 {
   static typename Associator<Handler, DefaultCandidate>::type get(
       const experimental::detail::parallel_group_completion_handler<
-<<<<<<< HEAD
-        Handler, Ops...>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-=======
         Handler, Ops...>& h) noexcept
   {
     return Associator<Handler, DefaultCandidate>::get(h.handler_);
@@ -854,7 +776,6 @@ struct associator<Associator,
         Handler, Op, Allocator>& h,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<Handler, DefaultCandidate>::get(h.handler_, c))
->>>>>>> 142038d (add asio new version)
   {
     return Associator<Handler, DefaultCandidate>::get(h.handler_, c);
   }

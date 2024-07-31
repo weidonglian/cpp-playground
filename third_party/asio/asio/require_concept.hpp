@@ -2,11 +2,7 @@
 // require_concept.hpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -111,13 +107,8 @@ struct require_concept_result
 
 namespace asio_require_concept_fn {
 
-<<<<<<< HEAD
-using asio::conditional;
-using asio::decay;
-=======
 using asio::conditional_t;
 using asio::decay_t;
->>>>>>> 142038d (add asio new version)
 using asio::declval;
 using asio::enable_if_t;
 using asio::is_applicable_property;
@@ -146,20 +137,6 @@ struct call_traits
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable_concept
-  >::type,
-  typename enable_if<
-    static_require_concept<T, Property>::is_valid
-  >::type>
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -172,7 +149,6 @@ struct call_traits<Impl, T, void(Property),
   enable_if_t<
     static_require_concept<T, Property>::is_valid
   >>
->>>>>>> 142038d (add asio new version)
 {
   static constexpr overload_type overload = identity;
   static constexpr bool is_noexcept = true;
@@ -181,21 +157,6 @@ struct call_traits<Impl, T, void(Property),
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable_concept
-  >::type,
-  typename enable_if<
-    !static_require_concept<T, Property>::is_valid
-  >::type,
-  typename enable_if<
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -209,16 +170,11 @@ struct call_traits<Impl, T, void(Property),
     !static_require_concept<T, Property>::is_valid
   >,
   enable_if_t<
->>>>>>> 142038d (add asio new version)
     require_concept_member<
       typename Impl::template proxy<T>::type,
       Property
     >::is_valid
-<<<<<<< HEAD
-  >::type> :
-=======
   >> :
->>>>>>> 142038d (add asio new version)
   require_concept_member<
     typename Impl::template proxy<T>::type,
     Property
@@ -229,21 +185,6 @@ struct call_traits<Impl, T, void(Property),
 
 template <typename Impl, typename T, typename Property>
 struct call_traits<Impl, T, void(Property),
-<<<<<<< HEAD
-  typename enable_if<
-    is_applicable_property<
-      typename decay<T>::type,
-      typename decay<Property>::type
-    >::value
-  >::type,
-  typename enable_if<
-    decay<Property>::type::is_requirable_concept
-  >::type,
-  typename enable_if<
-    !static_require_concept<T, Property>::is_valid
-  >::type,
-  typename enable_if<
-=======
   enable_if_t<
     is_applicable_property<
       decay_t<T>,
@@ -257,22 +198,14 @@ struct call_traits<Impl, T, void(Property),
     !static_require_concept<T, Property>::is_valid
   >,
   enable_if_t<
->>>>>>> 142038d (add asio new version)
     !require_concept_member<
       typename Impl::template proxy<T>::type,
       Property
     >::is_valid
-<<<<<<< HEAD
-  >::type,
-  typename enable_if<
-    require_concept_free<T, Property>::is_valid
-  >::type> :
-=======
   >,
   enable_if_t<
     require_concept_free<T, Property>::is_valid
   >> :
->>>>>>> 142038d (add asio new version)
   require_concept_free<T, Property>
 {
   static constexpr overload_type overload = call_free;
@@ -282,41 +215,6 @@ struct impl
 {
   template <typename T>
   struct proxy
-<<<<<<< HEAD
-  {
-#if defined(ASIO_HAS_DEDUCED_REQUIRE_CONCEPT_MEMBER_TRAIT)
-    struct type
-    {
-      template <typename P>
-      auto require_concept(ASIO_MOVE_ARG(P) p)
-        noexcept(
-          noexcept(
-            declval<typename conditional<true, T, P>::type>().require_concept(
-              ASIO_MOVE_CAST(P)(p))
-          )
-        )
-        -> decltype(
-          declval<typename conditional<true, T, P>::type>().require_concept(
-            ASIO_MOVE_CAST(P)(p))
-        );
-    };
-#else // defined(ASIO_HAS_DEDUCED_REQUIRE_CONCEPT_MEMBER_TRAIT)
-    typedef T type;
-#endif // defined(ASIO_HAS_DEDUCED_REQUIRE_CONCEPT_MEMBER_TRAIT)
-  };
-
-  template <typename T, typename Property>
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == identity,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property)) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
->>>>>>> 142038d (add asio new version)
   {
 #if defined(ASIO_HAS_DEDUCED_REQUIRE_CONCEPT_MEMBER_TRAIT)
     struct type
@@ -351,47 +249,23 @@ struct impl
   }
 
   template <typename T, typename Property>
-<<<<<<< HEAD
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == call_member,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property) p) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(Property)>::overload == call_member,
     typename call_traits<impl, T, void(Property)>::result_type
   >
   operator()(T&& t, Property&& p) const
     noexcept(call_traits<impl, T, void(Property)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return static_cast<T&&>(t).require_concept(static_cast<Property&&>(p));
   }
 
   template <typename T, typename Property>
-<<<<<<< HEAD
-  ASIO_NODISCARD ASIO_CONSTEXPR typename enable_if<
-    call_traits<impl, T, void(Property)>::overload == call_free,
-    typename call_traits<impl, T, void(Property)>::result_type
-  >::type
-  operator()(
-      ASIO_MOVE_ARG(T) t,
-      ASIO_MOVE_ARG(Property) p) const
-    ASIO_NOEXCEPT_IF((
-      call_traits<impl, T, void(Property)>::is_noexcept))
-=======
   ASIO_NODISCARD constexpr enable_if_t<
     call_traits<impl, T, void(Property)>::overload == call_free,
     typename call_traits<impl, T, void(Property)>::result_type
   >
   operator()(T&& t, Property&& p) const
     noexcept(call_traits<impl, T, void(Property)>::is_noexcept)
->>>>>>> 142038d (add asio new version)
   {
     return require_concept(static_cast<T&&>(t), static_cast<Property&&>(p));
   }

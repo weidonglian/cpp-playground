@@ -2,11 +2,7 @@
 // ssl/detail/engine.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -65,25 +61,14 @@ public:
   // Construct a new engine for an existing native SSL implementation.
   ASIO_DECL explicit engine(SSL* ssl_impl);
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
   // Move construct from another engine.
   ASIO_DECL engine(engine&& other) noexcept;
 
   // Destructor.
   ASIO_DECL ~engine();
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-  // Move assign from another engine.
-  ASIO_DECL engine& operator=(engine&& other) ASIO_NOEXCEPT;
-#endif // defined(ASIO_HAS_MOVE)
-=======
   // Move assign from another engine.
   ASIO_DECL engine& operator=(engine&& other) noexcept;
->>>>>>> 142038d (add asio new version)
 
   // Get the underlying implementation in the native type.
   ASIO_DECL SSL* native_handle();

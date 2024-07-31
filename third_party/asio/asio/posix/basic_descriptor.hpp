@@ -2,11 +2,7 @@
 // posix/basic_descriptor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -40,13 +36,6 @@
 #else // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 # include "asio/detail/reactive_descriptor_service.hpp"
 #endif // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
-<<<<<<< HEAD
-
-#if defined(ASIO_HAS_MOVE)
-# include <utility>
-#endif // defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/push_options.hpp"
 
@@ -118,17 +107,10 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_descriptor(ExecutionContext& context,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
   }
@@ -172,15 +154,9 @@ public:
   template <typename ExecutionContext>
   basic_descriptor(ExecutionContext& context,
       const native_handle_type& native_descriptor,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type = 0)
-=======
       constraint_t<
         is_convertible<ExecutionContext&, execution_context&>::value
       > = 0)
->>>>>>> 142038d (add asio new version)
     : impl_(0, 0, context)
   {
     asio::error_code ec;
@@ -240,17 +216,10 @@ public:
    */
   template <typename Executor1>
   basic_descriptor(basic_descriptor<Executor1>&& other,
-<<<<<<< HEAD
-      typename constraint<
-        is_convertible<Executor1, Executor>::value,
-        defaulted_constraint
-      >::type = defaulted_constraint())
-=======
       constraint_t<
         is_convertible<Executor1, Executor>::value,
         defaulted_constraint
       > = defaulted_constraint())
->>>>>>> 142038d (add asio new version)
     : impl_(std::move(other.impl_))
   {
   }
@@ -267,26 +236,15 @@ public:
    * constructor.
    */
   template <typename Executor1>
-<<<<<<< HEAD
-  typename constraint<
-    is_convertible<Executor1, Executor>::value,
-    basic_descriptor&
-  >::type operator=(basic_descriptor<Executor1> && other)
-=======
   constraint_t<
     is_convertible<Executor1, Executor>::value,
     basic_descriptor&
   > operator=(basic_descriptor<Executor1> && other)
->>>>>>> 142038d (add asio new version)
   {
     basic_descriptor tmp(std::move(other));
     impl_ = std::move(tmp.impl_);
     return *this;
   }
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-=======
->>>>>>> 142038d (add asio new version)
 
   /// Get the executor associated with the object.
   const executor_type& get_executor() noexcept
@@ -702,14 +660,7 @@ public:
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the completion handler will not be invoked from within this function.
    * On immediate completion, invocation of the handler will be performed in a
-<<<<<<< HEAD
-   * manner equivalent to using asio::post().
-=======
    * manner equivalent to using asio::async_immediate().
-   *
-   * @par Completion Signature
-   * @code void(asio::error_code) @endcode
->>>>>>> 142038d (add asio new version)
    *
    * @par Completion Signature
    * @code void(asio::error_code) @endcode
@@ -745,24 +696,12 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
-<<<<<<< HEAD
-        WaitToken ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WaitToken,
-      void (asio::error_code))
-  async_wait(wait_type w,
-      ASIO_MOVE_ARG(WaitToken) token
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<WaitToken, void (asio::error_code)>(
-          declval<initiate_async_wait>(), token, w)))
-=======
         WaitToken = default_completion_token_t<executor_type>>
   auto async_wait(wait_type w,
       WaitToken&& token = default_completion_token_t<executor_type>())
     -> decltype(
       async_initiate<WaitToken, void (asio::error_code)>(
         declval<initiate_async_wait>(), token, w))
->>>>>>> 142038d (add asio new version)
   {
     return async_initiate<WaitToken, void (asio::error_code)>(
         initiate_async_wait(this), token, w);

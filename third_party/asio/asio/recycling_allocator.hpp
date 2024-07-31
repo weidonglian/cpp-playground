@@ -2,11 +2,7 @@
 // recycling_allocator.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -48,46 +44,27 @@ public:
   };
 
   /// Default constructor.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR recycling_allocator() ASIO_NOEXCEPT
-=======
   constexpr recycling_allocator() noexcept
->>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Converting constructor.
   template <typename U>
-<<<<<<< HEAD
-  ASIO_CONSTEXPR recycling_allocator(
-      const recycling_allocator<U>&) ASIO_NOEXCEPT
-=======
   constexpr recycling_allocator(
       const recycling_allocator<U>&) noexcept
->>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Equality operator. Always returns true.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR bool operator==(
-      const recycling_allocator&) const ASIO_NOEXCEPT
-=======
   constexpr bool operator==(
       const recycling_allocator&) const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return true;
   }
 
   /// Inequality operator. Always returns false.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR bool operator!=(
-      const recycling_allocator&) const ASIO_NOEXCEPT
-=======
   constexpr bool operator!=(
       const recycling_allocator&) const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return false;
   }
@@ -128,46 +105,27 @@ public:
   };
 
   /// Default constructor.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR recycling_allocator() ASIO_NOEXCEPT
-=======
   constexpr recycling_allocator() noexcept
->>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Converting constructor.
   template <typename U>
-<<<<<<< HEAD
-  ASIO_CONSTEXPR recycling_allocator(
-      const recycling_allocator<U>&) ASIO_NOEXCEPT
-=======
   constexpr recycling_allocator(
       const recycling_allocator<U>&) noexcept
->>>>>>> 142038d (add asio new version)
   {
   }
 
   /// Equality operator. Always returns true.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR bool operator==(
-      const recycling_allocator&) const ASIO_NOEXCEPT
-=======
   constexpr bool operator==(
       const recycling_allocator&) const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return true;
   }
 
   /// Inequality operator. Always returns false.
-<<<<<<< HEAD
-  ASIO_CONSTEXPR bool operator!=(
-      const recycling_allocator&) const ASIO_NOEXCEPT
-=======
   constexpr bool operator!=(
       const recycling_allocator&) const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return false;
   }

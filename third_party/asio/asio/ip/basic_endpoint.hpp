@@ -2,11 +2,7 @@
 // ip/basic_endpoint.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,17 +16,10 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-<<<<<<< HEAD
-=======
 #include <functional>
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/cstdint.hpp"
 #include "asio/ip/address.hpp"
 #include "asio/ip/detail/endpoint.hpp"
-
-#if defined(ASIO_HAS_STD_HASH)
-# include <functional>
-#endif // defined(ASIO_HAS_STD_HASH)
 
 #if !defined(ASIO_NO_IOSTREAM)
 # include <iosfwd>
@@ -94,11 +83,7 @@ public:
    * @endcode
    */
   basic_endpoint(const InternetProtocol& internet_protocol,
-<<<<<<< HEAD
-      port_type port_num) ASIO_NOEXCEPT
-=======
       port_type port_num) noexcept
->>>>>>> 142038d (add asio new version)
     : impl_(internet_protocol.family(), port_num)
   {
   }
@@ -107,11 +92,7 @@ public:
   /// constructor may be used for accepting connections on a specific interface
   /// or for making a connection to a remote endpoint.
   basic_endpoint(const asio::ip::address& addr,
-<<<<<<< HEAD
-      port_type port_num) ASIO_NOEXCEPT
-=======
       port_type port_num) noexcept
->>>>>>> 142038d (add asio new version)
     : impl_(addr, port_num)
   {
   }
@@ -182,22 +163,14 @@ public:
 
   /// Get the port associated with the endpoint. The port number is always in
   /// the host's byte order.
-<<<<<<< HEAD
-  port_type port() const ASIO_NOEXCEPT
-=======
   port_type port() const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return impl_.port();
   }
 
   /// Set the port associated with the endpoint. The port number is always in
   /// the host's byte order.
-<<<<<<< HEAD
-  void port(port_type port_num) ASIO_NOEXCEPT
-=======
   void port(port_type port_num) noexcept
->>>>>>> 142038d (add asio new version)
   {
     impl_.port(port_num);
   }
@@ -285,17 +258,6 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace ip
 } // namespace asio
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_STD_HASH)
-namespace std {
-
-template <typename InternetProtocol>
-struct hash<asio::ip::basic_endpoint<InternetProtocol> >
-{
-  std::size_t operator()(
-      const asio::ip::basic_endpoint<InternetProtocol>& ep)
-    const ASIO_NOEXCEPT
-=======
 namespace std {
 
 template <typename InternetProtocol>
@@ -304,7 +266,6 @@ struct hash<asio::ip::basic_endpoint<InternetProtocol>>
   std::size_t operator()(
       const asio::ip::basic_endpoint<InternetProtocol>& ep)
     const noexcept
->>>>>>> 142038d (add asio new version)
   {
     std::size_t hash1 = std::hash<asio::ip::address>()(ep.address());
     std::size_t hash2 = std::hash<unsigned short>()(ep.port());
@@ -313,10 +274,6 @@ struct hash<asio::ip::basic_endpoint<InternetProtocol>>
 };
 
 } // namespace std
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_STD_HASH)
-=======
->>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/pop_options.hpp"
 

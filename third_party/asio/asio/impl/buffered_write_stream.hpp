@@ -2,11 +2,7 @@
 // impl/buffered_write_stream.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,10 +16,6 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/associator.hpp"
-<<<<<<< HEAD
-#include "asio/detail/handler_alloc_helpers.hpp"
-=======
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/handler_cont_helpers.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/non_const_lvalue.hpp"
@@ -80,11 +72,7 @@ namespace detail
         const std::size_t bytes_written)
     {
       storage_.consume(bytes_written);
-<<<<<<< HEAD
-      ASIO_MOVE_OR_LVALUE(WriteHandler)(handler_)(ec, bytes_written);
-=======
       static_cast<WriteHandler&&>(handler_)(ec, bytes_written);
->>>>>>> 142038d (add asio new version)
     }
 
   //private:
@@ -147,11 +135,6 @@ struct associator<Associator,
   : Associator<WriteHandler, DefaultCandidate>
 {
   static typename Associator<WriteHandler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const detail::buffered_flush_handler<WriteHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const detail::buffered_flush_handler<WriteHandler>& h) noexcept
   {
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_);
@@ -161,7 +144,6 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
@@ -172,24 +154,12 @@ template <typename Stream>
 template <
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) WriteHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteHandler,
-    void (asio::error_code, std::size_t))
-buffered_write_stream<Stream>::async_flush(
-    ASIO_MOVE_ARG(WriteHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteHandler,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_buffered_flush<Stream> >(),
-        handler, declval<detail::buffered_stream_storage*>())))
-=======
 inline auto buffered_write_stream<Stream>::async_flush(WriteHandler&& handler)
   -> decltype(
     async_initiate<WriteHandler,
       void (asio::error_code, std::size_t)>(
         declval<detail::initiate_async_buffered_flush<Stream>>(),
         handler, declval<detail::buffered_stream_storage*>()))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<WriteHandler,
     void (asio::error_code, std::size_t)>(
@@ -262,11 +232,7 @@ namespace detail
       if (ec)
       {
         const std::size_t length = 0;
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(WriteHandler)(handler_)(ec, length);
-=======
         static_cast<WriteHandler&&>(handler_)(ec, length);
->>>>>>> 142038d (add asio new version)
       }
       else
       {
@@ -279,11 +245,7 @@ namespace detail
         storage_.resize(orig_size + length);
         const std::size_t bytes_copied = asio::buffer_copy(
             storage_.data() + orig_size, buffers_, length);
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(WriteHandler)(handler_)(ec, bytes_copied);
-=======
         static_cast<WriteHandler&&>(handler_)(ec, bytes_copied);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -365,11 +327,6 @@ struct associator<Associator,
 {
   static typename Associator<WriteHandler, DefaultCandidate>::type get(
       const detail::buffered_write_some_handler<
-<<<<<<< HEAD
-        ConstBufferSequence, WriteHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         ConstBufferSequence, WriteHandler>& h) noexcept
   {
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_);
@@ -381,7 +338,6 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
@@ -392,18 +348,6 @@ template <typename Stream>
 template <typename ConstBufferSequence,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) WriteHandler>
-<<<<<<< HEAD
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteHandler,
-    void (asio::error_code, std::size_t))
-buffered_write_stream<Stream>::async_write_some(
-    const ConstBufferSequence& buffers,
-    ASIO_MOVE_ARG(WriteHandler) handler)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteHandler,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_buffered_write_some<Stream> >(),
-        handler, declval<detail::buffered_stream_storage*>(), buffers)))
-=======
 inline auto buffered_write_stream<Stream>::async_write_some(
     const ConstBufferSequence& buffers, WriteHandler&& handler)
   -> decltype(
@@ -411,7 +355,6 @@ inline auto buffered_write_stream<Stream>::async_write_some(
       void (asio::error_code, std::size_t)>(
         declval<detail::initiate_async_buffered_write_some<Stream>>(),
         handler, declval<detail::buffered_stream_storage*>(), buffers))
->>>>>>> 142038d (add asio new version)
 {
   return async_initiate<WriteHandler,
     void (asio::error_code, std::size_t)>(

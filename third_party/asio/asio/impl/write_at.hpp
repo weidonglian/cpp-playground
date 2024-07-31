@@ -2,11 +2,7 @@
 // impl/write_at.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -205,17 +201,9 @@ namespace detail
 
     write_at_op(write_at_op&& other)
       : base_from_cancellation_state<WriteHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            WriteHandler>)(other)),
-        base_from_completion_cond<CompletionCondition>(
-          ASIO_MOVE_CAST(base_from_completion_cond<
-            CompletionCondition>)(other)),
-=======
           static_cast<base_from_cancellation_state<WriteHandler>&&>(other)),
         base_from_completion_cond<CompletionCondition>(
           static_cast<base_from_completion_cond<CompletionCondition>&&>(other)),
->>>>>>> 142038d (add asio new version)
         device_(other.device_),
         offset_(other.offset_),
         buffers_(static_cast<buffers_type&&>(other.buffers_)),
@@ -254,11 +242,7 @@ namespace detail
           }
         }
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(WriteHandler)(handler_)(
-=======
         static_cast<WriteHandler&&>(handler_)(
->>>>>>> 142038d (add asio new version)
             static_cast<const asio::error_code&>(ec),
             static_cast<const std::size_t&>(buffers_.total_consumed()));
       }
@@ -354,11 +338,6 @@ struct associator<Associator,
   static typename Associator<WriteHandler, DefaultCandidate>::type get(
       const detail::write_at_op<AsyncRandomAccessWriteDevice,
         ConstBufferSequence, ConstBufferIterator,
-<<<<<<< HEAD
-        CompletionCondition, WriteHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         CompletionCondition, WriteHandler>& h) noexcept
   {
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_);
@@ -371,62 +350,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncRandomAccessWriteDevice,
-    typename ConstBufferSequence, typename CompletionCondition,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) WriteToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
-    void (asio::error_code, std::size_t))
-async_write_at(AsyncRandomAccessWriteDevice& d,
-    uint64_t offset, const ConstBufferSequence& buffers,
-    CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(WriteToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_write_at<
-          AsyncRandomAccessWriteDevice> >(),
-        token, offset, buffers,
-        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))))
-{
-  return async_initiate<WriteToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_write_at<AsyncRandomAccessWriteDevice>(d),
-      token, offset, buffers,
-      ASIO_MOVE_CAST(CompletionCondition)(completion_condition));
-}
-
-template <typename AsyncRandomAccessWriteDevice, typename ConstBufferSequence,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) WriteToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
-    void (asio::error_code, std::size_t))
-async_write_at(AsyncRandomAccessWriteDevice& d,
-    uint64_t offset, const ConstBufferSequence& buffers,
-    ASIO_MOVE_ARG(WriteToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_write_at<
-          AsyncRandomAccessWriteDevice> >(),
-        token, offset, buffers, transfer_all())))
-{
-  return async_initiate<WriteToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_write_at<AsyncRandomAccessWriteDevice>(d),
-      token, offset, buffers, transfer_all());
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_EXTENSIONS)
 #if !defined(ASIO_NO_IOSTREAM)
 
@@ -460,11 +389,7 @@ namespace detail
         const std::size_t bytes_transferred)
     {
       streambuf_.consume(bytes_transferred);
-<<<<<<< HEAD
-      ASIO_MOVE_OR_LVALUE(WriteHandler)(handler_)(ec, bytes_transferred);
-=======
       static_cast<WriteHandler&&>(handler_)(ec, bytes_transferred);
->>>>>>> 142038d (add asio new version)
     }
 
   //private:
@@ -529,11 +454,6 @@ struct associator<Associator,
   : Associator<WriteHandler, DefaultCandidate>
 {
   static typename Associator<WriteHandler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const detail::write_at_streambuf_op<Executor, WriteHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const detail::write_at_streambuf_op<Executor, WriteHandler>& h) noexcept
   {
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_);
@@ -544,64 +464,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<WriteHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncRandomAccessWriteDevice,
-    typename Allocator, typename CompletionCondition,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) WriteToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
-    void (asio::error_code, std::size_t))
-async_write_at(AsyncRandomAccessWriteDevice& d,
-    uint64_t offset, asio::basic_streambuf<Allocator>& b,
-    CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(WriteToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_write_at_streambuf<
-          AsyncRandomAccessWriteDevice> >(),
-        token, offset, &b,
-        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))))
-{
-  return async_initiate<WriteToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_write_at_streambuf<
-        AsyncRandomAccessWriteDevice>(d),
-      token, offset, &b,
-      ASIO_MOVE_CAST(CompletionCondition)(completion_condition));
-}
-
-template <typename AsyncRandomAccessWriteDevice, typename Allocator,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) WriteToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteToken,
-    void (asio::error_code, std::size_t))
-async_write_at(AsyncRandomAccessWriteDevice& d,
-    uint64_t offset, asio::basic_streambuf<Allocator>& b,
-    ASIO_MOVE_ARG(WriteToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<WriteToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_write_at_streambuf<
-          AsyncRandomAccessWriteDevice> >(),
-        token, offset, &b, transfer_all())))
-{
-  return async_initiate<WriteToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_write_at_streambuf<
-        AsyncRandomAccessWriteDevice>(d),
-      token, offset, &b, transfer_all());
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #endif // !defined(ASIO_NO_IOSTREAM)
 #endif // !defined(ASIO_NO_EXTENSIONS)
 

@@ -2,11 +2,7 @@
 // experimental/parallel_group.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,15 +16,11 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-<<<<<<< HEAD
-#include "asio/detail/array.hpp"
-=======
 #include <vector>
 #include "asio/async_result.hpp"
 #include "asio/detail/array.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/type_traits.hpp"
->>>>>>> 142038d (add asio new version)
 #include "asio/detail/utility.hpp"
 #include "asio/experimental/cancellation_condition.hpp"
 
@@ -46,11 +38,7 @@ struct parallel_op_signature_as_tuple;
 template <typename R, typename... Args>
 struct parallel_op_signature_as_tuple<R(Args...)>
 {
-<<<<<<< HEAD
-  typedef std::tuple<typename decay<Args>::type...> type;
-=======
   typedef std::tuple<decay_t<Args>...> type;
->>>>>>> 142038d (add asio new version)
 };
 
 // Helper trait for concatenating completion signatures.
@@ -94,10 +82,6 @@ template <typename Condition, typename Handler,
 void parallel_group_launch(Condition cancellation_condition, Handler handler,
     std::tuple<Ops...>& ops, asio::detail::index_sequence<I...>);
 
-<<<<<<< HEAD
-} // namespace detail
-
-=======
 // Helper trait for determining ranged parallel group completion signatures.
 
 template <typename Signature, typename Allocator>
@@ -149,7 +133,6 @@ struct is_async_operation_range
 #endif
 };
 
->>>>>>> 142038d (add asio new version)
 /// A group of asynchronous operations that may be launched in parallel.
 /**
  * See the documentation for asio::experimental::make_parallel_group for
@@ -181,11 +164,7 @@ public:
 
   /// The completion signature for the group of operations.
   typedef typename detail::parallel_group_signature<sizeof...(Ops),
-<<<<<<< HEAD
-      typename completion_signature_of<Ops>::type...>::type signature;
-=======
       completion_signature_of_t<Ops>...>::type signature;
->>>>>>> 142038d (add asio new version)
 
   /// Initiate an asynchronous wait for the group of operations.
   /**
@@ -211,22 +190,12 @@ public:
    */
   template <typename CancellationCondition,
       ASIO_COMPLETION_TOKEN_FOR(signature) CompletionToken>
-<<<<<<< HEAD
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(CompletionToken, signature)
-  async_wait(CancellationCondition cancellation_condition,
-      CompletionToken&& token)
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      asio::async_initiate<CompletionToken, signature>(
-          declval<initiate_async_wait>(), token,
-          std::move(cancellation_condition), std::move(ops_))))
-=======
   auto async_wait(CancellationCondition cancellation_condition,
       CompletionToken&& token)
     -> decltype(
       asio::async_initiate<CompletionToken, signature>(
         declval<initiate_async_wait>(), token,
         std::move(cancellation_condition), std::move(ops_)))
->>>>>>> 142038d (add asio new version)
   {
     return asio::async_initiate<CompletionToken, signature>(
         initiate_async_wait(), token,
@@ -238,8 +207,6 @@ public:
 /**
  * For example:
  * @code asio::experimental::make_parallel_group(
-<<<<<<< HEAD
-=======
  *    in.async_read_some(asio::buffer(data)),
  *    timer.async_wait()
  *  ).async_wait(
@@ -270,7 +237,6 @@ public:
  * If preferred, the asynchronous operations may be explicitly packaged as
  * function objects:
  * @code asio::experimental::make_parallel_group(
->>>>>>> 142038d (add asio new version)
  *    [&](auto token)
  *    {
  *      return in.async_read_some(asio::buffer(data), token);
@@ -311,8 +277,6 @@ make_parallel_group(Ops... ops)
   return parallel_group<Ops...>(std::move(ops)...);
 }
 
-<<<<<<< HEAD
-=======
 /// A range-based group of asynchronous operations that may be launched in
 /// parallel.
 /**
@@ -481,7 +445,6 @@ make_parallel_group(allocator_arg_t, const Allocator& allocator, Range&& range,
       std::forward<Range>(range), allocator);
 }
 
->>>>>>> 142038d (add asio new version)
 } // namespace experimental
 } // namespace asio
 

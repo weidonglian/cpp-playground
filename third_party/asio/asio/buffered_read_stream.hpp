@@ -2,11 +2,7 @@
 // buffered_read_stream.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -153,26 +149,12 @@ public:
    */
   template <typename ConstBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-        std::size_t)) WriteHandler
-          ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(WriteHandler,
-      void (asio::error_code, std::size_t))
-  async_write_some(const ConstBufferSequence& buffers,
-      ASIO_MOVE_ARG(WriteHandler) handler
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      declval<typename conditional<true, Stream&, WriteHandler>::type>()
-        .async_write_some(buffers,
-          ASIO_MOVE_CAST(WriteHandler)(handler))))
-=======
         std::size_t)) WriteHandler = default_completion_token_t<executor_type>>
   auto async_write_some(const ConstBufferSequence& buffers,
       WriteHandler&& handler = default_completion_token_t<executor_type>())
     -> decltype(
       declval<conditional_t<true, Stream&, WriteHandler>>().async_write_some(
         buffers, static_cast<WriteHandler&&>(handler)))
->>>>>>> 142038d (add asio new version)
   {
     return next_layer_.async_write_some(buffers,
         static_cast<WriteHandler&&>(handler));
@@ -193,20 +175,6 @@ public:
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-        std::size_t)) ReadHandler
-          ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
-      void (asio::error_code, std::size_t))
-  async_fill(
-      ASIO_MOVE_ARG(ReadHandler) handler
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<ReadHandler,
-        void (asio::error_code, std::size_t)>(
-          declval<detail::initiate_async_buffered_fill<Stream> >(),
-          handler, declval<detail::buffered_stream_storage*>())));
-=======
         std::size_t)) ReadHandler = default_completion_token_t<executor_type>>
   auto async_fill(
       ReadHandler&& handler = default_completion_token_t<executor_type>())
@@ -215,7 +183,6 @@ public:
         void (asio::error_code, std::size_t)>(
           declval<detail::initiate_async_buffered_fill<Stream>>(),
           handler, declval<detail::buffered_stream_storage*>()));
->>>>>>> 142038d (add asio new version)
 
   /// Read some data from the stream. Returns the number of bytes read. Throws
   /// an exception on failure.
@@ -236,20 +203,6 @@ public:
    */
   template <typename MutableBufferSequence,
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-<<<<<<< HEAD
-        std::size_t)) ReadHandler
-          ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(executor_type)>
-  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
-      void (asio::error_code, std::size_t))
-  async_read_some(const MutableBufferSequence& buffers,
-      ASIO_MOVE_ARG(ReadHandler) handler
-        ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
-    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-      async_initiate<ReadHandler,
-        void (asio::error_code, std::size_t)>(
-          declval<detail::initiate_async_buffered_read_some<Stream> >(),
-          handler, declval<detail::buffered_stream_storage*>(), buffers)));
-=======
         std::size_t)) ReadHandler = default_completion_token_t<executor_type>>
   auto async_read_some(const MutableBufferSequence& buffers,
       ReadHandler&& handler = default_completion_token_t<executor_type>())
@@ -258,7 +211,6 @@ public:
         void (asio::error_code, std::size_t)>(
           declval<detail::initiate_async_buffered_read_some<Stream>>(),
           handler, declval<detail::buffered_stream_storage*>(), buffers));
->>>>>>> 142038d (add asio new version)
 
   /// Peek at the incoming data on the stream. Returns the number of bytes read.
   /// Throws an exception on failure.

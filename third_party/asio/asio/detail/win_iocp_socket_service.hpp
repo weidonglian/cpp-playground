@@ -2,11 +2,7 @@
 // detail/win_iocp_socket_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -352,11 +348,7 @@ public:
       socket_base::message_flags flags, Handler& handler,
       const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -450,11 +442,7 @@ public:
       socket_base::message_flags flags, Handler& handler,
       const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -486,11 +474,7 @@ public:
       endpoint_type& sender_endpoint, socket_base::message_flags flags,
       Handler& handler, const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -563,11 +547,7 @@ public:
   void async_accept(implementation_type& impl, Socket& peer,
       endpoint_type* peer_endpoint, Handler& handler, const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -606,11 +586,7 @@ public:
       const PeerIoExecutor& peer_io_ex, endpoint_type* peer_endpoint,
       Handler& handler, const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -659,11 +635,7 @@ public:
       const endpoint_type& peer_endpoint, Handler& handler,
       const IoExecutor& io_ex)
   {
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.

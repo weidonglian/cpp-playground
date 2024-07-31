@@ -2,11 +2,7 @@
 // ip/address_v6.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,10 +25,6 @@
 #include "asio/detail/winsock_init.hpp"
 #include "asio/error_code.hpp"
 #include "asio/ip/address_v4.hpp"
-
-#if defined(ASIO_HAS_STD_HASH)
-# include <functional>
-#endif // defined(ASIO_HAS_STD_HASH)
 
 #if !defined(ASIO_NO_IOSTREAM)
 # include <iosfwd>
@@ -77,11 +69,7 @@ public:
    * @li <tt>to_bytes()</tt> yields <tt>{0, 0, ..., 0}</tt>; and
    * @li <tt>scope_id() == 0</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL address_v6() ASIO_NOEXCEPT;
-=======
   ASIO_DECL address_v6() noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Construct an address from raw bytes and scope ID.
   /**
@@ -113,11 +101,7 @@ public:
   /**
    * Returns the scope ID associated with the IPv6 address.
    */
-<<<<<<< HEAD
-  scope_id_type scope_id() const ASIO_NOEXCEPT
-=======
   scope_id_type scope_id() const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return scope_id_;
   }
@@ -128,11 +112,7 @@ public:
    *
    * @param id The new scope ID.
    */
-<<<<<<< HEAD
-  void scope_id(scope_id_type id) ASIO_NOEXCEPT
-=======
   void scope_id(scope_id_type id) noexcept
->>>>>>> 142038d (add asio new version)
   {
     scope_id_ = id;
   }
@@ -175,22 +155,14 @@ public:
    * This function tests whether the address is the loopback address
    * <tt>::1</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL bool is_loopback() const ASIO_NOEXCEPT;
-=======
   ASIO_DECL bool is_loopback() const noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Determine whether the address is unspecified.
   /**
    * This function tests whether the address is the loopback address
    * <tt>::</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL bool is_unspecified() const ASIO_NOEXCEPT;
-=======
   ASIO_DECL bool is_unspecified() const noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Determine whether the address is link local.
   ASIO_DECL bool is_link_local() const noexcept;
@@ -268,11 +240,7 @@ public:
    *
    * @returns A default-constructed @c address_v6 object.
    */
-<<<<<<< HEAD
-  static address_v6 any() ASIO_NOEXCEPT
-=======
   static address_v6 any() noexcept
->>>>>>> 142038d (add asio new version)
   {
     return address_v6();
   }
@@ -282,11 +250,7 @@ public:
    * This function returns an address that represents the well-known loopback
    * address <tt>::1</tt>.
    */
-<<<<<<< HEAD
-  ASIO_DECL static address_v6 loopback() ASIO_NOEXCEPT;
-=======
   ASIO_DECL static address_v6 loopback() noexcept;
->>>>>>> 142038d (add asio new version)
 
 #if !defined(ASIO_NO_DEPRECATED)
   /// (Deprecated: Use make_address_v6().) Create an IPv4-mapped IPv6 address.
@@ -402,21 +366,13 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace ip
 } // namespace asio
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_STD_HASH)
-=======
->>>>>>> 142038d (add asio new version)
 namespace std {
 
 template <>
 struct hash<asio::ip::address_v6>
 {
   std::size_t operator()(const asio::ip::address_v6& addr)
-<<<<<<< HEAD
-    const ASIO_NOEXCEPT
-=======
     const noexcept
->>>>>>> 142038d (add asio new version)
   {
     const asio::ip::address_v6::bytes_type bytes = addr.to_bytes();
     std::size_t result = static_cast<std::size_t>(addr.scope_id());
@@ -440,10 +396,6 @@ private:
 };
 
 } // namespace std
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_STD_HASH)
-=======
->>>>>>> 142038d (add asio new version)
 
 #include "asio/detail/pop_options.hpp"
 

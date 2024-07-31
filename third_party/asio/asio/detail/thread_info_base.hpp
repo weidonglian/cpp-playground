@@ -2,11 +2,7 @@
 // detail/thread_info_base.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -93,9 +89,6 @@ public:
     };
   };
 
-<<<<<<< HEAD
-  enum { max_mem_index = parallel_group_tag::end_mem_index };
-=======
   struct timed_cancel_tag
   {
     enum
@@ -107,7 +100,6 @@ public:
   };
 
   enum { max_mem_index = timed_cancel_tag::end_mem_index };
->>>>>>> 142038d (add asio new version)
 
   thread_info_base()
 #if !defined(ASIO_NO_EXCEPTIONS)

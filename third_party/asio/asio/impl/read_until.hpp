@@ -2,11 +2,7 @@
 // impl/read_until.hpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -91,15 +87,6 @@ namespace detail
 
 template <typename SyncReadStream, typename DynamicBuffer_v1>
 inline std::size_t read_until(SyncReadStream& s,
-<<<<<<< HEAD
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers, char delim,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     DynamicBuffer_v1&& buffers, char delim,
     constraint_t<
       is_dynamic_buffer_v1<decay_t<DynamicBuffer_v1>>::value
@@ -107,7 +94,6 @@ inline std::size_t read_until(SyncReadStream& s,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -120,21 +106,12 @@ template <typename SyncReadStream, typename DynamicBuffer_v1>
 std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v1&& buffers,
     char delim, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v1<decay_t<DynamicBuffer_v1>>::value
     >,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   decay_t<DynamicBuffer_v1> b(
       static_cast<DynamicBuffer_v1&&>(buffers));
@@ -185,21 +162,12 @@ template <typename SyncReadStream, typename DynamicBuffer_v1>
 inline std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v1&& buffers,
     ASIO_STRING_VIEW_PARAM delim,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v1<decay_t<DynamicBuffer_v1>>::value
     >,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -212,21 +180,12 @@ template <typename SyncReadStream, typename DynamicBuffer_v1>
 std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v1&& buffers,
     ASIO_STRING_VIEW_PARAM delim, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v1<decay_t<DynamicBuffer_v1>>::value
     >,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   decay_t<DynamicBuffer_v1> b(
       static_cast<DynamicBuffer_v1&&>(buffers));
@@ -285,18 +244,6 @@ std::size_t read_until(SyncReadStream& s,
 #if !defined(ASIO_NO_EXTENSIONS)
 #if defined(ASIO_HAS_BOOST_REGEX)
 
-<<<<<<< HEAD
-template <typename SyncReadStream, typename DynamicBuffer_v1>
-inline std::size_t read_until(SyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    const boost::regex& expr,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
 template <typename SyncReadStream, typename DynamicBuffer_v1, typename Traits>
 inline std::size_t read_until(SyncReadStream& s, DynamicBuffer_v1&& buffers,
     const boost::basic_regex<char, Traits>& expr,
@@ -306,7 +253,6 @@ inline std::size_t read_until(SyncReadStream& s, DynamicBuffer_v1&& buffers,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -315,18 +261,6 @@ inline std::size_t read_until(SyncReadStream& s, DynamicBuffer_v1&& buffers,
   return bytes_transferred;
 }
 
-<<<<<<< HEAD
-template <typename SyncReadStream, typename DynamicBuffer_v1>
-std::size_t read_until(SyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    const boost::regex& expr, asio::error_code& ec,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
 template <typename SyncReadStream, typename DynamicBuffer_v1, typename Traits>
 std::size_t read_until(SyncReadStream& s, DynamicBuffer_v1&& buffers,
     const boost::basic_regex<char, Traits>& expr, asio::error_code& ec,
@@ -336,7 +270,6 @@ std::size_t read_until(SyncReadStream& s, DynamicBuffer_v1&& buffers,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   decay_t<DynamicBuffer_v1> b(
       static_cast<DynamicBuffer_v1&&>(buffers));
@@ -401,17 +334,6 @@ template <typename SyncReadStream,
 inline std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v1&& buffers,
     MatchCondition match_condition,
-<<<<<<< HEAD
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     constraint_t<
       is_match_condition<MatchCondition>::value
     >,
@@ -421,7 +343,6 @@ inline std::size_t read_until(SyncReadStream& s,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -436,17 +357,6 @@ template <typename SyncReadStream,
 std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v1&& buffers,
     MatchCondition match_condition, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-=======
     constraint_t<
       is_match_condition<MatchCondition>::value
     >,
@@ -456,7 +366,6 @@ std::size_t read_until(SyncReadStream& s,
     constraint_t<
       !is_dynamic_buffer_v2<decay_t<DynamicBuffer_v1>>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   decay_t<DynamicBuffer_v1> b(
       static_cast<DynamicBuffer_v1&&>(buffers));
@@ -565,11 +474,7 @@ inline std::size_t read_until(SyncReadStream& s,
 template <typename SyncReadStream, typename Allocator, typename MatchCondition>
 inline std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, MatchCondition match_condition,
-<<<<<<< HEAD
-    typename constraint<is_match_condition<MatchCondition>::value>::type)
-=======
     constraint_t<is_match_condition<MatchCondition>::value>)
->>>>>>> 142038d (add asio new version)
 {
   return read_until(s, basic_streambuf_ref<Allocator>(b), match_condition);
 }
@@ -578,11 +483,7 @@ template <typename SyncReadStream, typename Allocator, typename MatchCondition>
 inline std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b,
     MatchCondition match_condition, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<is_match_condition<MatchCondition>::value>::type)
-=======
     constraint_t<is_match_condition<MatchCondition>::value>)
->>>>>>> 142038d (add asio new version)
 {
   return read_until(s, basic_streambuf_ref<Allocator>(b), match_condition, ec);
 }
@@ -594,15 +495,9 @@ inline std::size_t read_until(SyncReadStream& s,
 template <typename SyncReadStream, typename DynamicBuffer_v2>
 inline std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v2 buffers, char delim,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -614,15 +509,9 @@ inline std::size_t read_until(SyncReadStream& s,
 template <typename SyncReadStream, typename DynamicBuffer_v2>
 std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
     char delim, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   DynamicBuffer_v2& b = buffers;
 
@@ -675,15 +564,9 @@ std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
 template <typename SyncReadStream, typename DynamicBuffer_v2>
 inline std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v2 buffers, ASIO_STRING_VIEW_PARAM delim,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -695,15 +578,9 @@ inline std::size_t read_until(SyncReadStream& s,
 template <typename SyncReadStream, typename DynamicBuffer_v2>
 std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
     ASIO_STRING_VIEW_PARAM delim, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   DynamicBuffer_v2& b = buffers;
 
@@ -765,21 +642,12 @@ std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
 #if !defined(ASIO_NO_EXTENSIONS)
 #if defined(ASIO_HAS_BOOST_REGEX)
 
-<<<<<<< HEAD
-template <typename SyncReadStream, typename DynamicBuffer_v2>
-inline std::size_t read_until(SyncReadStream& s,
-    DynamicBuffer_v2 buffers, const boost::regex& expr,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
 template <typename SyncReadStream, typename DynamicBuffer_v2, typename Traits>
 inline std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
     const boost::basic_regex<char, Traits>& expr,
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -790,17 +658,10 @@ inline std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
 
 template <typename SyncReadStream, typename DynamicBuffer_v2, typename Traits>
 std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
-<<<<<<< HEAD
-    const boost::regex& expr, asio::error_code& ec,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     const boost::basic_regex<char, Traits>& expr, asio::error_code& ec,
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   DynamicBuffer_v2& b = buffers;
 
@@ -867,21 +728,12 @@ template <typename SyncReadStream,
     typename DynamicBuffer_v2, typename MatchCondition>
 inline std::size_t read_until(SyncReadStream& s,
     DynamicBuffer_v2 buffers, MatchCondition match_condition,
-<<<<<<< HEAD
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_match_condition<MatchCondition>::value
     >,
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   asio::error_code ec;
   std::size_t bytes_transferred = read_until(s,
@@ -895,21 +747,12 @@ template <typename SyncReadStream,
     typename DynamicBuffer_v2, typename MatchCondition>
 std::size_t read_until(SyncReadStream& s, DynamicBuffer_v2 buffers,
     MatchCondition match_condition, asio::error_code& ec,
-<<<<<<< HEAD
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-=======
     constraint_t<
       is_match_condition<MatchCondition>::value
     >,
     constraint_t<
       is_dynamic_buffer_v2<DynamicBuffer_v2>::value
     >)
->>>>>>> 142038d (add asio new version)
 {
   DynamicBuffer_v2& b = buffers;
 
@@ -983,11 +826,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         delim_(delim),
         start_(0),
         search_position_(0),
@@ -1008,16 +847,9 @@ namespace detail
 
     read_until_delim_op_v1(read_until_delim_op_v1&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v1)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v1&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         delim_(other.delim_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -1104,11 +936,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -1183,11 +1011,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_delim_op_v1<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v1, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v1, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -1199,42 +1022,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream, typename DynamicBuffer_v1,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    char delim, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_delim_v1<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers), delim)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_delim_v1<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers), delim);
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 namespace detail
 {
   template <typename AsyncReadStream,
@@ -1250,11 +1043,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         delim_(delim),
         start_(0),
         search_position_(0),
@@ -1275,18 +1064,10 @@ namespace detail
 
     read_until_delim_string_op_v1(read_until_delim_string_op_v1&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v1)(other.buffers_)),
-        delim_(ASIO_MOVE_CAST(std::string)(other.delim_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v1&&>(other.buffers_)),
         delim_(static_cast<std::string&&>(other.delim_)),
->>>>>>> 142038d (add asio new version)
         start_(other.start_),
         search_position_(other.search_position_),
         handler_(static_cast<ReadHandler&&>(other.handler_))
@@ -1383,11 +1164,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -1461,12 +1238,6 @@ struct associator<Associator,
   : Associator<ReadHandler, DefaultCandidate>
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const detail::read_until_delim_string_op_v1<AsyncReadStream,
-        DynamicBuffer_v1, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const detail::read_until_delim_string_op_v1<
         AsyncReadStream, DynamicBuffer_v1, ReadHandler>& h) noexcept
   {
@@ -1479,46 +1250,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream, typename DynamicBuffer_v1,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    ASIO_STRING_VIEW_PARAM delim,
-    ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_delim_string_v1<
-          AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers),
-        static_cast<std::string>(delim))))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_delim_string_v1<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers),
-      static_cast<std::string>(delim));
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_EXTENSIONS)
 #if defined(ASIO_HAS_BOOST_REGEX)
 
@@ -1530,16 +1267,6 @@ namespace detail
     : public base_from_cancellation_state<ReadHandler>
   {
   public:
-<<<<<<< HEAD
-    template <typename BufferSequence>
-    read_until_expr_op_v1(AsyncReadStream& stream,
-        ASIO_MOVE_ARG(BufferSequence) buffers,
-        const boost::regex& expr, ReadHandler& handler)
-      : base_from_cancellation_state<ReadHandler>(
-          handler, enable_partial_cancellation()),
-        stream_(stream),
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
     template <typename BufferSequence, typename Traits>
     read_until_expr_op_v1(AsyncReadStream& stream, BufferSequence&& buffers,
         const boost::basic_regex<char, Traits>& expr, ReadHandler& handler)
@@ -1547,7 +1274,6 @@ namespace detail
           handler, enable_partial_cancellation()),
         stream_(stream),
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         expr_(expr),
         start_(0),
         search_position_(0),
@@ -1568,16 +1294,9 @@ namespace detail
 
     read_until_expr_op_v1(read_until_expr_op_v1&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v1)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v1&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         expr_(other.expr_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -1678,11 +1397,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -1756,11 +1471,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_expr_op_v1<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v1, RegEx, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v1, RegEx, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -1772,43 +1482,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream, typename DynamicBuffer_v1,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    const boost::regex& expr,
-    ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_expr_v1<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers), expr)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_expr_v1<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers), expr);
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #endif // defined(ASIO_HAS_BOOST_REGEX)
 
 namespace detail
@@ -1826,11 +1505,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         match_condition_(match_condition),
         start_(0),
         search_position_(0),
@@ -1851,16 +1526,9 @@ namespace detail
 
     read_until_match_op_v1(read_until_match_op_v1&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v1)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v1&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         match_condition_(other.match_condition_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -1957,11 +1625,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -2037,11 +1701,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_match_op_v1<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v1, MatchCondition, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v1, MatchCondition, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -2053,121 +1712,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream,
-    typename DynamicBuffer_v1, typename MatchCondition,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
-    MatchCondition match_condition, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v1<typename decay<DynamicBuffer_v1>::type>::value
-    >::type,
-    typename constraint<
-      !is_dynamic_buffer_v2<typename decay<DynamicBuffer_v1>::type>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_match_v1<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers),
-        match_condition)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_match_v1<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v1)(buffers),
-      match_condition);
-}
-
-#if !defined(ASIO_NO_IOSTREAM)
-
-template <typename AsyncReadStream, typename Allocator,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    asio::basic_streambuf<Allocator>& b,
-    char delim, ASIO_MOVE_ARG(ReadToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_read_until(s, basic_streambuf_ref<Allocator>(b),
-        delim, ASIO_MOVE_CAST(ReadToken)(token))))
-{
-  return async_read_until(s, basic_streambuf_ref<Allocator>(b),
-      delim, ASIO_MOVE_CAST(ReadToken)(token));
-}
-
-template <typename AsyncReadStream, typename Allocator,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    asio::basic_streambuf<Allocator>& b,
-    ASIO_STRING_VIEW_PARAM delim,
-    ASIO_MOVE_ARG(ReadToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_read_until(s, basic_streambuf_ref<Allocator>(b),
-        delim, ASIO_MOVE_CAST(ReadToken)(token))))
-{
-  return async_read_until(s, basic_streambuf_ref<Allocator>(b),
-      delim, ASIO_MOVE_CAST(ReadToken)(token));
-}
-
-#if defined(ASIO_HAS_BOOST_REGEX)
-
-template <typename AsyncReadStream, typename Allocator,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    asio::basic_streambuf<Allocator>& b, const boost::regex& expr,
-    ASIO_MOVE_ARG(ReadToken) token)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_read_until(s, basic_streambuf_ref<Allocator>(b),
-        expr, ASIO_MOVE_CAST(ReadToken)(token))))
-{
-  return async_read_until(s, basic_streambuf_ref<Allocator>(b),
-      expr, ASIO_MOVE_CAST(ReadToken)(token));
-}
-
-#endif // defined(ASIO_HAS_BOOST_REGEX)
-
-template <typename AsyncReadStream, typename Allocator, typename MatchCondition,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    asio::basic_streambuf<Allocator>& b,
-    MatchCondition match_condition, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<is_match_condition<MatchCondition>::value>::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_read_until(s, basic_streambuf_ref<Allocator>(b),
-        match_condition, ASIO_MOVE_CAST(ReadToken)(token))))
-{
-  return async_read_until(s, basic_streambuf_ref<Allocator>(b),
-      match_condition, ASIO_MOVE_CAST(ReadToken)(token));
-}
-
-#endif // !defined(ASIO_NO_IOSTREAM)
-=======
->>>>>>> 142038d (add asio new version)
 #endif // !defined(ASIO_NO_EXTENSIONS)
 #endif // !defined(ASIO_NO_DYNAMIC_BUFFER_V1)
 
@@ -2186,11 +1736,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         delim_(delim),
         start_(0),
         search_position_(0),
@@ -2213,16 +1759,9 @@ namespace detail
 
     read_until_delim_op_v2(read_until_delim_op_v2&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v2)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v2&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         delim_(other.delim_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -2314,11 +1853,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -2393,11 +1928,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_delim_op_v2<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v2, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v2, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -2409,38 +1939,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream, typename DynamicBuffer_v2,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s, DynamicBuffer_v2 buffers,
-    char delim, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_delim_v2<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers), delim)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_delim_v2<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers), delim);
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 namespace detail
 {
   template <typename AsyncReadStream,
@@ -2456,11 +1960,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         delim_(delim),
         start_(0),
         search_position_(0),
@@ -2483,18 +1983,10 @@ namespace detail
 
     read_until_delim_string_op_v2(read_until_delim_string_op_v2&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v2)(other.buffers_)),
-        delim_(ASIO_MOVE_CAST(std::string)(other.delim_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v2&&>(other.buffers_)),
         delim_(static_cast<std::string&&>(other.delim_)),
->>>>>>> 142038d (add asio new version)
         start_(other.start_),
         search_position_(other.search_position_),
         bytes_to_read_(other.bytes_to_read_),
@@ -2596,11 +2088,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -2675,12 +2163,6 @@ struct associator<Associator,
   : Associator<ReadHandler, DefaultCandidate>
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
-<<<<<<< HEAD
-      const detail::read_until_delim_string_op_v2<AsyncReadStream,
-        DynamicBuffer_v2, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
       const detail::read_until_delim_string_op_v2<
         AsyncReadStream, DynamicBuffer_v2, ReadHandler>& h) noexcept
   {
@@ -2693,43 +2175,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream,
-    typename DynamicBuffer_v2,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s,
-    DynamicBuffer_v2 buffers, ASIO_STRING_VIEW_PARAM delim,
-    ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_delim_string_v2<
-          AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers),
-        static_cast<std::string>(delim))))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_delim_string_v2<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers),
-      static_cast<std::string>(delim));
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_EXTENSIONS)
 #if defined(ASIO_HAS_BOOST_REGEX)
 
@@ -2741,16 +2192,6 @@ namespace detail
     : public base_from_cancellation_state<ReadHandler>
   {
   public:
-<<<<<<< HEAD
-    template <typename BufferSequence>
-    read_until_expr_op_v2(AsyncReadStream& stream,
-        ASIO_MOVE_ARG(BufferSequence) buffers,
-        const boost::regex& expr, ReadHandler& handler)
-      : base_from_cancellation_state<ReadHandler>(
-          handler, enable_partial_cancellation()),
-        stream_(stream),
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
     template <typename BufferSequence, typename Traits>
     read_until_expr_op_v2(AsyncReadStream& stream, BufferSequence&& buffers,
         const boost::basic_regex<char, Traits>& expr, ReadHandler& handler)
@@ -2758,7 +2199,6 @@ namespace detail
           handler, enable_partial_cancellation()),
         stream_(stream),
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         expr_(expr),
         start_(0),
         search_position_(0),
@@ -2781,16 +2221,9 @@ namespace detail
 
     read_until_expr_op_v2(read_until_expr_op_v2&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v2)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v2&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         expr_(other.expr_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -2896,11 +2329,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -2976,11 +2405,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_expr_op_v2<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v2, RegEx, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v2, RegEx, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -2992,38 +2416,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream, typename DynamicBuffer_v2,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s, DynamicBuffer_v2 buffers,
-    const boost::regex& expr, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_expr_v2<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers), expr)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_expr_v2<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers), expr);
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #endif // defined(ASIO_HAS_BOOST_REGEX)
 
 namespace detail
@@ -3041,11 +2439,7 @@ namespace detail
       : base_from_cancellation_state<ReadHandler>(
           handler, enable_partial_cancellation()),
         stream_(stream),
-<<<<<<< HEAD
-        buffers_(ASIO_MOVE_CAST(BufferSequence)(buffers)),
-=======
         buffers_(static_cast<BufferSequence&&>(buffers)),
->>>>>>> 142038d (add asio new version)
         match_condition_(match_condition),
         start_(0),
         search_position_(0),
@@ -3068,16 +2462,9 @@ namespace detail
 
     read_until_match_op_v2(read_until_match_op_v2&& other)
       : base_from_cancellation_state<ReadHandler>(
-<<<<<<< HEAD
-          ASIO_MOVE_CAST(base_from_cancellation_state<
-            ReadHandler>)(other)),
-        stream_(other.stream_),
-        buffers_(ASIO_MOVE_CAST(DynamicBuffer_v2)(other.buffers_)),
-=======
           static_cast<base_from_cancellation_state<ReadHandler>&&>(other)),
         stream_(other.stream_),
         buffers_(static_cast<DynamicBuffer_v2&&>(other.buffers_)),
->>>>>>> 142038d (add asio new version)
         match_condition_(other.match_condition_),
         start_(other.start_),
         search_position_(other.search_position_),
@@ -3179,11 +2566,7 @@ namespace detail
           (ec || search_position_ == not_found)
           ? 0 : search_position_;
 
-<<<<<<< HEAD
-        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(result_ec, result_n);
-=======
         static_cast<ReadHandler&&>(handler_)(result_ec, result_n);
->>>>>>> 142038d (add asio new version)
       }
     }
 
@@ -3259,11 +2642,6 @@ struct associator<Associator,
 {
   static typename Associator<ReadHandler, DefaultCandidate>::type get(
       const detail::read_until_match_op_v2<AsyncReadStream,
-<<<<<<< HEAD
-        DynamicBuffer_v2, MatchCondition, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
-  {
-=======
         DynamicBuffer_v2, MatchCondition, ReadHandler>& h) noexcept
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
@@ -3275,44 +2653,12 @@ struct associator<Associator,
       const DefaultCandidate& c) noexcept
     -> decltype(Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c))
   {
->>>>>>> 142038d (add asio new version)
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
 #endif // !defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-template <typename AsyncReadStream,
-    typename DynamicBuffer_v2, typename MatchCondition,
-    ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadToken>
-ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
-    void (asio::error_code, std::size_t))
-async_read_until(AsyncReadStream& s, DynamicBuffer_v2 buffers,
-    MatchCondition match_condition, ASIO_MOVE_ARG(ReadToken) token,
-    typename constraint<
-      is_match_condition<MatchCondition>::value
-    >::type,
-    typename constraint<
-      is_dynamic_buffer_v2<DynamicBuffer_v2>::value
-    >::type)
-  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
-    async_initiate<ReadToken,
-      void (asio::error_code, std::size_t)>(
-        declval<detail::initiate_async_read_until_match_v2<AsyncReadStream> >(),
-        token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers),
-        match_condition)))
-{
-  return async_initiate<ReadToken,
-    void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_until_match_v2<AsyncReadStream>(s),
-      token, ASIO_MOVE_CAST(DynamicBuffer_v2)(buffers),
-      match_condition);
-}
-
-=======
->>>>>>> 142038d (add asio new version)
 #endif // !defined(ASIO_NO_EXTENSIONS)
 
 } // namespace asio

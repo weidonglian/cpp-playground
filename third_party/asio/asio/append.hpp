@@ -2,11 +2,7 @@
 // append.hpp
 // ~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,14 +16,6 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-<<<<<<< HEAD
-
-#if (defined(ASIO_HAS_STD_TUPLE) \
-    && defined(ASIO_HAS_VARIADIC_TEMPLATES)) \
-  || defined(GENERATING_DOCUMENTATION)
-
-=======
->>>>>>> 142038d (add asio new version)
 #include <tuple>
 #include "asio/detail/type_traits.hpp"
 
@@ -44,17 +32,9 @@ class append_t
 public:
   /// Constructor.
   template <typename T, typename... V>
-<<<<<<< HEAD
-  ASIO_CONSTEXPR explicit append_t(
-      ASIO_MOVE_ARG(T) completion_token,
-      ASIO_MOVE_ARG(V)... values)
-    : token_(ASIO_MOVE_CAST(T)(completion_token)),
-      values_(ASIO_MOVE_CAST(V)(values)...)
-=======
   constexpr explicit append_t(T&& completion_token, V&&... values)
     : token_(static_cast<T&&>(completion_token)),
       values_(static_cast<V&&>(values)...)
->>>>>>> 142038d (add asio new version)
   {
   }
 
@@ -67,17 +47,6 @@ public:
 /// arguments should be passed additional values after the results of the
 /// operation.
 template <typename CompletionToken, typename... Values>
-<<<<<<< HEAD
-ASIO_NODISCARD inline ASIO_CONSTEXPR append_t<
-  typename decay<CompletionToken>::type, typename decay<Values>::type...>
-append(ASIO_MOVE_ARG(CompletionToken) completion_token,
-    ASIO_MOVE_ARG(Values)... values)
-{
-  return append_t<
-    typename decay<CompletionToken>::type, typename decay<Values>::type...>(
-      ASIO_MOVE_CAST(CompletionToken)(completion_token),
-      ASIO_MOVE_CAST(Values)(values)...);
-=======
 ASIO_NODISCARD inline constexpr
 append_t<decay_t<CompletionToken>, decay_t<Values>...>
 append(CompletionToken&& completion_token, Values&&... values)
@@ -85,7 +54,6 @@ append(CompletionToken&& completion_token, Values&&... values)
   return append_t<decay_t<CompletionToken>, decay_t<Values>...>(
       static_cast<CompletionToken&&>(completion_token),
       static_cast<Values&&>(values)...);
->>>>>>> 142038d (add asio new version)
 }
 
 } // namespace asio
@@ -94,11 +62,4 @@ append(CompletionToken&& completion_token, Values&&... values)
 
 #include "asio/impl/append.hpp"
 
-<<<<<<< HEAD
-#endif // (defined(ASIO_HAS_STD_TUPLE)
-       //     && defined(ASIO_HAS_VARIADIC_TEMPLATES))
-       //   || defined(GENERATING_DOCUMENTATION)
-
-=======
->>>>>>> 142038d (add asio new version)
 #endif // ASIO_APPEND_HPP

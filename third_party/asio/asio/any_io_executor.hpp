@@ -2,11 +2,7 @@
 // any_io_executor.hpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -91,20 +87,6 @@ public:
 #endif // !defined(GENERATING_DOCUMENTATION)
 
   /// Default constructor.
-<<<<<<< HEAD
-  ASIO_DECL any_io_executor() ASIO_NOEXCEPT;
-
-  /// Construct in an empty state. Equivalent effects to default constructor.
-  ASIO_DECL any_io_executor(nullptr_t) ASIO_NOEXCEPT;
-
-  /// Copy constructor.
-  ASIO_DECL any_io_executor(const any_io_executor& e) ASIO_NOEXCEPT;
-
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-  /// Move constructor.
-  ASIO_DECL any_io_executor(any_io_executor&& e) ASIO_NOEXCEPT;
-#endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-=======
   ASIO_DECL any_io_executor() noexcept;
 
   /// Construct in an empty state. Equivalent effects to default constructor.
@@ -115,7 +97,6 @@ public:
 
   /// Move constructor.
   ASIO_DECL any_io_executor(any_io_executor&& e) noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Construct to point to the same target as another any_executor.
 #if defined(GENERATING_DOCUMENTATION)
@@ -124,13 +105,8 @@ public:
 #else // defined(GENERATING_DOCUMENTATION)
   template <typename OtherAnyExecutor>
   any_io_executor(OtherAnyExecutor e,
-<<<<<<< HEAD
-      typename constraint<
-        conditional<
-=======
       constraint_t<
         conditional_t<
->>>>>>> 142038d (add asio new version)
           !is_same<OtherAnyExecutor, any_io_executor>::value
             && is_base_of<execution::detail::any_executor_base,
               OtherAnyExecutor>::value,
@@ -138,21 +114,13 @@ public:
             0, supportable_properties_type>::template
               is_valid_target<OtherAnyExecutor>,
           false_type
-<<<<<<< HEAD
-        >::type::value
-      >::type = 0)
-    : base_type(ASIO_MOVE_CAST(OtherAnyExecutor)(e))
-=======
         >::value
       > = 0)
     : base_type(static_cast<OtherAnyExecutor&&>(e))
->>>>>>> 142038d (add asio new version)
   {
   }
 #endif // defined(GENERATING_DOCUMENTATION)
 
-<<<<<<< HEAD
-=======
   /// Construct to point to the same target as another any_executor.
 #if defined(GENERATING_DOCUMENTATION)
   template <class... OtherSupportableProperties>
@@ -184,7 +152,6 @@ public:
   /// Construct to point to the same target as another any_executor.
   ASIO_DECL any_io_executor(std::nothrow_t, any_io_executor&& e) noexcept;
 
->>>>>>> 142038d (add asio new version)
   /// Construct a polymorphic wrapper for the specified executor.
 #if defined(GENERATING_DOCUMENTATION)
   template <ASIO_EXECUTION_EXECUTOR Executor>
@@ -192,24 +159,14 @@ public:
 #else // defined(GENERATING_DOCUMENTATION)
   template <ASIO_EXECUTION_EXECUTOR Executor>
   any_io_executor(Executor e,
-<<<<<<< HEAD
-      typename constraint<
-        conditional<
-=======
       constraint_t<
         conditional_t<
->>>>>>> 142038d (add asio new version)
           !is_same<Executor, any_io_executor>::value
             && !is_base_of<execution::detail::any_executor_base,
               Executor>::value,
           execution::detail::is_valid_target_executor<
             Executor, supportable_properties_type>,
           false_type
-<<<<<<< HEAD
-        >::type::value
-      >::type = 0)
-    : base_type(ASIO_MOVE_CAST(Executor)(e))
-=======
         >::value
       > = 0)
     : base_type(static_cast<Executor&&>(e))
@@ -235,27 +192,16 @@ public:
         >::value
       > = 0) noexcept
     : base_type(std::nothrow, static_cast<Executor&&>(e))
->>>>>>> 142038d (add asio new version)
   {
   }
 #endif // defined(GENERATING_DOCUMENTATION)
 
   /// Assignment operator.
   ASIO_DECL any_io_executor& operator=(
-<<<<<<< HEAD
-      const any_io_executor& e) ASIO_NOEXCEPT;
-
-#if defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-  /// Move assignment operator.
-  ASIO_DECL any_io_executor& operator=(
-      any_io_executor&& e) ASIO_NOEXCEPT;
-#endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
-=======
       const any_io_executor& e) noexcept;
 
   /// Move assignment operator.
   ASIO_DECL any_io_executor& operator=(any_io_executor&& e) noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Assignment operator that sets the polymorphic wrapper to the empty state.
   ASIO_DECL any_io_executor& operator=(nullptr_t);
@@ -264,11 +210,7 @@ public:
   ASIO_DECL ~any_io_executor();
 
   /// Swap targets with another polymorphic wrapper.
-<<<<<<< HEAD
-  ASIO_DECL void swap(any_io_executor& other) ASIO_NOEXCEPT;
-=======
   ASIO_DECL void swap(any_io_executor& other) noexcept;
->>>>>>> 142038d (add asio new version)
 
   /// Obtain a polymorphic wrapper with the specified property.
   /**
@@ -281,15 +223,9 @@ public:
    */
   template <typename Property>
   any_io_executor require(const Property& p,
-<<<<<<< HEAD
-      typename constraint<
-        traits::require_member<const base_type&, const Property&>::is_valid
-      >::type = 0) const
-=======
       constraint_t<
         traits::require_member<const base_type&, const Property&>::is_valid
       > = 0) const
->>>>>>> 142038d (add asio new version)
   {
     return static_cast<const base_type&>(*this).require(p);
   }
@@ -305,15 +241,9 @@ public:
    */
   template <typename Property>
   any_io_executor prefer(const Property& p,
-<<<<<<< HEAD
-      typename constraint<
-        traits::prefer_member<const base_type&, const Property&>::is_valid
-      >::type = 0) const
-=======
       constraint_t<
         traits::prefer_member<const base_type&, const Property&>::is_valid
       > = 0) const
->>>>>>> 142038d (add asio new version)
   {
     return static_cast<const base_type&>(*this).prefer(p);
   }

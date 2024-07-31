@@ -2,11 +2,7 @@
 // detail/handler_work.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -42,10 +38,7 @@ class io_context;
 
 #if !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
 
-<<<<<<< HEAD
-=======
 class any_completion_executor;
->>>>>>> 142038d (add asio new version)
 class any_io_executor;
 
 #endif // !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
@@ -63,22 +56,14 @@ template <typename Executor, typename CandidateExecutor = void,
 class handler_work_base
 {
 public:
-<<<<<<< HEAD
-  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
-=======
   explicit handler_work_base(int, int, const Executor& ex) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
 
   template <typename OtherExecutor>
   handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
-<<<<<<< HEAD
-      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
-=======
       const OtherExecutor& /*candidate*/) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
@@ -126,11 +111,7 @@ class handler_work_base<Executor, CandidateExecutor,
   >
 {
 public:
-<<<<<<< HEAD
-  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
-=======
   explicit handler_work_base(int, int, const Executor& ex) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(ex),
       owns_work_(true)
   {
@@ -138,11 +119,7 @@ public:
   }
 
   handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
-<<<<<<< HEAD
-      const Executor& candidate) ASIO_NOEXCEPT
-=======
       const Executor& candidate) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(ex),
       owns_work_(ex != candidate)
   {
@@ -152,11 +129,7 @@ public:
 
   template <typename OtherExecutor>
   handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
-<<<<<<< HEAD
-      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
-=======
       const OtherExecutor& /*candidate*/) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(ex),
       owns_work_(true)
   {
@@ -235,11 +208,7 @@ template <typename Executor, typename IoContext>
 class handler_work_base<Executor, void, IoContext, Executor>
 {
 public:
-<<<<<<< HEAD
-  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
-=======
   explicit handler_work_base(int, int, const Executor& ex) noexcept
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_TYPEID)
     : executor_(
         ex.target_type() == typeid(typename IoContext::executor_type)
@@ -253,11 +222,7 @@ public:
   }
 
   handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
-<<<<<<< HEAD
-      const Executor& candidate) ASIO_NOEXCEPT
-=======
       const Executor& candidate) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(ex != candidate ? ex : Executor())
   {
     if (executor_)
@@ -306,38 +271,15 @@ private:
   Executor executor_;
 };
 
-<<<<<<< HEAD
-template <
-#if defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    typename... SupportableProperties,
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    typename T1, typename T2, typename T3, typename T4, typename T5,
-    typename T6, typename T7, typename T8, typename T9,
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    typename CandidateExecutor, typename IoContext,
-    typename PolymorphicExecutor>
-class handler_work_base<
-#if defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    execution::any_executor<SupportableProperties...>,
-#else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    execution::any_executor<T1, T2, T3, T4, T5, T6, T7, T8, T9>,
-#endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-=======
 template <typename... SupportableProperties, typename CandidateExecutor,
     typename IoContext, typename PolymorphicExecutor>
 class handler_work_base<execution::any_executor<SupportableProperties...>,
->>>>>>> 142038d (add asio new version)
     CandidateExecutor, IoContext, PolymorphicExecutor>
 {
 public:
   typedef execution::any_executor<SupportableProperties...> executor_type;
 
-<<<<<<< HEAD
-  explicit handler_work_base(int, int,
-      const executor_type& ex) ASIO_NOEXCEPT
-=======
   explicit handler_work_base(int, int, const executor_type& ex) noexcept
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_TYPEID)
     : executor_(
         ex.target_type() == typeid(typename IoContext::executor_type)
@@ -350,11 +292,7 @@ public:
   }
 
   handler_work_base(bool base1_owns_work, const executor_type& ex,
-<<<<<<< HEAD
-      const executor_type& candidate) ASIO_NOEXCEPT
-=======
       const executor_type& candidate) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(
         !base1_owns_work && ex == candidate
           ? executor_type()
@@ -364,11 +302,7 @@ public:
 
   template <typename OtherExecutor>
   handler_work_base(bool /*base1_owns_work*/, const executor_type& ex,
-<<<<<<< HEAD
-      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
-=======
       const OtherExecutor& /*candidate*/) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
@@ -391,13 +325,7 @@ public:
   template <typename Function, typename Handler>
   void dispatch(Function& function, Handler&)
   {
-<<<<<<< HEAD
-    execution::execute(
-        asio::prefer(executor_, execution::blocking.possibly),
-        ASIO_MOVE_CAST(Function)(function));
-=======
     executor_.execute(static_cast<Function&&>(function));
->>>>>>> 142038d (add asio new version)
   }
 
 private:
@@ -411,30 +339,17 @@ template <typename Executor, typename CandidateExecutor,
 class handler_work_base<
     Executor, CandidateExecutor,
     IoContext, PolymorphicExecutor,
-<<<<<<< HEAD
-    typename enable_if<
-      is_same<
-        Executor,
-        any_io_executor
-      >::value
-    >::type>
-=======
     enable_if_t<
       is_same<Executor, any_completion_executor>::value
         || is_same<Executor, any_io_executor>::value
     >
   >
->>>>>>> 142038d (add asio new version)
 {
 public:
   typedef Executor executor_type;
 
   explicit handler_work_base(int, int,
-<<<<<<< HEAD
-      const executor_type& ex) ASIO_NOEXCEPT
-=======
       const executor_type& ex) noexcept
->>>>>>> 142038d (add asio new version)
 #if !defined(ASIO_NO_TYPEID)
     : executor_(
         ex.target_type() == typeid(typename IoContext::executor_type)
@@ -447,11 +362,7 @@ public:
   }
 
   handler_work_base(bool base1_owns_work, const executor_type& ex,
-<<<<<<< HEAD
-      const executor_type& candidate) ASIO_NOEXCEPT
-=======
       const executor_type& candidate) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(
         !base1_owns_work && ex == candidate
           ? executor_type()
@@ -461,41 +372,22 @@ public:
 
   template <typename OtherExecutor>
   handler_work_base(bool /*base1_owns_work*/, const executor_type& ex,
-<<<<<<< HEAD
-      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
-=======
       const OtherExecutor& /*candidate*/) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
 
-<<<<<<< HEAD
-  handler_work_base(const handler_work_base& other) ASIO_NOEXCEPT
-=======
   handler_work_base(const handler_work_base& other) noexcept
->>>>>>> 142038d (add asio new version)
     : executor_(other.executor_)
   {
   }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-  handler_work_base(handler_work_base&& other) ASIO_NOEXCEPT
-    : executor_(ASIO_MOVE_CAST(executor_type)(other.executor_))
-  {
-  }
-#endif // defined(ASIO_HAS_MOVE)
-
-  bool owns_work() const ASIO_NOEXCEPT
-=======
   handler_work_base(handler_work_base&& other) noexcept
     : executor_(static_cast<executor_type&&>(other.executor_))
   {
   }
 
   bool owns_work() const noexcept
->>>>>>> 142038d (add asio new version)
   {
     return !!executor_;
   }
@@ -503,13 +395,7 @@ public:
   template <typename Function, typename Handler>
   void dispatch(Function& function, Handler&)
   {
-<<<<<<< HEAD
-    execution::execute(
-        asio::prefer(executor_, execution::blocking.possibly),
-        ASIO_MOVE_CAST(Function)(function));
-=======
     executor_.execute(static_cast<Function&&>(function));
->>>>>>> 142038d (add asio new version)
   }
 
 private:
@@ -528,11 +414,7 @@ public:
   typedef handler_work_base<associated_executor_t<Handler, IoExecutor>,
       IoExecutor> base2_type;
 
-<<<<<<< HEAD
-  handler_work(Handler& handler, const IoExecutor& io_ex) ASIO_NOEXCEPT
-=======
   handler_work(Handler& handler, const IoExecutor& io_ex) noexcept
->>>>>>> 142038d (add asio new version)
     : base1_type(0, 0, io_ex),
       base2_type(base1_type::owns_work(),
           asio::get_associated_executor(handler, io_ex), io_ex)
@@ -571,11 +453,7 @@ class handler_work<
 public:
   typedef handler_work_base<IoExecutor> base1_type;
 
-<<<<<<< HEAD
-  handler_work(Handler&, const IoExecutor& io_ex) ASIO_NOEXCEPT
-=======
   handler_work(Handler&, const IoExecutor& io_ex) noexcept
->>>>>>> 142038d (add asio new version)
     : base1_type(0, 0, io_ex)
   {
   }

@@ -2,11 +2,7 @@
 // detail/impl/timer_queue_ptime.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -79,21 +75,13 @@ std::size_t timer_queue<time_traits<boost::posix_time::ptime>>::cancel_timer(
   return impl_.cancel_timer(timer, ops, max_cancelled);
 }
 
-<<<<<<< HEAD
-void timer_queue<time_traits<boost::posix_time::ptime> >::cancel_timer_by_key(
-=======
 void timer_queue<time_traits<boost::posix_time::ptime>>::cancel_timer_by_key(
->>>>>>> 142038d (add asio new version)
     per_timer_data* timer, op_queue<operation>& ops, void* cancellation_key)
 {
   impl_.cancel_timer_by_key(timer, ops, cancellation_key);
 }
 
-<<<<<<< HEAD
-void timer_queue<time_traits<boost::posix_time::ptime> >::move_timer(
-=======
 void timer_queue<time_traits<boost::posix_time::ptime>>::move_timer(
->>>>>>> 142038d (add asio new version)
     per_timer_data& target, per_timer_data& source)
 {
   impl_.move_timer(target, source);

@@ -2,11 +2,7 @@
 // detail/io_uring_socket_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-<<<<<<< HEAD
-// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-=======
 // Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
->>>>>>> 142038d (add asio new version)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -48,11 +44,7 @@ namespace detail {
 
 template <typename Protocol>
 class io_uring_socket_service :
-<<<<<<< HEAD
-  public execution_context_service_base<io_uring_socket_service<Protocol> >,
-=======
   public execution_context_service_base<io_uring_socket_service<Protocol>>,
->>>>>>> 142038d (add asio new version)
   public io_uring_socket_service_base
 {
 public:
@@ -82,11 +74,7 @@ public:
   // Constructor.
   io_uring_socket_service(execution_context& context)
     : execution_context_service_base<
-<<<<<<< HEAD
-        io_uring_socket_service<Protocol> >(context),
-=======
         io_uring_socket_service<Protocol>>(context),
->>>>>>> 142038d (add asio new version)
       io_uring_socket_service_base(context)
   {
   }
@@ -99,11 +87,7 @@ public:
 
   // Move-construct a new socket implementation.
   void move_construct(implementation_type& impl,
-<<<<<<< HEAD
-      implementation_type& other_impl) ASIO_NOEXCEPT
-=======
       implementation_type& other_impl) noexcept
->>>>>>> 142038d (add asio new version)
   {
     this->base_move_construct(impl, other_impl);
 
@@ -291,11 +275,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -330,11 +310,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -422,11 +398,7 @@ public:
     int op_type = (flags & socket_base::message_out_of_band)
       ? io_uring_service::except_op : io_uring_service::read_op;
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -474,11 +446,7 @@ public:
       poll_flags = POLLIN;
     }
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -546,11 +514,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -575,10 +539,6 @@ public:
     p.v = p.p = 0;
   }
 
-<<<<<<< HEAD
-#if defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
   // Start an asynchronous accept. The peer_endpoint object must be valid until
   // the accept's handler is invoked.
   template <typename PeerIoExecutor, typename Handler, typename IoExecutor>
@@ -589,11 +549,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
@@ -618,10 +574,6 @@ public:
     start_accept_op(impl, p.p, is_continuation, false);
     p.v = p.p = 0;
   }
-<<<<<<< HEAD
-#endif // defined(ASIO_HAS_MOVE)
-=======
->>>>>>> 142038d (add asio new version)
 
   // Connect the socket to the specified endpoint.
   asio::error_code connect(implementation_type& impl,
@@ -641,11 +593,7 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
-<<<<<<< HEAD
-    typename associated_cancellation_slot<Handler>::type slot
-=======
     associated_cancellation_slot_t<Handler> slot
->>>>>>> 142038d (add asio new version)
       = asio::get_associated_cancellation_slot(handler);
 
     // Allocate and construct an operation to wrap the handler.
