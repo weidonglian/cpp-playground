@@ -1,34 +1,32 @@
-#include <absl/status/status.h>
 #include <absl/strings/str_format.h>
 
 #include <asio.hpp>
-#include <asio/execution_context.hpp>
 #include <asio/post.hpp>
 #include <asio/thread_pool.hpp>
 #include <chrono>
 #include <continuable/continuable-base.hpp>
 #include <continuable/continuable.hpp>
 #include <continuable/external/asio.hpp>
+#include <exception>
 #include <function2/function2.hpp>
-#include <future>
 #include <iostream>
 #include <thread>
 #include <utility>
 
 #include "logger.hpp"
 
-using on_complete_t = fu2::unique_function<void(absl::Status)>;
+using on_complete_t = fu2::unique_function<void(cti::exception_t)>;
 
 struct next_handler {
   on_complete_t on_complete;
   explicit next_handler(on_complete_t cb) : on_complete(std::move(cb)) {}
   auto operator()() {
-    on_complete(absl::OkStatus());
+    on_complete(nullptr);
     return 1;
   }
-  auto operator()(cti::exception_arg_t, cti::exception_t status) {
-    on_complete(status);
-    return cti::rethrow(status);
+  auto operator()(cti::exception_arg_t, const std::exception_ptr& e) {
+    on_complete(e);
+    return cti::rethrow(e);
   }
 };
 
@@ -38,8 +36,8 @@ cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* po
            asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
              LOGI("start recursive async resolver with:%d", val);
              if (val < 0) {
-               promise.set_exception(absl::InvalidArgumentError(
-                 absl::StrFormat("Input argument:%f should be a positive float number", val)));
+               promise.set_exception(
+                 std::make_exception_ptr(std::invalid_argument("Input argument should be a positive number")));
              } else {
                std::this_thread::sleep_for(std::chrono::seconds(1));
                promise.set_value(val / 2);
@@ -66,7 +64,7 @@ auto calc_square_async(float val, asio::thread_pool* pool) {
       LOGI("start async resolver");
       if (val < 0) {
         promise.set_exception(
-          absl::InvalidArgumentError(absl::StrFormat("Input argument:%f should be a positive float number", val)));
+          std::make_exception_ptr(std::invalid_argument("Input argument should be a positive number")));
       } else {
         std::this_thread::sleep_for(std::chrono::seconds(5));
         promise.set_value(val * val);
@@ -82,7 +80,7 @@ auto calc_offset_async(int val, int offset, asio::thread_pool* pool) {
       LOGI("calc offset async begin...");
       if (offset < 0) {
         promise.set_exception(
-          absl::InvalidArgumentError(absl::StrFormat("Input offset argument:%f should be a positive number", offset)));
+          std::make_exception_ptr(std::invalid_argument("Input offset argument should be a positive number")));
       } else {
         promise.set_value(val + offset);
       }
@@ -97,11 +95,18 @@ auto test_next_handler_async(int val) {
              promise.set_value(val);
            } else {
              promise.set_exception(
-               absl::InvalidArgumentError(absl::StrFormat("Input argument:%f should be a positive float number", val)));
+               std::make_exception_ptr(std::invalid_argument("Input argument should be a positive number")));
            }
          })
-    .next(next_handler{[](absl::Status s) {
-      LOGI("next_handler's common lambda is calling no matter resolved or rejected with:%s", s.ToString());
+    .next(next_handler{[](const cti::exception_t& e) {
+      try {
+        if (e) {
+          std::rethrow_exception(e);
+        }
+        LOGI("next_handler's common lambda is calling with no exception");
+      } catch (const std::exception& e) {
+        LOGI("next_handler's common lambda caught exception: %s", e.what());
+      }
     }});
 }
 
@@ -115,17 +120,16 @@ cti::continuable<> test_ready_continuable_void() {
 
 cti::continuable<> continuable_a() {
   LOGI("enter:continuable_a");
-  return cti::make_continuable<void>([](auto&& promise){
+  return cti::make_continuable<void>([](auto&& promise) {
     LOGI("resolve:continuable_a");
     promise.set_value();
   });
   LOGI("leave:continuable_a");
 }
 
-
 cti::continuable<> continuable_b() {
   LOGI("enter:continuable_b");
-  return cti::make_continuable<void>([](auto&& promise){
+  return cti::make_continuable<void>([](auto&& promise) {
     LOGI("resolve:continuable_b");
     promise.set_value();
   });
@@ -139,7 +143,7 @@ struct tcp_socket_context {
   tcp::socket socket;
   std::string buf;
 
-  tcp_socket_context(asio::io_context* ioc) : resolver(*ioc), socket(*ioc), buf() {}
+  explicit tcp_socket_context(asio::io_context* ioc) : resolver(*ioc), socket(*ioc), buf() {}
 };
 
 auto http_request_daytime_async(asio::io_context* ioc, const std::string& host, const std::string& service) {
@@ -147,7 +151,7 @@ auto http_request_daytime_async(asio::io_context* ioc, const std::string& host, 
   auto ctx = std::make_shared<tcp_socket_context>(ioc);
 
   return ctx->resolver.async_resolve(host, service, cti::use_continuable)
-    .then([ctx](tcp::resolver::results_type endpoints) {
+    .then([ctx](const tcp::resolver::results_type& endpoints) {
       return asio::async_connect(ctx->socket, endpoints, cti::use_continuable);
     })
     .then(
@@ -189,7 +193,15 @@ int main(int argc, char** argv) {
   LOGI("calc_square_async failure begin");
   calc_square_async(-5.5f, &pool)
     .then([](float result) { LOGI("calc_square async failure is resolved with: %f", result); })
-    .fail([](cti::exception_t status) { LOGI("calc_square async failure is rejected with:%s", status.ToString()); });
+    .fail([](const cti::exception_t& e) {
+      try {
+        if (e) {
+          std::rethrow_exception(e);
+        }
+      } catch (const std::exception& e) {
+        LOGI("calc_square async failure is rejected with:%s", e.what());
+      }
+    });
   LOGI("calc_square_async failure end");
 
   // calc divide by 2
@@ -197,24 +209,40 @@ int main(int argc, char** argv) {
   LOGI("calc_recursive_async ");
   calc_recursive_async(20, &pool)
     .then([](int result) { LOGI("==calc_recursive_async is resolved with:%d", result); })
-    .fail([](cti::exception_t status) { LOGI("## calc_recursive_async is rejected with:%s", status.ToString()); });
+    .fail([](const cti::exception_t& e) {
+      try {
+        if (e) {
+          std::rethrow_exception(e);
+        }
+      } catch (const std::exception& e) {
+        LOGI("## calc_recursive_async is rejected with:%s", e.what());
+      }
+    });
   LOGI("calc_recursive_async end");
 
   // test the http request via asio socket
   asio::io_context ioc{};
   http_request_daytime_async(&ioc, "time.nist.gov", "daytime")
     .then([] { LOGI("==http_request_daytime_async has done now"); })
-    .fail([](cti::exception_t e) {
-      if (!e.ok()) {
-        LOGI("Continuation failed with unexpected cancellation:%s", e.message());
+    .fail([](const cti::exception_t& eptr) {
+      try {
+        if (eptr) {
+          std::rethrow_exception(eptr);
+        }
+      } catch (const std::exception& e) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.what());
       }
     });
 
   http_request_daytime_async(&ioc, "xxxx.nist.gov", "daytime")
     .then([] { LOGI("==http_request_daytime_async has done now"); })
-    .fail([](cti::exception_t e) {
-      if (!e.ok()) {
-        LOGI("Continuation failed with unexpected cancellation:%s", e.message());
+    .fail([](const cti::exception_t& eptr) {
+      try {
+        if (eptr) {
+          std::rethrow_exception(eptr);
+        }
+      } catch (const std::exception& e) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.what());
       }
     });
   // run it inside the pool until all jobs are done in ioc
@@ -223,10 +251,26 @@ int main(int argc, char** argv) {
   // test next handler
   test_next_handler_async(10)
     .then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); })
-    .fail([](cti::exception_t e) { LOGI("##test_next_handler_async rejected with:%s", e.message()); });
+    .fail([](const cti::exception_t& eptr) {
+      try {
+        if (eptr) {
+          std::rethrow_exception(eptr);
+        }
+      } catch (const std::exception& e) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.what());
+      }
+    });
   test_next_handler_async(-10)
     .then([](int v) { LOGI("==test_next_handler_async resolved:%d", v); })
-    .fail([](cti::exception_t e) { LOGI("##test_next_handler_async rejected with:%s", e.message()); });
+    .fail([](const cti::exception_t& eptr) {
+      try {
+        if (eptr) {
+          std::rethrow_exception(eptr);
+        }
+      } catch (const std::exception& e) {
+        LOGI("Continuation failed with unexpected cancellation:%s", e.what());
+      }
+    });
 
   // test ready void continuable
   test_ready_continuable().then([] { LOGI("test_ready_continuable is resolved now"); });
