@@ -46,6 +46,7 @@ add_example(NAME continuable_asio SRCS continuable_asio.cpp DEPS logger continua
 
 # c++ 20/23 goroutine and generator
 add_example(NAME coroutine_generator SRCS coroutine_generator.cpp DEPS libcoro)
+add_example(NAME coroutine_task SRCS coroutine_task.cpp DEPS libcoro)
 
 # boost
 add_example(NAME fiber_shared_work SRCS fiber_shared_work.cpp DEPS Boost::boost Boost::fiber)
