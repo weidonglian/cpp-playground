@@ -4,13 +4,13 @@ Cpp samples for testing and learning C++ 11/14/17/20
 
 ## LLVM Clang Linux/WSL
 
-install llvm version 15
+install llvm version 18
 
 ```bash
 wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
-sudo ./llvm.sh 15
-sudo apt install libomp-15-dev // for openmp
+sudo ./llvm.sh 18
+sudo apt install libomp-18-dev // for openmp
 ```
 
 ## Useful Commands
@@ -38,11 +38,6 @@ cmake ..
 cmake --build . --parallel 4 --config Debug
 cmake --build . --target RUN_TESTS --config Debug
 ```
-
-## CI/CD with github action
-
-In this repo, we use `github` action to run all the tests when we push changes to `master` branch.
-The action will build and run tests using docker, see `Dockerfile` where we use alphine:latest.
 
 ## Learning notes
 
