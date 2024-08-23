@@ -1,4 +1,5 @@
 add_subdirectory(abseil EXCLUDE_FROM_ALL)
+add_subdirectory(libcoro EXCLUDE_FROM_ALL)
 add_subdirectory(simple_svg)
 add_subdirectory(catch2)
 add_subdirectory(function2)

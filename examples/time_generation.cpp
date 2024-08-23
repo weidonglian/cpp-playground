@@ -126,7 +126,7 @@ int main() {
     const int k_count_tracks = (int)db.tracks.size();
     const auto durations_updated_at = generate_random_number(k_count_tracks, -5000, 5000);
     const auto durations_played_at = generate_random_number(k_count_tracks, -4000, 4000);
-    const int k_count_searches = 100000;
+    const int k_count_searches = 1000;
     const auto search_time_at = generate_random_number(k_count_searches, 2000, 7000);
 
     ofstream ofs("simple_timeline_tracks.csv");

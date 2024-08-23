@@ -39,7 +39,7 @@ cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* po
                promise.set_exception(
                  std::make_exception_ptr(std::invalid_argument("Input argument should be a positive number")));
              } else {
-               std::this_thread::sleep_for(std::chrono::seconds(1));
+               std::this_thread::sleep_for(std::chrono::milliseconds (10));
                promise.set_value(val / 2);
              }
              LOGI("end recursive async resolver");
@@ -66,7 +66,7 @@ auto calc_square_async(float val, asio::thread_pool* pool) {
         promise.set_exception(
           std::make_exception_ptr(std::invalid_argument("Input argument should be a positive number")));
       } else {
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::milliseconds (5));
         promise.set_value(val * val);
       }
       LOGI("end async resolver");

@@ -48,7 +48,7 @@ void fill_array_std_par(std::vector<double>& arr) {
 } // namespace
 
 int main(int argc, char** argv) {
-  const auto k_scales = {1000, 10000, 100000, 1000000, 10000000, 100000000};
+  const auto k_scales = {1000, 10000, 100000, 1000000};
   for (auto sz : k_scales) {
     std::cout << "profiling N=" << sz << std::endl;
     std::vector<double> arr(sz, 0);
