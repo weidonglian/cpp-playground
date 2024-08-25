@@ -47,6 +47,7 @@ add_sample(NAME continuable_asio SRCS continuable_asio.cpp DEPS logger continuab
 # c++ 20/23 goroutine and generator
 add_sample(NAME coroutine_generator SRCS coroutine_generator.cpp DEPS libcoro)
 add_sample(NAME coroutine_task SRCS coroutine_task.cpp DEPS libcoro)
+add_sample(NAME coroutine_multi_task SRCS coroutine_multi_task.cpp DEPS libcoro)
 
 # boost
 add_sample(NAME fiber_shared_work SRCS fiber_shared_work.cpp DEPS Boost::boost Boost::fiber)
