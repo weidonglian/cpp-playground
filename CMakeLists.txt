@@ -64,5 +64,5 @@ endif()
 
 add_subdirectory(third_party)
 add_subdirectory(logger)
-add_subdirectory(examples)
+add_subdirectory(samples)
 add_subdirectory(algorithms)
