@@ -1,5 +1,3 @@
-include(FetchContent)
-
 # abseil
 message(STATUS "Fetching abseil and making abseil available and it could take a while to build abseil, take a coffee...")
 

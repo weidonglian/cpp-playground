@@ -42,7 +42,7 @@ add_sample(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
 
 # continuable
 add_sample(NAME continuable_hello_world SRCS continuable_hello_world.cpp DEPS continuable)
-add_sample(NAME continuable_asio SRCS continuable_asio.cpp DEPS logger continuable asio)
+add_sample(NAME continuable_asio SRCS continuable_asio.cpp DEPS fmt spdlog continuable asio)
 
 # c++ 20/23 goroutine and generator
 add_sample(NAME coroutine_generator SRCS coroutine_generator.cpp DEPS libcoro)

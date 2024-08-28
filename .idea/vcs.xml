@@ -3,23 +3,31 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/absl-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/asio-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/catch2-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/asio/asio" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/benchmark/benchmark" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/function2/function2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/function2/function2/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/googletest/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/function2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/function2-src/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/libcoro-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src/ext/catch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src/ext/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/absl-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/asio-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/catch2-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/asio/asio" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/benchmark/benchmark" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/function2/function2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/function2/function2/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/googletest/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/function2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/function2-src/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libcoro-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidcheck-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidcheck-src/ext/catch" vcs="Git" />
