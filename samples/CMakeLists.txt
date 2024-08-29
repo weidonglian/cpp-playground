@@ -36,13 +36,16 @@ add_sample(NAME stringstream_thread_safe SRCS stringstream_thread_safe.cpp)
 add_sample(NAME time_generation SRCS time_generation.cpp)
 add_sample(NAME file_system SRCS file_system.cpp)
 
+# logging libraries
+add_sample(NAME logging_spdlog SRCS logging_spdlog.cpp DEPS spdlog)
+
 # asio
 add_sample(NAME asio_tcp_clients SRCS asio_tcp_clients.cpp DEPS asio)
 add_sample(NAME asio_http_client SRCS asio_http_client.cpp DEPS asio)
 
 # continuable
 add_sample(NAME continuable_hello_world SRCS continuable_hello_world.cpp DEPS continuable)
-add_sample(NAME continuable_asio SRCS continuable_asio.cpp DEPS fmt spdlog continuable asio)
+add_sample(NAME continuable_asio SRCS continuable_asio.cpp DEPS spdlog continuable asio)
 
 # c++ 20/23 goroutine and generator
 add_sample(NAME coroutine_generator SRCS coroutine_generator.cpp DEPS libcoro)

@@ -1,7 +1,6 @@
 #include <asio.hpp>
 #include <asio/post.hpp>
 #include <asio/thread_pool.hpp>
-#include <fmt/std.h>
 #include <chrono>
 #include <continuable/continuable-base.hpp>
 #include <continuable/continuable.hpp>
@@ -11,6 +10,8 @@
 #include <exception>
 #include <iostream>
 #include <thread>
+
+#include "thread_id.hpp"
 
 using on_complete_t = fu2::unique_function<void(cti::exception_t)>;
 
@@ -29,7 +30,7 @@ struct next_handler {
 
 cti::continuable<int> calc_recursive_async(int val, asio::static_thread_pool* pool) {
   return cti::make_continuable<int>([=](auto&& promise) {
-           spdlog::info("calc_recursive_async's promise thread_id: {}", std::this_thread::get_id());
+           spdlog::info("calc_recursive_async's promise thread_id: {}", get_thread_id());
            asio::post(*pool, [val, promise = std::forward<decltype(promise)>(promise)]() mutable {
              spdlog::info("start recursive async resolver with {}", val);
              if (val < 0) {
@@ -161,11 +162,11 @@ auto calc_square(float val) {
 int main(int, char**) {
   asio::thread_pool pool(3);
 
-  spdlog::info("main thread id: {}", std::this_thread::get_id());
+  spdlog::info("main thread id: {}", get_thread_id());
   // calc square continuable
   spdlog::info("calc_square begin");
   calc_square(5.0f).then([](auto result) {
-    spdlog::info("calc_square is resolved with: {} with thread_id: {}", result, std::this_thread::get_id());
+    spdlog::info("calc_square is resolved with: {} with thread_id: {}", result, get_thread_id());
   });
   spdlog::info("calc_square end");
 
@@ -173,11 +174,11 @@ int main(int, char**) {
   spdlog::info("calc_square_async begin");
   calc_square_async(5.25f, &pool)
     .then([](auto result) {
-      spdlog::info("calc_square is resolved with: {} thread_id: {}", result, std::this_thread::get_id());
+      spdlog::info("calc_square is resolved with: {} thread_id: {}", result, get_thread_id());
       return static_cast<int>(result);
     })
     .then([](int abs_val) {
-      spdlog::info("calc_square is resolved with abs: {} with thread_id: {}", abs_val, std::this_thread::get_id());
+      spdlog::info("calc_square is resolved with abs: {} with thread_id: {}", abs_val, get_thread_id());
       return abs_val;
     })
     .then([&pool](int val) { return calc_offset_async(val, 10, &pool); });

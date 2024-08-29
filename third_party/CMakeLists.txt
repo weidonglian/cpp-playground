@@ -1,4 +1,3 @@
-add_subdirectory(fmt EXCLUDE_FROM_ALL)
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 add_subdirectory(abseil EXCLUDE_FROM_ALL)
 add_subdirectory(libcoro EXCLUDE_FROM_ALL)
