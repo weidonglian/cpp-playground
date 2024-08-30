@@ -11,12 +11,14 @@
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/function2/function2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/function2/function2/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/continuable-src/dep/googletest/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/fmt-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/function2-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/function2-src/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/libcoro-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src/ext/catch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/_deps/rapidcheck-src/ext/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/_deps/spdlog-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/absl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/asio-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/catch2-src" vcs="Git" />
@@ -26,11 +28,13 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/function2/function2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/function2/function2/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/continuable-src/dep/googletest/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/fmt-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/function2-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/function2-src/test/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libcoro-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidcheck-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidcheck-src/ext/catch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidcheck-src/ext/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/spdlog-src" vcs="Git" />
   </component>
 </project>
