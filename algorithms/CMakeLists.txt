@@ -28,7 +28,7 @@ add_executable(test-algorithms
     tree/ordered_map.cpp
     tree/visit_tree.cpp
     tree/tree_manipulate.cpp
-    tree/directed_graph.cpp
+    tree/directed_acyclic_graph.cpp
     tree/flatten_bst_into_linked_list.cpp
     hash_table/separate_chainning.cpp
     set/set_key.cpp
@@ -41,7 +41,13 @@ if(OpenMP_CXX_FOUND)
     set(LINK_LIB_OPENMP OpenMP::OpenMP_CXX)
 endif()
 
-target_link_libraries(test-algorithms Threads::Threads Catch2::Catch2WithMain rapidcheck simple_svg ${LINK_LIB_OPENMP})
+target_link_libraries(test-algorithms
+        Threads::Threads
+        Catch2::Catch2WithMain
+        rapidcheck
+        simple_svg
+        absl::inlined_vector
+        ${LINK_LIB_OPENMP})
 
 target_include_directories(test-algorithms PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 add_test(NAME test-algorithms COMMAND test-algorithms)

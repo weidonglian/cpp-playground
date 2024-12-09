@@ -9,7 +9,7 @@
 #include "base.hpp"
 
 struct tree_node {
-  tree_node(int value) : value_(value), left_(nullptr), right_(nullptr) {}
+  explicit tree_node(int value) : value_(value), left_(nullptr), right_(nullptr) {}
   ~tree_node() {
     delete left_;
     delete right_;

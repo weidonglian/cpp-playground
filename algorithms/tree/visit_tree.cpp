@@ -6,7 +6,7 @@ namespace {
 
 class vt_node {
 public:
-  vt_node(std::string name) : name_(std::move(name)), left_(nullptr), right_(nullptr) {}
+  explicit vt_node(std::string name) : name_(std::move(name)), left_(nullptr), right_(nullptr) {}
 
   ~vt_node() {
     delete left_;
