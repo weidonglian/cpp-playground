@@ -39,3 +39,4 @@ compile_commands.json
 
 build-msvc
 /cmake-build-debug/
+.idea
