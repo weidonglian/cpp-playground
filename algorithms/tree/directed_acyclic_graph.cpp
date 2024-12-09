@@ -33,10 +33,10 @@ public:
     nodes[to].degree++;
   }
 
-  // Topological sort returns nodes in order of their level.
+  // Topological sort returns a vector of nodes in topological order.
   // Throws an exception if the graph has a cycle.
   // Otherwise, returns nodes in topological order.
-  // Nodes are sorted by value per level for deterministic results.
+  // Nodes are sorted by value per degree for deterministic results.
   std::vector<T> topological_sort() const {
     std::vector<T> result;
     std::map<T, int> current_degrees;
